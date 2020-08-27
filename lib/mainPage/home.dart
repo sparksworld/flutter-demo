@@ -6,6 +6,9 @@ import 'package:flutterdemo/component/list_view_item.dart';
 // TabController _tabController;
 
 class HomePage extends StatefulWidget {
+  final Function callback;
+
+  HomePage({this.callback});
   @override
   State<StatefulWidget> createState() => _HomePageState();
 }
@@ -33,7 +36,7 @@ class _HomePageState extends State<HomePage> {
       displacement: 28.0,
       child: new ListView.builder(
         itemBuilder: (context, index) {
-          return ListViewItem(itemData: listData[index]);
+          return ListViewItem(itemData: listData[index], callback: widget.callback);
         },
         physics: const AlwaysScrollableScrollPhysics(),
         itemCount: listData.length,

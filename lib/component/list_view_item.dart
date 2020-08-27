@@ -1,11 +1,14 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutterdemo/mainPage/center.dart';
 
 class ListViewItem extends StatelessWidget {
   final itemData;
+  final Function callback;
 
-  const ListViewItem({Key key, this.itemData}) : super(key: key);
+  const ListViewItem({Key key, this.itemData, this.callback}) : super(key: key);
   void _push(BuildContext context, Widget widget) {
+    // log(context)
     Navigator.push(context,
         new MaterialPageRoute(builder: (BuildContext context) {
       return widget;
@@ -21,6 +24,7 @@ class ListViewItem extends StatelessWidget {
       elevation: 1.0,
       child: GestureDetector(
         onTap: () {
+          // callback(1);
           _push(context, CenterPage());
         },
         child: Padding(

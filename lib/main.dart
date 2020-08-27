@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterdemo/mainPage/home.dart';
 import 'package:flutterdemo/mainPage/my.dart';
 import 'package:flutterdemo/mainPage/center.dart';
+import 'package:flutterdemo/mainPage/activity.dart';
 
 void main() => runApp(MyApp());
 
@@ -41,16 +42,28 @@ class _MyHomeState extends State<MyHome> {
   @override
   void initState() {
     _mainPageList
-      ..add(HomePage())
-      ..add(CenterPage())
-      ..add(CenterPage())
-      ..add(CenterPage())
+      ..add(HomePage(
+        callback: (val) => changeTab(val),
+      ))
+      ..add(CenterPage(
+        callback: (val) => changeTab(val),
+      ))
+      ..add(Activity(
+        callback: (val) => changeTab(val),
+      ))
+      ..add(CenterPage(
+        callback: (val) => changeTab(val),
+      ))
       ..add(MyPage());
     super.initState();
   }
+
   void changeTab(index) {
-    _bottomAppBarIndex = index;
+    setState(() {
+      _bottomAppBarIndex = index;
+    });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -133,3 +146,23 @@ class _MyHomeState extends State<MyHome> {
     );
   }
 }
+
+// class SwitchTabBar extends StatefulWidget{
+//   Widget page;
+//   final eventData;
+//   final Function callback;
+
+//   SwitchTabBar(this.page,{this.eventData, this.callback});
+
+//   @override
+//   State <StatefulWidget> createState() {
+//     return SwitchTabBarState();
+//   }
+// }
+
+// class SwitchTabBarState extends State<SwitchTabBar> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return widget.page;
+//   }
+// }
