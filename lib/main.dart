@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutterdemo/mainPage/home.dart';
-import 'package:flutterdemo/mainPage/my.dart';
-import 'package:flutterdemo/mainPage/center.dart';
-import 'package:flutterdemo/mainPage/activity.dart';
+import 'package:flutterdemo/mainPage/index.dart'
+    show HomePage, MyPage, CenterPage, Activity;
+import "package:flutterdemo/event_bus/event_bus.dart";
+import 'package:flutterdemo/events/index.dart';
 
 void main() => runApp(MyApp());
 
@@ -16,14 +16,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // ignore: todo
     return MaterialApp(
-      theme: ThemeData(primaryColor: Colors.red),
-      title: "MaterialApp",
-      home: MyHome(
-        title: 'MaterialApp',
-      ),
-    );
+        theme: ThemeData(primaryColor: Colors.red),
+        title: "MaterialApp",
+        home: MyHome(
+          title: 'MaterialApp',
+        ));
   }
 }
 
@@ -41,6 +39,17 @@ class _MyHomeState extends State<MyHome> {
   List<dynamic> _mainPageList = [];
   @override
   void initState() {
+    print(Foo<String>().toString());
+    eventBus.on<SwitchTab>().listen((event) async {
+      print(event.runtimeType);
+      setState(() {
+        _bottomAppBarIndex = event.index;
+      });
+      await new Future.delayed(new Duration(seconds: 2));
+      setState(() {
+        _bottomAppBarIndex = 0;
+      });
+    });
     _mainPageList
       ..add(HomePage(
         callback: (val) => changeTab(val),
@@ -83,7 +92,7 @@ class _MyHomeState extends State<MyHome> {
                   bottomIcon(text: '首页', icon: Icons.add, index: 1),
                   bottomIcon(text: '', icon: Icons.access_time, index: -99),
                   bottomIcon(text: '首页', icon: Icons.add, index: 3),
-                  bottomIcon(text: '首页', icon: Icons.person, index: 4),
+                  bottomIcon(text: '我的', icon: Icons.person, index: 4),
                 ],
               ),
             )),

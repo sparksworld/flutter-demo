@@ -14,6 +14,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  bool _loading = false;
+  ScrollController _controller = ScrollController();
   List<Article> listData = postData;
 
   // Widget createListItem(index, data) {
@@ -28,7 +30,32 @@ class _HomePageState extends State<HomePage> {
   //   }
   //   return listData;
   // }
+  @override
+  void initState() {
+    _controller.addListener(() async {
+      // print(_controller.offset);
+      if (_controller.offset >= _controller.position.maxScrollExtent - 50) {
+        if (!_loading) {
+          setState(() {
+            _loading = true;
+          });
+          await new Future.delayed(new Duration(seconds: 2));
+          print(_controller.position.maxScrollExtent);
+          setState(() {
+            listData += postData;
+            _loading = false;
+          });
+        }
+      }
+    });
+    super.initState();
+  }
 
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,10 +63,17 @@ class _HomePageState extends State<HomePage> {
       displacement: 28.0,
       child: new ListView.builder(
         itemBuilder: (context, index) {
-          return ListViewItem(itemData: listData[index], callback: widget.callback);
+          return ListViewItem(
+            index: index,
+            length: listData.length,
+            loading: _loading,
+            itemData: listData[index],
+            callback: widget.callback,
+          );
         },
         physics: const AlwaysScrollableScrollPhysics(),
         itemCount: listData.length,
+        controller: _controller,
       ),
       //刷新方法
       onRefresh: () => _handlerRefresh(),
@@ -50,7 +84,7 @@ class _HomePageState extends State<HomePage> {
     //模拟耗时5秒
     await new Future.delayed(new Duration(seconds: 2));
     setState(() {
-      listData += postData;
+      listData = postData;
     });
   }
 }

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+// import 'package:event_bus/event_bus.dart';
+import 'package:flutterdemo/event_bus/event_bus.dart';
+import 'package:flutterdemo/events/index.dart';
+import "package:flutterdemo/event_bus/event_bus.dart";
 
 class Activity extends StatefulWidget {
   final Function callback;
@@ -19,9 +23,10 @@ class _ActivityState extends State<Activity> {
         child: FloatingActionButton(
           backgroundColor: Theme.of(context).primaryColor,
           onPressed: () {
-            widget.callback(0);
+            // widget.callback(0);
+            eventBus.fire(SwitchTab(1));
           },
-          child: Icon(Icons.add),
+          child: Icon(Icons.date_range),
         ),
       ),
     );
