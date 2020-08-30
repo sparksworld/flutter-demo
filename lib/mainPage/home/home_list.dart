@@ -5,15 +5,16 @@ import 'package:flutterdemo/component/list_view_item.dart';
 // List<String> _titles = ['湖人', '勇士', '雄鹿', '快船', '凯尔特人', '马刺', '76人', '猛龙'];
 // TabController _tabController;
 
-class HomePage extends StatefulWidget {
+class MinorHomePage extends StatefulWidget {
   final Function callback;
 
-  HomePage({this.callback});
+  MinorHomePage({Key key, this.callback}) : super(key: key);
   @override
-  State<StatefulWidget> createState() => _HomePageState();
+  State<StatefulWidget> createState() => _MinorHomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _MinorHomePageState extends State<MinorHomePage>
+    with AutomaticKeepAliveClientMixin<MinorHomePage> {
   bool _loading = false;
   ScrollController _controller = ScrollController();
   List<Article> listData = postData;
@@ -32,15 +33,14 @@ class _HomePageState extends State<HomePage> {
   // }
   @override
   void initState() {
-    _controller.addListener(() async {
+    _controller?.addListener(() async {
       // print(_controller.offset);
       if (_controller.offset >= _controller.position.maxScrollExtent - 50) {
         if (!_loading) {
           setState(() {
             _loading = true;
           });
-          await new Future.delayed(new Duration(seconds: 2));
-          print(_controller.position.maxScrollExtent);
+          await new Future.delayed(new Duration(milliseconds: 500));
           setState(() {
             listData += postData;
             _loading = false;
@@ -59,32 +59,37 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return new RefreshIndicator(
       displacement: 28.0,
-      child: new ListView.builder(
-        itemBuilder: (context, index) {
-          return ListViewItem(
-            index: index,
-            length: listData.length,
-            loading: _loading,
-            itemData: listData[index],
-            callback: widget.callback,
-          );
-        },
-        physics: const AlwaysScrollableScrollPhysics(),
-        itemCount: listData.length,
-        controller: _controller,
-      ),
-      //刷新方法
       onRefresh: () => _handlerRefresh(),
+      child: Scrollbar(
+        child: new ListView.builder(
+          physics: const AlwaysScrollableScrollPhysics(),
+          itemCount: listData.length,
+          controller: _controller,
+          itemBuilder: (context, index) {
+            return ListViewItem(
+              index: index,
+              length: listData.length,
+              loading: _loading,
+              itemData: listData[index],
+              callback: widget.callback,
+            );
+          },
+        ),
+      ),
     );
   }
 
   Future<void> _handlerRefresh() async {
     //模拟耗时5秒
-    await new Future.delayed(new Duration(seconds: 2));
+    await new Future.delayed(new Duration(seconds: 5));
     setState(() {
       listData = postData;
     });
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

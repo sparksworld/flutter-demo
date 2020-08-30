@@ -51,9 +51,7 @@ class _MyHomeState extends State<MyHome> {
       });
     });
     _mainPageList
-      ..add(HomePage(
-        callback: (val) => changeTab(val),
-      ))
+      ..add(HomePage())
       ..add(CenterPage(
         callback: (val) => changeTab(val),
       ))
@@ -73,12 +71,11 @@ class _MyHomeState extends State<MyHome> {
     });
   }
 
+  void searchBarDelegate() {}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title),
-        ),
+        
         body: _mainPageList[_bottomAppBarIndex],
         bottomNavigationBar: BottomAppBar(
             shape: CircularNotchedRectangle(),

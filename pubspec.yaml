@@ -32,6 +32,8 @@ dependencies:
   provider: ^3.0.0+1
   json_annotation: ^3.0.1
   event_bus: ^1.1.1
+  flutter_custom_bottom_tab_bar:
+    git: https://github.com/LiuC520/flutter_custom_bottom_tab_bar.git
 
 dev_dependencies:
   flutter_test:

@@ -1,7 +1,4 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:flutterdemo/mainPage/center.dart';
 
 class ListViewItem extends StatelessWidget {
   final index;
@@ -37,7 +34,7 @@ class ListViewItem extends StatelessWidget {
           child: GestureDetector(
             onTap: () {
               // callback(1);
-              _push(context, CenterPage());
+              _push(context, DetailPage());
             },
             child: Padding(
               padding: const EdgeInsets.fromLTRB(8.0, 12.0, 8.0, 12.0),
@@ -73,14 +70,39 @@ class ListViewItem extends StatelessWidget {
         ),
         index == length - 1
             ? loading
-                ? Row(
-                    children: [Text('正在加载')],
+                ? Container(
+                    padding: EdgeInsets.fromLTRB(0, 20.0, 0, 36.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [Text('正在加载...')],
+                    ),
                   )
-                : Row(
-                    children: [Text('加载中')],
+                : Container(
+                    padding: EdgeInsets.fromLTRB(0, 20.0, 0, 36.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [Text('加载中')],
+                    ),
                   )
-            : Row()
+            : Container()
       ],
+    );
+  }
+}
+
+class DetailPage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _DetailPageState();
+}
+
+class _DetailPageState extends State<DetailPage> {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('详情页'),
+      ),
     );
   }
 }
