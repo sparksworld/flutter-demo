@@ -1,22 +1,22 @@
 import 'dart:developer';
+import 'package:flutterdemo/mock/home.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutterdemo/mock/home.dart';
-import 'package:flutterdemo/mainPage/home/home_list_item.dart';
+import 'video_list_item.dart';
 // import 'package:flutterdemo/component/refresh_list_view.dart';
 // List<String> _titles = ['湖人', '勇士', '雄鹿', '快船', '凯尔特人', '马刺', '76人', '猛龙'];
 // TabController _tabController;
 
-class MinorHomePage extends StatefulWidget {
+class MinorVideoPage extends StatefulWidget {
   final Function callback;
 
-  MinorHomePage({Key key, this.callback}) : super(key: key);
+  MinorVideoPage({Key key, this.callback}) : super(key: key);
   @override
-  State<StatefulWidget> createState() => _MinorHomePageState();
+  State<StatefulWidget> createState() => _MinorVideoPageState();
 }
 
-class _MinorHomePageState extends State<MinorHomePage>
-    with AutomaticKeepAliveClientMixin<MinorHomePage> {
+class _MinorVideoPageState extends State<MinorVideoPage>
+    with AutomaticKeepAliveClientMixin<MinorVideoPage> {
   bool _loading = false;
   ScrollController _controller = ScrollController();
   List<Article> listData = postData;
@@ -77,7 +77,7 @@ class _MinorHomePageState extends State<MinorHomePage>
           itemCount: listData.length,
           controller: _controller,
           itemBuilder: (context, index) {
-            return HomeListViewItem(
+            return VideoListViewItem(
               // key: Key(index.toString()),
               index: index,
               length: listData.length,

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutterdemo/component/header.dart';
 import 'home_list.dart';
 
-final _inputController = MyTextEditingController();
-
 class HomePage extends StatefulWidget {
+  HomePage({Key key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return _HomePageState();
@@ -22,39 +21,52 @@ class _HomePageState extends State<HomePage> {
               // Navigator.of(context)
               // .push(CupertinoPageRoute(builder: (context) => SearchPage()));
             },
-            child: Container(
-              height: 45.0,
-              child: Card(
-                elevation: 0.0,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                color: Colors.grey[200],
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(
-                      Icons.search,
-                      color: Colors.black87,
-                      size: 20.0,
+            child: Flex(
+              direction: Axis.horizontal,
+              children: [
+                Expanded(
+                  child: Card(
+                    elevation: 0.0,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                    color: Colors.grey[200],
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(
+                          Icons.search,
+                          color: Colors.black87,
+                          size: 20.0,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(24.0, 6.0, 0, 6.0),
+                          child: Text(
+                            "自助烤肉",
+                            style: TextStyle(
+                                fontSize: 15.0, color: Colors.black87),
+                          ),
+                        )
+                      ],
                     ),
-                    Text(
-                      "自助烤肉",
-                      style: TextStyle(fontSize: 15.0, color: Colors.black87),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-          ),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.timer),
-            onPressed: () {
-              // showSearch(context: context, delegate: searchBarDelegate());
-            },
-          ),
-          // PopupMenuButton(icon: ,)
-        ],
+                IconButton(
+                  icon: Icon(Icons.timer),
+                  onPressed: () {
+                    // showSearch(context: context, delegate: searchBarDelegate());
+                  },
+                ),
+              ],
+            )),
+        // actions: <Widget>[
+        //   IconButton(
+        //     icon: Icon(Icons.timer),
+        //     onPressed: () {
+        //       // showSearch(context: context, delegate: searchBarDelegate());
+        //     },
+        //   ),
+        //   // PopupMenuButton(icon: ,)
+        // ],
       ),
       body: DefaultTabController(
         length: 9,
@@ -74,7 +86,7 @@ class _HomePageState extends State<HomePage> {
               ),
               // color: Colors.white,
               child: TabBar(
-                labelColor: Colors.black,
+                labelColor: Theme.of(context).primaryColor,
                 unselectedLabelColor: Colors.black,
                 indicatorWeight: 4,
                 indicatorSize: TabBarIndicatorSize.label,

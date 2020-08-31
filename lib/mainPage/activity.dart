@@ -1,32 +1,35 @@
 import 'package:flutter/material.dart';
-// import 'package:event_bus/event_bus.dart';
 import 'package:flutterdemo/event_bus/event_bus.dart';
 import 'package:flutterdemo/events/index.dart';
-import "package:flutterdemo/event_bus/event_bus.dart";
+import 'package:flutterdemo/component/header.dart';
 
-class Activity extends StatefulWidget {
+class ActivityPage extends StatefulWidget {
   final Function callback;
-  Activity({this.callback});
+  ActivityPage({this.callback});
 
   @override
-  State<StatefulWidget> createState() => _ActivityState();
+  State<StatefulWidget> createState() => _ActivityPageState();
 }
 
-class _ActivityState extends State<Activity> {
+class _ActivityPageState extends State<ActivityPage> {
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        widget.callback(0);
-      },
-      child: Center(
-        child: FloatingActionButton(
-          backgroundColor: Theme.of(context).primaryColor,
-          onPressed: () {
-            // widget.callback(0);
-            eventBus.fire(SwitchTab(1));
-          },
-          child: Icon(Icons.date_range),
+    return CommonHeader(
+      title: Text('活动中心'),
+      body: GestureDetector(
+        onTap: () {
+          widget.callback(0);
+        },
+        child: Center(
+          child: FloatingActionButton(
+            heroTag: Text('data'),
+            backgroundColor: Theme.of(context).primaryColor,
+            onPressed: () {
+              // widget.callback(0);
+              eventBus.fire(SwitchTab(1));
+            },
+            child: Icon(Icons.date_range),
+          ),
         ),
       ),
     );

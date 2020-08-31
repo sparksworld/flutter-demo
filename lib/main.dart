@@ -1,24 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutterdemo/mainPage/index.dart'
-    show HomePage, MyPage, CenterPage, Activity;
+    show HomePage, VideoPage, MyPage, CenterPage, ActivityPage;
 import "package:flutterdemo/event_bus/event_bus.dart";
 import 'package:flutterdemo/events/index.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  void _push(BuildContext context, Widget widget) {
-    Navigator.push(context,
-        new MaterialPageRoute(builder: (BuildContext context) {
-      return widget;
-    }));
-  }
+  // void _push(BuildContext context, Widget widget) {
+  //   Navigator.push(context,
+  //       new MaterialPageRoute(builder: (BuildContext context) {
+  //     return widget;
+  //   }));
+  // }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         theme: ThemeData(primaryColor: Colors.red),
         title: "MaterialApp",
+        // routes: {},
         home: MyHome(
           title: 'MaterialApp',
         ));
@@ -39,29 +40,24 @@ class _MyHomeState extends State<MyHome> {
   List<dynamic> _mainPageList = [];
   @override
   void initState() {
-    print(Foo<String>().toString());
+    // print(Foo<String>().toString());
     eventBus.on<SwitchTab>().listen((event) async {
       print(event.runtimeType);
       setState(() {
         _bottomAppBarIndex = event.index;
       });
-      await new Future.delayed(new Duration(seconds: 2));
-      setState(() {
-        _bottomAppBarIndex = 0;
-      });
+      // await new Future.delayed(new Duration(seconds: 2));
+      // setState(() {
+      //   _bottomAppBarIndex = 0;
+      // });
     });
-    _mainPageList
-      ..add(HomePage())
-      ..add(CenterPage(
-        callback: (val) => changeTab(val),
-      ))
-      ..add(Activity(
-        callback: (val) => changeTab(val),
-      ))
-      ..add(CenterPage(
-        callback: (val) => changeTab(val),
-      ))
-      ..add(MyPage());
+    _mainPageList = [
+      HomePage(),
+      VideoPage(),
+      ActivityPage(),
+      CenterPage(),
+      MyPage()
+    ];
     super.initState();
   }
 
@@ -74,9 +70,12 @@ class _MyHomeState extends State<MyHome> {
   void searchBarDelegate() {}
   @override
   Widget build(BuildContext context) {
+    // _mainPageList[_bottomAppBarIndex]
     return Scaffold(
-        
-        body: _mainPageList[_bottomAppBarIndex],
+        body: IndexedStack(
+          index: _bottomAppBarIndex,
+          children: [..._mainPageList],
+        ),
         bottomNavigationBar: BottomAppBar(
             shape: CircularNotchedRectangle(),
             child: Container(
@@ -85,15 +84,16 @@ class _MyHomeState extends State<MyHome> {
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
-                  bottomIcon(text: '首页', icon: Icons.home, index: 0),
-                  bottomIcon(text: '首页', icon: Icons.add, index: 1),
+                  bottomIcon(text: '资讯', icon: Icons.home, index: 0),
+                  bottomIcon(text: '视频', icon: Icons.movie_filter, index: 1),
                   bottomIcon(text: '', icon: Icons.access_time, index: -99),
-                  bottomIcon(text: '首页', icon: Icons.add, index: 3),
+                  bottomIcon(text: '任务', icon: Icons.blur_on, index: 3),
                   bottomIcon(text: '我的', icon: Icons.person, index: 4),
                 ],
               ),
             )),
         // body: ,
+        resizeToAvoidBottomPadding: false,
         floatingActionButton: FloatingActionButton(
           // shape: const CircleBorder(),
           elevation: 0.0,
@@ -126,7 +126,7 @@ class _MyHomeState extends State<MyHome> {
           width: double.infinity,
           child: text.isNotEmpty
               ? Container(
-                  color: Colors.white,
+                  color: Colors.transparent,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -139,6 +139,7 @@ class _MyHomeState extends State<MyHome> {
                       Text(
                         text,
                         style: TextStyle(
+                            fontSize: 12.0,
                             color: _bottomAppBarIndex == index
                                 ? Theme.of(context).primaryColor
                                 : Colors.grey),
@@ -152,23 +153,3 @@ class _MyHomeState extends State<MyHome> {
     );
   }
 }
-
-// class SwitchTabBar extends StatefulWidget{
-//   Widget page;
-//   final eventData;
-//   final Function callback;
-
-//   SwitchTabBar(this.page,{this.eventData, this.callback});
-
-//   @override
-//   State <StatefulWidget> createState() {
-//     return SwitchTabBarState();
-//   }
-// }
-
-// class SwitchTabBarState extends State<SwitchTabBar> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return widget.page;
-//   }
-// }
