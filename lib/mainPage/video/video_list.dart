@@ -1,5 +1,5 @@
 import 'dart:developer';
-import 'package:flutterdemo/mock/home.dart';
+import 'package:flutterdemo/mock/article.dart';
 
 import 'package:flutter/material.dart';
 import 'video_list_item.dart';
@@ -35,7 +35,7 @@ class _MinorVideoPageState extends State<MinorVideoPage>
   // }
   @override
   void initState() {
-    print(mounted);
+    // print(mounted);
     _controller?.addListener(() async {
       // print(_controller.offset);
       if (_controller.offset >= _controller.position.maxScrollExtent - 50) {

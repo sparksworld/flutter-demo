@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterdemo/event_bus/event_bus.dart';
-import 'package:flutterdemo/events/index.dart';
+import 'package:flutterdemo/states/index.dart';
 import 'package:flutterdemo/component/header.dart';
 
 class ActivityPage extends StatefulWidget {

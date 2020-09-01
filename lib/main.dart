@@ -2,9 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutterdemo/mainPage/index.dart'
     show HomePage, VideoPage, MyPage, CenterPage, ActivityPage;
 import "package:flutterdemo/event_bus/event_bus.dart";
-import 'package:flutterdemo/events/index.dart';
+import 'package:flutterdemo/states/index.dart';
+import 'package:flutterdemo/common/appGlobal.dart';
 
-void main() => runApp(MyApp());
+// void main() => runApp(MyApp());
+void main() async {
+  await Global.init().then((e) {
+    // Global.profile.theme = [11111];
+    // Global.saveProfile();
+    print(Colors.red.value);
+    runApp(MyApp());
+  });
+}
 
 class MyApp extends StatelessWidget {
   // void _push(BuildContext context, Widget widget) {
@@ -42,7 +51,7 @@ class _MyHomeState extends State<MyHome> {
   void initState() {
     // print(Foo<String>().toString());
     eventBus.on<SwitchTab>().listen((event) async {
-      print(event.runtimeType);
+      // print(event.runtimeType);
       setState(() {
         _bottomAppBarIndex = event.index;
       });

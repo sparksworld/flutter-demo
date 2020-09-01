@@ -28,7 +28,7 @@ class VideoListViewItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List _images = itemData.images;
-    print('r=' + Random().nextInt(1000).toString());
+    // print('r=' + Random().nextInt(1000).toString());
     return Column(
       children: [
         Container(
@@ -59,7 +59,11 @@ class VideoListViewItem extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(bottom: 10.0),
                       child: Text(
-                        itemData.title + '$index',
+                        itemData.title * 10,
+                        softWrap: true,
+                        textAlign: TextAlign.justify,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
                         style: new TextStyle(
                             color: Colors.black87,
                             fontSize: 16,
