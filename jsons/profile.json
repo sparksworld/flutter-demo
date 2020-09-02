@@ -1,5 +1,7 @@
 {
     "locale": "en",
-    "theme": "4294198070",
-    "user": "$user"
+    "appTheme": {
+        "primary": 123456
+    },
+    "user": "$./user"
 }

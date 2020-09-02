@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutterdemo/mainPage/index.dart'
     show HomePage, VideoPage, MyPage, CenterPage, ActivityPage;
 import "package:flutterdemo/event_bus/event_bus.dart";
-import 'package:flutterdemo/states/index.dart';
+import 'package:flutterdemo/event_bus/index.dart';
 import 'package:flutterdemo/common/appGlobal.dart';
+import 'package:flutterdemo/states/index.dart';
 
 // void main() => runApp(MyApp());
 void main() async {
   await Global.init().then((e) {
-    // Global.profile.theme = [11111];
-    // Global.saveProfile();
     print(Colors.red.value);
+    // Global.profile.theme = [11111];
     runApp(MyApp());
   });
 }
@@ -25,13 +25,25 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        theme: ThemeData(primaryColor: Colors.red),
-        title: "MaterialApp",
-        // routes: {},
-        home: MyHome(
-          title: 'MaterialApp',
-        ));
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => TestChange()),
+        ChangeNotifierProvider(create: (context) => ThemeModel()),
+        // ChangeNotifierProvider(create: (context) => ThemeModel()),
+      ],
+      child: Consumer2<TestChange, ThemeModel>(
+        builder: (BuildContext context, testChange, themeModel, Widget child) {
+          return MaterialApp(
+            theme: ThemeData(primaryColor: themeModel.theme),
+            title: "MaterialApp",
+            // routes: {},
+            home: MyHome(
+              title: 'MaterialApp',
+            ),
+          );
+        },
+      ),
+    );
   }
 }
 

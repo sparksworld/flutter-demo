@@ -76,7 +76,7 @@ class HomeListViewItem extends StatelessWidget {
                         children: _images
                             .map((item) => Container(
                                   color: Colors.grey,
-                                  child: Image.network(item, fit: BoxFit.cover),
+                                  child: Image.network(item + '?r=' + Random().nextInt(100000).toString(), fit: BoxFit.cover),
                                   constraints: BoxConstraints.expand(
                                       width: 110.0, height: 88.0),
                                 ))

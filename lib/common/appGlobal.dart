@@ -9,8 +9,6 @@ class Global {
   static Profile profile = Profile();
 
   static bool get isRelease => bool.fromEnvironment("dart.vm.product");
-  // static List<MaterialColor> get themes => _themes;
-  // static set themes(List<MaterialColor> colors) => colors;
 
   static Future init() async {
     WidgetsFlutterBinding.ensureInitialized();

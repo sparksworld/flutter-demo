@@ -9,7 +9,9 @@ part of 'profile.dart';
 Profile _$ProfileFromJson(Map<String, dynamic> json) {
   return Profile()
     ..locale = json['locale'] as String
-    ..theme = json['theme'] as List
+    ..appTheme = json['appTheme'] == null
+        ? null
+        : AppTheme.fromJson(json['appTheme'] as Map<String, dynamic>)
     ..user = json['user'] == null
         ? null
         : User.fromJson(json['user'] as Map<String, dynamic>);
@@ -17,6 +19,14 @@ Profile _$ProfileFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$ProfileToJson(Profile instance) => <String, dynamic>{
       'locale': instance.locale,
-      'theme': instance.theme,
+      'appTheme': instance.appTheme,
       'user': instance.user,
+    };
+
+AppTheme _$AppThemeFromJson(Map<String, dynamic> json) {
+  return AppTheme()..primary = json['primary'] as int;
+}
+
+Map<String, dynamic> _$AppThemeToJson(AppTheme instance) => <String, dynamic>{
+      'primary': instance.primary,
     };
