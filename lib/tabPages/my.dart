@@ -25,12 +25,13 @@ class _MyPageState extends State<MyPage> {
           Card(
             child: InkWell(
               onTap: () {
-                Scaffold.of(context).showSnackBar(
-                  new SnackBar(
-                    behavior: SnackBarBehavior.floating,
-                    content: new Text('点击了主题选择'),
-                  ),
-                );
+                Navigator.pushNamed(context, "/themeSetting");
+                // Scaffold.of(context).showSnackBar(
+                //   // new SnackBar(
+                //   //   behavior: SnackBarBehavior.floating,
+                //   //   content: new Text('点击了主题选择'),
+                //   // ),
+                // );
               },
               child: ListTile(
                 title: Text('主题设置'),

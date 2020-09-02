@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutterdemo/mainPage/index.dart'
+import 'package:flutterdemo/tabPages/index.dart'
     show HomePage, VideoPage, MyPage, CenterPage, ActivityPage;
 import "package:flutterdemo/event_bus/event_bus.dart";
 import 'package:flutterdemo/event_bus/index.dart';
 import 'package:flutterdemo/common/appGlobal.dart';
 import 'package:flutterdemo/states/index.dart';
+import 'package:flutterdemo/pages/theme.dart';
 
 // void main() => runApp(MyApp());
 void main() async {
@@ -36,7 +37,9 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             theme: ThemeData(primaryColor: themeModel.theme),
             title: "MaterialApp",
-            // routes: {},
+            routes: {
+              '/themeSetting': (context) => ThemeSetting()
+            },
             home: MyHome(
               title: 'MaterialApp',
             ),
