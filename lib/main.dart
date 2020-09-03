@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
   //   }));
   // }
 
+  
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -107,6 +108,7 @@ class _MyHomeState extends State<MyHome> {
   void searchBarDelegate() {}
   @override
   Widget build(BuildContext context) {
+    HYSizeFit.initialize(context);
     // _mainPageList[_bottomAppBarIndex]
     return Scaffold(
         body: IndexedStack(

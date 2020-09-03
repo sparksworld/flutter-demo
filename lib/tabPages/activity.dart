@@ -1,5 +1,4 @@
 import 'package:flutterdemo/module.dart';
-import 'package:flutter/src/widgets/text.dart';
 class ActivityPage extends StatefulWidget {
   final Function callback;
   ActivityPage({this.callback});

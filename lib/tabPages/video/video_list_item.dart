@@ -76,7 +76,7 @@ class VideoListViewItem extends StatelessWidget {
                                   color: Colors.grey,
                                   child: Image.network(item, fit: BoxFit.cover),
                                   constraints: BoxConstraints.expand(
-                                      width: 110.0, height: 88.0),
+                                      width: 110.0.px, height: 88.0.px),
                                 ))
                             .toList(),
                       ),
