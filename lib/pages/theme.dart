@@ -1,5 +1,5 @@
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutterdemo/component/header.dart';
 import 'package:flutterdemo/states/index.dart';
 import 'package:flutterdemo/models/index.dart';
@@ -17,6 +17,7 @@ List themes = <Map>[
 class ThemeSetting extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    print(Provider.of<ThemeModel>(context).theme);
     return CommonHeader(
       title: Text('主题设置'),
       body: Container(

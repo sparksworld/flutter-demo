@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutterdemo/pages/detail.dart';
-import 'dart:math';
+import 'package:flutterdemo/module.dart';
 
 class VideoListViewItem extends StatelessWidget {
   final index;
@@ -49,7 +47,7 @@ class VideoListViewItem extends StatelessWidget {
             child: GestureDetector(
               onTap: () {
                 // callback(1);
-                _push(context, DetailPage());
+                Navigator.pushNamed(context, '/articleDetail');
               },
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(8.0, 12.0, 8.0, 12.0),

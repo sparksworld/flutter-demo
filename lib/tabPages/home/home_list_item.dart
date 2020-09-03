@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:flutterdemo/pages/detail.dart';
-import 'dart:math';
+// import 'package:flutter/material.dart';
+import 'package:flutterdemo/module.dart';
+// import 'package:flutterdemo/pages/detail.dart';
+// import 'dart:math';
 
 class HomeListViewItem extends StatelessWidget {
   final index;
@@ -49,7 +50,8 @@ class HomeListViewItem extends StatelessWidget {
             child: GestureDetector(
               onTap: () {
                 // callback(1);
-                _push(context, DetailPage());
+                Navigator.pushNamed(context, '/articleDetail');
+                // _push(context, DetailPage());
               },
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(8.0, 12.0, 8.0, 12.0),
@@ -76,7 +78,7 @@ class HomeListViewItem extends StatelessWidget {
                         children: _images
                             .map((item) => Container(
                                   color: Colors.grey,
-                                  child: Image.network(item + '?r=' + Random().nextInt(100000).toString(), fit: BoxFit.cover),
+                                  child: Image.network(item, fit: BoxFit.cover),
                                   constraints: BoxConstraints.expand(
                                       width: 110.0, height: 88.0),
                                 ))

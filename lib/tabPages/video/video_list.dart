@@ -1,7 +1,5 @@
-import 'dart:developer';
+import 'package:flutterdemo/module.dart';
 import 'package:flutterdemo/mock/article.dart';
-
-import 'package:flutter/material.dart';
 import 'video_list_item.dart';
 // import 'package:flutterdemo/component/refresh_list_view.dart';
 // List<String> _titles = ['湖人', '勇士', '雄鹿', '快船', '凯尔特人', '马刺', '76人', '猛龙'];
@@ -61,7 +59,6 @@ class _MinorVideoPageState extends State<MinorVideoPage>
   @override
   void dispose() {
     _controller?.dispose();
-    log('dispose');
     super.dispose();
   }
 

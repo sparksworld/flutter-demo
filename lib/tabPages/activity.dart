@@ -1,9 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:flutterdemo/event_bus/index.dart';
-import 'package:flutterdemo/states/index.dart';
-import 'package:flutterdemo/component/header.dart';
-import 'package:flutterdemo/models/index.dart';
-
+import 'package:flutterdemo/module.dart';
+import 'package:flutter/src/widgets/text.dart';
 class ActivityPage extends StatefulWidget {
   final Function callback;
   ActivityPage({this.callback});
@@ -13,155 +9,57 @@ class ActivityPage extends StatefulWidget {
 }
 
 class _ActivityPageState extends State<ActivityPage> {
+  WebViewController _controller;
+  var _title = "";
+
   @override
   Widget build(BuildContext context) {
     return CommonHeader(
-      title: Text('活动中心'),
-      body: Container(
-        padding: EdgeInsets.all(10.0),
-        child: Column(
-          children: [
-            Consumer<ThemeModel>(builder: (context, themeModel, child) {
-              return Container(
-                padding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: FlatButton(
-                        color: Colors.purple,
-                        onPressed: () {
-                          themeModel.setTheme(AppTheme.fromJson(
-                              {"primary": Colors.purple.value}));
-                        },
-                        child: Text(
-                          '紫色',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            }),
-            Consumer<ThemeModel>(builder: (context, themeModel, child) {
-              return Container(
-                padding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: FlatButton(
-                        color: Colors.red,
-                        onPressed: () {
-                          themeModel.setTheme(AppTheme.fromJson(
-                              {"primary": Colors.red.value}));
-                        },
-                        child: Text(
-                          '红色',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            }),
-            Consumer<ThemeModel>(builder: (context, themeModel, child) {
-              return Container(
-                padding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: FlatButton(
-                        color: Colors.blue,
-                        onPressed: () {
-                          themeModel.setTheme(AppTheme.fromJson(
-                              {"primary": Colors.blue.value}));
-                        },
-                        child: Text(
-                          '蓝色',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            }),
-            Consumer<ThemeModel>(builder: (context, themeModel, child) {
-              return Container(
-                padding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: FlatButton(
-                        color: Colors.yellow,
-                        onPressed: () {
-                          themeModel.setTheme(AppTheme.fromJson(
-                              {"primary": Colors.yellow.value}));
-                        },
-                        child: Text(
-                          '黄色',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            }),
-            Consumer<ThemeModel>(builder: (context, themeModel, child) {
-              return Container(
-                padding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: FlatButton(
-                        color: Colors.green,
-                        onPressed: () {
-                          themeModel.setTheme(AppTheme.fromJson(
-                              {"primary": Colors.green.value}));
-                        },
-                        child: Text(
-                          '绿色',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            }),
-            Consumer<ThemeModel>(builder: (context, themeModel, child) {
-              return Container(
-                padding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: FlatButton(
-                        color: Colors.pink,
-                        onPressed: () {
-                          themeModel.setTheme(AppTheme.fromJson(
-                              {"primary": Colors.pink.value}));
-                        },
-                        child: Text(
-                          '粉色',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            }),
-          ],
-        ),
-      ),
+      title: Text(_title),
+      body: WebView(
+          initialUrl: 'http://blog.fe-spark.cn',
+          javascriptMode: JavascriptMode.unrestricted,
+          onWebViewCreated: (WebViewController webViewController) {
+            // _controller.complete(webViewController);
+            _controller = webViewController;
+          },
+          // TODO(iskakaushik): Remove this when collection literals makes it to stable.
+          // ignore: prefer_collection_literals
+          // javascriptChannels: <JavascriptChannel>[
+          //   _toasterJavascriptChannel(context),
+          // ].toSet(),
+          navigationDelegate: (NavigationRequest request) {
+            // if (request.url.startsWith('http://blog.fe-spark.cn')) {
+            //   print('blocking navigation to $request}');
+            //   return NavigationDecision.prevent;
+            // }
+            print('allowing navigation to $request');
+            return NavigationDecision.navigate;
+          },
+          onPageStarted: (String url) {
+            print('Page started loading: $url');
+          },
+          onPageFinished: (String url) {
+            print('Page finished loading: $url');
+            _controller.evaluateJavascript("document.title").then((result) {
+              print(result);
+              setState(() {
+                _title = result;
+              });
+            });
+          },
+          gestureNavigationEnabled: true,
+        )
     );
   }
+}
+
+JavascriptChannel _toasterJavascriptChannel(BuildContext context) {
+  return JavascriptChannel(
+      name: 'Toaster',
+      onMessageReceived: (JavascriptMessage message) {
+        Scaffold.of(context).showSnackBar(
+          SnackBar(content: Text(message.message)),
+        );
+      });
 }

@@ -26,11 +26,10 @@ class TestChange extends NotifierProfileStore {
 }
 
 class ThemeModel extends NotifierProfileStore {
-  Color get theme => (_profile.appTheme != null
-      ? Color(_profile.appTheme.primary)
-      : Color(4294198070));
+  Color get theme => Color(_profile.appTheme?.primary ?? 4294198070);
 
   void setTheme(AppTheme colors) {
+    print(_profile.appTheme?.primary);
     _profile.appTheme = colors;
     notifyListeners();
   }

@@ -1,6 +1,4 @@
-import 'dart:developer';
-
-import 'package:flutter/material.dart';
+import 'package:flutterdemo/module.dart';
 import 'package:flutterdemo/mock/article.dart';
 import 'home_list_item.dart';
 // import 'package:flutterdemo/component/refresh_list_view.dart';
@@ -60,7 +58,6 @@ class _MinorHomePageState extends State<MinorHomePage>
   @override
   void dispose() {
     _controller?.dispose();
-    log('dispose');
     super.dispose();
   }
 

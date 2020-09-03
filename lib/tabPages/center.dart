@@ -1,8 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutterdemo/event_bus/index.dart';
-import 'package:flutterdemo/event_bus/event_bus.dart';
-import 'package:flutterdemo/component/header.dart';
-
+import 'package:flutterdemo/module.dart';
 class CenterPage extends StatefulWidget {
   final Function callback;
   CenterPage({this.callback});
@@ -32,7 +28,7 @@ class _CenterPageState extends State<CenterPage> {
                     child: FlatButton(
                       onPressed: onChangeEvent,
                       child: Text('策四'),
-                      color: Colors.blue,
+                      color: Theme.of(context).primaryColor,
                       textColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         side: BorderSide(

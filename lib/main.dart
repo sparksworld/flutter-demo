@@ -1,17 +1,13 @@
-import 'package:flutter/material.dart';
+import 'package:flutterdemo/module.dart';
 import 'package:flutterdemo/tabPages/index.dart'
     show HomePage, VideoPage, MyPage, CenterPage, ActivityPage;
-import "package:flutterdemo/event_bus/event_bus.dart";
-import 'package:flutterdemo/event_bus/index.dart';
-import 'package:flutterdemo/common/appGlobal.dart';
-import 'package:flutterdemo/states/index.dart';
 import 'package:flutterdemo/pages/theme.dart';
+import 'package:flutterdemo/pages/detail.dart';
+
 
 // void main() => runApp(MyApp());
 void main() async {
   await Global.init().then((e) {
-    print(Colors.red.value);
-    // Global.profile.theme = [11111];
     runApp(MyApp());
   });
 }
@@ -32,17 +28,32 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => ThemeModel()),
         // ChangeNotifierProvider(create: (context) => ThemeModel()),
       ],
-      child: Consumer2<TestChange, ThemeModel>(
-        builder: (BuildContext context, testChange, themeModel, Widget child) {
+      child: Consumer<ThemeModel>(
+        builder: (BuildContext context, themeModel, Widget child) {
           return MaterialApp(
-            theme: ThemeData(primaryColor: themeModel.theme),
+            theme: ThemeData(
+              // primaryIconTheme: IconThemeData(color: Colors.red),
+              primarySwatch : createMaterialColor(themeModel.theme),
+              pageTransitionsTheme: PageTransitionsTheme(builders: {
+                TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+                TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+              }),
+            ),
             title: "MaterialApp",
             routes: {
-              '/themeSetting': (context) => ThemeSetting()
+              '/themeSetting': (context) => ThemeSetting(),
+              '/articleDetail': (context) => DetailPage()
             },
             home: MyHome(
               title: 'MaterialApp',
             ),
+            builder: (context, widget) {
+              return MediaQuery(
+                //设置文字大小不随系统设置改变
+                data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                child: widget,
+              );
+            },
           );
         },
       ),
@@ -65,24 +76,26 @@ class _MyHomeState extends State<MyHome> {
   @override
   void initState() {
     // print(Foo<String>().toString());
-    eventBus.on<SwitchTab>().listen((event) async {
-      // print(event.runtimeType);
-      setState(() {
-        _bottomAppBarIndex = event.index;
+    if (mounted) {
+      eventBus.on<SwitchTab>().listen((event) async {
+        // print(event.runtimeType);
+        setState(() {
+          _bottomAppBarIndex = event.index;
+        });
+        // await new Future.delayed(new Duration(seconds: 2));
+        // setState(() {
+        //   _bottomAppBarIndex = 0;
+        // });
       });
-      // await new Future.delayed(new Duration(seconds: 2));
-      // setState(() {
-      //   _bottomAppBarIndex = 0;
-      // });
-    });
-    _mainPageList = [
-      HomePage(),
-      VideoPage(),
-      ActivityPage(),
-      CenterPage(),
-      MyPage()
-    ];
-    super.initState();
+      _mainPageList = [
+        HomePage(),
+        VideoPage(),
+        ActivityPage(),
+        CenterPage(),
+        MyPage()
+      ];
+      super.initState();
+    }
   }
 
   void changeTab(index) {
@@ -177,3 +190,4 @@ class _MyHomeState extends State<MyHome> {
     );
   }
 }
+
