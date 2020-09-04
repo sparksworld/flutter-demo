@@ -3,24 +3,20 @@ import 'package:flutterdemo/tabPages/index.dart'
     show HomePage, VideoPage, MyPage, CenterPage, ActivityPage;
 import 'package:flutterdemo/pages/theme.dart';
 import 'package:flutterdemo/pages/detail.dart';
-
+import 'package:flutter/services.dart';
 
 // void main() => runApp(MyApp());
 void main() async {
-  await Global.init().then((e) {
-    runApp(MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) async {
+    await Global.init().then((e) {
+      runApp(MyApp());
+    });
   });
 }
 
 class MyApp extends StatelessWidget {
-  // void _push(BuildContext context, Widget widget) {
-  //   Navigator.push(context,
-  //       new MaterialPageRoute(builder: (BuildContext context) {
-  //     return widget;
-  //   }));
-  // }
-
-  
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -29,12 +25,12 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => ThemeModel()),
         // ChangeNotifierProvider(create: (context) => ThemeModel()),
       ],
-      child: Consumer<ThemeModel>(
-        builder: (BuildContext context, themeModel, Widget child) {
+      child: Consumer2<ThemeModel, TestChange>(
+        builder: (BuildContext context, themeModel, testChange, Widget child) {
           return MaterialApp(
             theme: ThemeData(
               // primaryIconTheme: IconThemeData(color: Colors.red),
-              primarySwatch : createMaterialColor(themeModel.theme),
+              primarySwatch: createMaterialColor(themeModel.theme),
               pageTransitionsTheme: PageTransitionsTheme(builders: {
                 TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
                 TargetPlatform.android: CupertinoPageTransitionsBuilder(),
@@ -51,7 +47,8 @@ class MyApp extends StatelessWidget {
             builder: (context, widget) {
               return MediaQuery(
                 //设置文字大小不随系统设置改变
-                data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                data: MediaQuery.of(context)
+                    .copyWith(textScaleFactor: testChange.textScaleFactor),
                 child: widget,
               );
             },
@@ -106,6 +103,7 @@ class _MyHomeState extends State<MyHome> {
   }
 
   void searchBarDelegate() {}
+
   @override
   Widget build(BuildContext context) {
     HYSizeFit.initialize(context);
@@ -192,4 +190,3 @@ class _MyHomeState extends State<MyHome> {
     );
   }
 }
-

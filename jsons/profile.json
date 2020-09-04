@@ -1,5 +1,6 @@
 {
     "locale": "en",
+    "textScaleFactor": 1.0,
     "appTheme": {
         "primary": 123456
     },

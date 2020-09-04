@@ -8,6 +8,7 @@ class Profile {
       Profile();
 
   String locale;
+  double textScaleFactor;
   AppTheme appTheme;
   User user;
 

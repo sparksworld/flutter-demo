@@ -32,6 +32,23 @@ class _MyPageState extends State<MyPage> {
               ),
             ),
           ),
+          Card(
+            child: Consumer<TestChange>(builder:
+                (BuildContext context, TestChange testChange, Widget child) {
+              return InkWell(
+                onTap: () {
+                  testChange.setTextScaleFactor(1.0);
+                  // print(MediaQuery.of(context).toString());
+                  // Navigator.pushNamed(context, "/themeSetting");
+                },
+                child: ListTile(
+                  leading: FlutterLogo(),
+                  title: Text('主题设置'),
+                  trailing: Icon(Icons.navigate_next),
+                ),
+              );
+            }),
+          ),
           // Card(
           //   child: ListTile(
           //     leading: FlutterLogo(),

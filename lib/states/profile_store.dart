@@ -16,11 +16,9 @@ class NotifierProfileStore extends ChangeNotifier {
 }
 
 class TestChange extends NotifierProfileStore {
-  int count = 1;
-
-  void add() {
-    print(_profile.appTheme ?? 1);
-    count += 1;
+  double get textScaleFactor => _profile.textScaleFactor ?? 1.0;
+  void setTextScaleFactor(double textScale) {
+    _profile.textScaleFactor = textScale;
     notifyListeners();
   }
 }
