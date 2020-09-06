@@ -33,6 +33,12 @@ class _MinorHomePageState extends State<MinorHomePage>
   // }
   @override
   void initState() {
+    dio.get('http://www.baidu.com').then((value) {
+      print(value);
+      // setState(() {
+        
+      // });
+    });
     _controller?.addListener(() async {
       // print(_controller.offset);
       if (_controller.offset >= _controller.position.maxScrollExtent - 50) {
