@@ -1,32 +1,11 @@
 import 'package:flutterdemo/module.dart';
+import 'package:flutterdemo/component/header.dart';
 
-class MyPage extends StatefulWidget {
-  final Function callback;
-  MyPage({this.callback});
-
-  @override
-  State<StatefulWidget> createState() => _MyPageState();
-}
-
-class _MyPageState extends State<MyPage> {
-  void onChangeEvent() {
-    eventBus.fire(SwitchTab(0));
-  }
-
+class Setting extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("我的"),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/setting');
-            },
-            icon: Icon(Icons.settings),
-          )
-        ],
-      ),
+    return CommonHeader(
+      title: Text('设置'),
       body: ListView(
         children: <Widget>[
           Card(
@@ -41,6 +20,23 @@ class _MyPageState extends State<MyPage> {
                 trailing: Icon(Icons.navigate_next),
               ),
             ),
+          ),
+          Card(
+            child: Consumer<TestChange>(builder:
+                (BuildContext context, TestChange testChange, Widget child) {
+              return InkWell(
+                onTap: () {
+                  // testChange.setTextScaleFactor(1.0);
+                  // print(MediaQuery.of(context).toString());
+                  Navigator.pushNamed(context, "/settingText");
+                },
+                child: ListTile(
+                  leading: FlutterLogo(),
+                  title: Text('字体设置'),
+                  trailing: Icon(Icons.navigate_next),
+                ),
+              );
+            }),
           ),
           // Card(
           //   child: ListTile(

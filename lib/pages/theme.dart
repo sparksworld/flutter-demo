@@ -12,6 +12,7 @@ List themes = <Map>[
   {'title': '骚气黄', 'color': Colors.yellow},
   {'title': '天空蓝', 'color': Colors.blue},
   {'title': '美年橙', 'color': Colors.orange},
+  {'title': '炫酷黑', 'color': Colors.black},
 ];
 
 class ThemeSetting extends StatelessWidget {

@@ -75,7 +75,7 @@ class _ActivityPageState extends State<ActivityPage> {
               },
               onPageStarted: (String url) {
                 setState(() {
-                  this._title = '';
+                  this._title = '加载中...';
                   this._webviewLoading = true;
                   // lineProgress += 10;
                 });
@@ -84,9 +84,10 @@ class _ActivityPageState extends State<ActivityPage> {
               onPageFinished: (String url) {
                 print('Page finished loading: $url');
                 _controller.evaluateJavascript("document.title").then((result) {
+                  RegExp reg = new RegExp(r'^\"(.*)\"$');
                   setState(() {
                     this._webviewLoading = false;
-                    this._title = result;
+                    this._title = result.replaceAllMapped(reg, (m) => '${m[1]}');
                   });
                 });
               },

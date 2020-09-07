@@ -3,6 +3,8 @@ import 'package:flutterdemo/tabPages/index.dart'
     show HomePage, VideoPage, MyPage, CenterPage, ActivityPage;
 import 'package:flutterdemo/pages/theme.dart';
 import 'package:flutterdemo/pages/detail.dart';
+import 'package:flutterdemo/pages/setting.dart';
+import 'package:flutterdemo/pages/settingText.dart';
 import 'package:flutter/services.dart';
 
 // void main() => runApp(MyApp());
@@ -39,7 +41,9 @@ class MyApp extends StatelessWidget {
             title: "MaterialApp",
             routes: {
               '/themeSetting': (context) => ThemeSetting(),
-              '/articleDetail': (context) => DetailPage()
+              '/articleDetail': (context) => DetailPage(),
+              '/setting': (context) => Setting(),
+              '/settingText': (context) => SettingTextPage()
             },
             home: MyHome(
               title: 'MaterialApp',
