@@ -33,10 +33,13 @@ class _MinorHomePageState extends State<MinorHomePage>
   // }
   @override
   void initState() {
+    // ApiList().getInitData().then((res) {
+    //   print(res);
+    // });
     // Httper.dio.get('http://www.baidu.com').then((value) {
     //   print(value);
     //   // setState(() {
-        
+
     //   // });
     // });
     _controller?.addListener(() async {
