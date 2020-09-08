@@ -10,3 +10,4 @@ export 'package:flutterdemo/common/index.dart';
 export 'package:flutterdemo/tools/index.dart';
 export 'package:webview_flutter/webview_flutter.dart';
 export 'package:flutterdemo/request/index.dart';
+export 'package:cached_network_image/cached_network_image.dart';

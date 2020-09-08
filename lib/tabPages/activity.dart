@@ -43,7 +43,7 @@ class _ActivityPageState extends State<ActivityPage> {
         children: <Widget>[
           Container(
             child: Center(
-              child: Text('加载中...'),
+              child: CircularProgressIndicator(),
             ),
           ),
           // Container(

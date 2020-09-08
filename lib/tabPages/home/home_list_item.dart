@@ -1,6 +1,6 @@
 // import 'package:flutter/material.dart';
 import 'package:flutterdemo/module.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+
 // import 'package:flutterdemo/pages/detail.dart';
 // import 'dart:math';
 
@@ -78,28 +78,29 @@ class HomeListViewItem extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: _images
-                            .map(
-                              (item) => CachedNetworkImage(
-                                imageUrl: item['image'],
-                                imageBuilder: (context, imageProvider) =>
-                                    Container(
-                                  constraints: BoxConstraints.expand(
-                                    width: (110.0 * 2).rpx,
-                                    height: (88.0 * 2).rpx,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: imageProvider,
-                                      fit: BoxFit.cover,
+                            .map((item) => SizedBox(
+                                  width: 110.px,
+                                  height: 88.px,
+                                  child: CachedNetworkImage(
+                                    imageUrl: item['image'],
+                                    imageBuilder: (context, imageProvider) =>
+                                        Container(
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: imageProvider,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
                                     ),
+                                    placeholder: (context, url) => Container(
+                                      width: 110.px,
+                                      height: 88.px,
+                                      color: Color(0xffd5d5d5),
+                                    ),
+                                    errorWidget: (context, url, error) =>
+                                        const Icon(Icons.error),
                                   ),
-                                ),
-                                placeholder: (context, url) =>
-                                    const CircularProgressIndicator(),
-                                errorWidget: (context, url, error) =>
-                                    const Icon(Icons.error),
-                              ),
-                            )
+                                ))
                             .toList(),
                       ),
                     )

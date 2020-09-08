@@ -16,8 +16,7 @@ class MinorHomePage extends StatefulWidget {
   State<StatefulWidget> createState() => _MinorHomePageState();
 }
 
-class _MinorHomePageState extends State<MinorHomePage>
-    with AutomaticKeepAliveClientMixin<MinorHomePage> {
+class _MinorHomePageState extends State<MinorHomePage> with AutomaticKeepAliveClientMixin {
   bool _loading = false;
   bool _showBottomLoading = true;
   ScrollController _controller = ScrollController();
@@ -87,7 +86,7 @@ class _MinorHomePageState extends State<MinorHomePage>
           controller: _controller,
           itemBuilder: (context, index) {
             return HomeListViewItem(
-              // key: Key(index.toString()),
+              key: Key(index.toString()),
               index: index,
               length: listData.length,
               loading: _showBottomLoading,
@@ -102,7 +101,7 @@ class _MinorHomePageState extends State<MinorHomePage>
 
   Future<void> _handlerRefresh() async {
     //模拟耗时5秒
-    // await new Future.delayed(new Duration(seconds: 5));
+    await new Future.delayed(new Duration(seconds: 1));
     if (this.mounted) {
       setState(() {
         this.start = 0;
@@ -110,6 +109,7 @@ class _MinorHomePageState extends State<MinorHomePage>
       });
     }
   }
+
 
   @override
   bool get wantKeepAlive => true;

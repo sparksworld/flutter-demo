@@ -25,7 +25,8 @@ class VideoListViewItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List _images = itemData.images;
+    // print(itemData());
+    List _images = itemData.strImages.toList();
     // print('r=' + Random().nextInt(1000).toString());
     return Column(
       children: [
@@ -48,6 +49,7 @@ class VideoListViewItem extends StatelessWidget {
               onTap: () {
                 // callback(1);
                 Navigator.pushNamed(context, '/articleDetail');
+                // _push(context, DetailPage());
               },
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(8.0, 12.0, 8.0, 12.0),
@@ -57,7 +59,7 @@ class VideoListViewItem extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(bottom: 10.0),
                       child: Text(
-                        itemData.title * 10,
+                        itemData.tTitle * 10,
                         softWrap: true,
                         textAlign: TextAlign.justify,
                         overflow: TextOverflow.ellipsis,
@@ -72,11 +74,28 @@ class VideoListViewItem extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: _images
-                            .map((item) => Container(
-                                  color: Colors.grey,
-                                  child: Image.network(item, fit: BoxFit.cover),
-                                  constraints: BoxConstraints.expand(
-                                      width: 110.0.px, height: 88.0.px),
+                            .map((item) => SizedBox(
+                                  width: 110.px,
+                                  height: 88.px,
+                                  child: CachedNetworkImage(
+                                    imageUrl: item['image'],
+                                    imageBuilder: (context, imageProvider) =>
+                                        Container(
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: imageProvider,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                    placeholder: (context, url) => Container(
+                                      width: 110.px,
+                                      height: 88.px,
+                                      color: Color(0xffd5d5d5),
+                                    ),
+                                    errorWidget: (context, url, error) =>
+                                        const Icon(Icons.error),
+                                  ),
                                 ))
                             .toList(),
                       ),
