@@ -24,14 +24,14 @@ class CustomInterceptors extends InterceptorsWrapper {
 }
 
 class Request {
-  Dio dio;
+  static Dio dio;
   BaseOptions options = new BaseOptions(
-    baseUrl: "https://www.xx.com/api",
+    baseUrl: "http://appv8.qukantianxia.com",
     connectTimeout: 5000,
     receiveTimeout: 3000,
   );
   Request() {
-    this.dio = new Dio(this.options);
+    dio = new Dio(this.options);
     dio.interceptors.add(CustomInterceptors());
   }
 }

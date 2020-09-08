@@ -1,5 +1,6 @@
 // import 'package:flutter/material.dart';
 import 'package:flutterdemo/module.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 // import 'package:flutterdemo/pages/detail.dart';
 // import 'dart:math';
 
@@ -28,7 +29,8 @@ class HomeListViewItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List _images = itemData.images;
+    // print(itemData());
+    List _images = itemData.strImages.toList();
     // print('r=' + Random().nextInt(1000).toString());
     return Column(
       children: [
@@ -61,7 +63,7 @@ class HomeListViewItem extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(bottom: 10.0),
                       child: Text(
-                        itemData.title * 10,
+                        itemData.tTitle * 10,
                         softWrap: true,
                         textAlign: TextAlign.justify,
                         overflow: TextOverflow.ellipsis,
@@ -76,12 +78,28 @@ class HomeListViewItem extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: _images
-                            .map((item) => Container(
-                                  color: Colors.grey,
-                                  child: Image.network(item, fit: BoxFit.cover),
+                            .map(
+                              (item) => CachedNetworkImage(
+                                imageUrl: item['image'],
+                                imageBuilder: (context, imageProvider) =>
+                                    Container(
                                   constraints: BoxConstraints.expand(
-                                      width: (110.0 * 2).rpx, height: (88.0 * 2).rpx),
-                                ))
+                                    width: (110.0 * 2).rpx,
+                                    height: (88.0 * 2).rpx,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: imageProvider,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                                placeholder: (context, url) =>
+                                    const CircularProgressIndicator(),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error),
+                              ),
+                            )
                             .toList(),
                       ),
                     )

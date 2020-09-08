@@ -1,6 +1,9 @@
+// import 'dart:math';
+
 import 'package:flutterdemo/module.dart';
-import 'package:flutterdemo/mock/article.dart';
+// import 'package:flutterdemo/mock/article.dart';
 import 'home_list_item.dart';
+// import 'dart:developer';
 // import 'package:flutterdemo/component/refresh_list_view.dart';
 // List<String> _titles = ['湖人', '勇士', '雄鹿', '快船', '凯尔特人', '马刺', '76人', '猛龙'];
 // TabController _tabController;
@@ -16,49 +19,50 @@ class MinorHomePage extends StatefulWidget {
 class _MinorHomePageState extends State<MinorHomePage>
     with AutomaticKeepAliveClientMixin<MinorHomePage> {
   bool _loading = false;
+  bool _showBottomLoading = true;
   ScrollController _controller = ScrollController();
-  List<Article> listData = postData;
+  List listData = List();
+  int start = 0;
 
   // Widget createListItem(index, data) {
   //   return ListViewItem(Key(index.toString()), data);
   // }
 
-  //获取列表数据
-  // Future<List> getListData([Map<String, dynamic> params]) async {
-  //   dynamic testElement = params.values.elementAt(0);
-  //   for (int i = 0; i < listData.length; i++) {
-  //     listData[i] = listData[i] + testElement.toString();
-  //   }
-  //   return listData;
-  // }
+  Future getArticleList() async {
+    if (!_loading) {
+      setState(() {
+        _loading = true;
+      });
+      return ApiList.getInitData({
+        'taskId': 11728664,
+        'os': 1,
+        'articleType': 1,
+        'token': '',
+        'start': start
+      }).then((data) {
+        setState(() {
+          _loading = false;
+          _showBottomLoading = false;
+          List _data = data;
+          if (start == 0) listData = _data;
+          listData += _data;
+          start += _data.length;
+        });
+        return data;
+      });
+    }
+  }
+
   @override
   void initState() {
-    // ApiList().getInitData().then((res) {
-    //   print(res);
-    // });
-    // Httper.dio.get('http://www.baidu.com').then((value) {
-    //   print(value);
-    //   // setState(() {
-
-    //   // });
-    // });
+    this.getArticleList();
     _controller?.addListener(() async {
       // print(_controller.offset);
       if (_controller.offset >= _controller.position.maxScrollExtent - 50) {
-        if (!_loading) {
-          if (this.mounted) {
-            setState(() {
-              _loading = true;
-            });
-          }
-          await new Future.delayed(new Duration(milliseconds: 500));
-          if (this.mounted) {
-            setState(() {
-              listData += postData;
-              _loading = false;
-            });
-          }
-        }
+        setState(() {
+          _showBottomLoading = true;
+          this.getArticleList();
+        });
       }
     });
     super.initState();
@@ -86,7 +90,7 @@ class _MinorHomePageState extends State<MinorHomePage>
               // key: Key(index.toString()),
               index: index,
               length: listData.length,
-              loading: _loading,
+              loading: _showBottomLoading,
               itemData: listData[index],
               callback: widget.callback,
             );
@@ -98,10 +102,11 @@ class _MinorHomePageState extends State<MinorHomePage>
 
   Future<void> _handlerRefresh() async {
     //模拟耗时5秒
-    await new Future.delayed(new Duration(seconds: 5));
+    // await new Future.delayed(new Duration(seconds: 5));
     if (this.mounted) {
       setState(() {
-        listData = postData;
+        this.start = 0;
+        this.getArticleList();
       });
     }
   }

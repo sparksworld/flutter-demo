@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutterdemo/models/profile.dart';
+import 'package:flutterdemo/request/index.dart';
 
 class Global {
   static SharedPreferences _prefs;
@@ -22,6 +23,8 @@ class Global {
         print(e);
       }
     }
+
+    ApiList();
   }
 
   static saveProfile() =>

@@ -1,5 +1,5 @@
 import 'package:flutterdemo/module.dart';
-import 'package:flutterdemo/component/header.dart';
+import 'package:flutterdemo/widgets/header.dart';
 
 class SettingTextPage extends StatefulWidget {
   @override

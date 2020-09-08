@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:flutterdemo/component/header.dart';
+import 'package:flutterdemo/widgets/header.dart';
 import 'package:flutterdemo/states/index.dart';
 import 'package:flutterdemo/models/index.dart';
 

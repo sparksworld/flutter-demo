@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutterdemo/component/header.dart';
+import 'package:flutterdemo/widgets/header.dart';
 
 class DetailPage extends StatefulWidget {
   DetailPage({Key key}) : super(key: key);

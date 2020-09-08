@@ -2,7 +2,7 @@ export 'dart:io';
 export 'dart:async';
 export 'dart:convert';
 export 'package:flutter/material.dart';
-export 'package:flutterdemo/component/index.dart';
+export 'package:flutterdemo/widgets/index.dart';
 export 'package:flutterdemo/states/index.dart';
 export 'package:flutterdemo/models/index.dart';
 export 'package:flutterdemo/event_bus/index.dart';

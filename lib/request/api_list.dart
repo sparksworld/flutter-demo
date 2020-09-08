@@ -1,14 +1,31 @@
+import 'package:flutterdemo/models/index.dart';
 import 'package:dio/dio.dart';
-
 import 'dio.dart';
 
-class ApiList extends Request {
-  Dio http;
-  ApiList() : super() {
-    this.http = super.dio;
+class ApiList {
+  static Dio http;
+  ApiList() {
+    Request();
+    http = Request.dio;
+  }
+  // @override
+  // void run() {
+  //   // 调用父类的方法
+  //   super.run();
+  //   print("student running...");
+  // }
+
+  static getInitData(Map<String, dynamic> queryParameters) {
+    return http
+        .get('/qktx-content/task/getArticleRelationList',
+            queryParameters: queryParameters)
+        .then((Response res) {
+      return res.data['data'].map((e) => ListItem.fromJson(e)).toList();
+    });
   }
 
-  getInitData() {
-    return this.http.get('/com');
+  static getPostData(data) {
+    FormData formData = FormData.fromMap(data);
+    return http.post("/info", data: formData);
   }
 }
