@@ -253,6 +253,13 @@ packages:
       url: "https://github.com/LiuC520/flutter_custom_bottom_tab_bar.git"
     source: git
     version: "0.0.1"
+  flutter_easyrefresh:
+    dependency: "direct main"
+    description:
+      name: flutter_easyrefresh
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.1.5"
   flutter_staggered_grid_view:
     dependency: "direct main"
     description:

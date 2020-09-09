@@ -110,23 +110,6 @@ class HomeListViewItem extends StatelessWidget {
             ),
           ),
         ),
-        index == length - 1
-            ? loading
-                ? Container(
-                    padding: EdgeInsets.fromLTRB(0, 20.0, 0, 36.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [Text('正在加载...')],
-                    ),
-                  )
-                : Container(
-                    padding: EdgeInsets.fromLTRB(0, 20.0, 0, 36.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [Text('加载中')],
-                    ),
-                  )
-            : Container()
       ],
     );
   }

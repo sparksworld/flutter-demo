@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutterdemo/module.dart';
+import 'dart:developer';
 
 class CustomInterceptors extends InterceptorsWrapper {
   @override
@@ -13,6 +14,8 @@ class CustomInterceptors extends InterceptorsWrapper {
   Future onResponse(Response response) {
     print(
         "RESPONSE[${response?.statusCode}] => PATH: ${response?.request?.path}");
+    log(response.toString());
+
     return super.onResponse(response);
   }
 

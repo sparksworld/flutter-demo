@@ -12,6 +12,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  List tabbars = [
+    {'title': '推荐', 'typeKey': 0},
+    {'title': '资讯', 'typeKey': 1},
+    {'title': '搞笑', 'typeKey': 2},
+    {'title': '段子', 'typeKey': 3},
+    {'title': '科技', 'typeKey': 4},
+    {'title': '汽车', 'typeKey': 5},
+    {'title': '医疗', 'typeKey': 6},
+    {'title': '便民', 'typeKey': 7},
+    {'title': '三农', 'typeKey': 8},
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,6 +66,7 @@ class _HomePageState extends State<HomePage> {
                 IconButton(
                   icon: Icon(Icons.timer),
                   onPressed: () {
+                    Navigator.pushNamed(context, '/login');
                     // showSearch(context: context, delegate: searchBarDelegate());
                   },
                 ),
@@ -99,33 +112,23 @@ class _HomePageState extends State<HomePage> {
                     TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
                 labelStyle:
                     TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-                tabs: <Widget>[
-                  Tab(text: '推荐'),
-                  Tab(text: '资讯'),
-                  Tab(text: '搞笑'),
-                  Tab(text: '段子'),
-                  Tab(text: '科技'),
-                  Tab(text: '汽车'),
-                  Tab(text: '医疗'),
-                  Tab(text: '便民'),
-                  Tab(text: '三农'),
-                ],
+                tabs: tabbars
+                    .map((e) => Tab(
+                          text: e['title'],
+                        ))
+                    .toList(),
               ),
             ),
             Expanded(
               flex: 1,
               child: TabBarView(
-                children: <Widget>[
-                  MinorHomePage(key: Key('1')),
-                  MinorHomePage(key: Key('2')),
-                  MinorHomePage(key: Key('3')),
-                  MinorHomePage(key: Key('4')),
-                  MinorHomePage(key: Key('5')),
-                  MinorHomePage(key: Key('6')),
-                  MinorHomePage(key: Key('7')),
-                  MinorHomePage(key: Key('8')),
-                  MinorHomePage(key: Key('9')),
-                ],
+                children: List.generate(tabbars.length, (value) => value + 1)
+                    .map(
+                      (e) => MinorHomePage(
+                        key: Key(e.toString()),
+                      ),
+                    )
+                    .toList(),
               ),
             )
           ],

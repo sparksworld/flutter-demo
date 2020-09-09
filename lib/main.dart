@@ -5,6 +5,7 @@ import 'package:flutterdemo/pages/theme.dart';
 import 'package:flutterdemo/pages/detail.dart';
 import 'package:flutterdemo/pages/setting.dart';
 import 'package:flutterdemo/pages/settingText.dart';
+import 'package:flutterdemo/pages/login.dart';
 import 'package:flutter/services.dart';
 
 // void main() => runApp(MyApp());
@@ -43,7 +44,8 @@ class MyApp extends StatelessWidget {
               '/themeSetting': (context) => ThemeSetting(),
               '/articleDetail': (context) => DetailPage(),
               '/setting': (context) => Setting(),
-              '/settingText': (context) => SettingTextPage()
+              '/settingText': (context) => SettingTextPage(),
+              '/login': (context) => LoginRoute()
             },
             home: MyHome(
               title: 'MaterialApp',
