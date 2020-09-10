@@ -1,8 +1,4 @@
 import 'package:flutterdemo/module.dart';
-import 'package:flutter_easyrefresh/easy_refresh.dart';
-// import 'package:flutter_easyrefresh/bezier_circle_header.dart';
-// import 'package:flutter_easyrefresh/material_header.dart';
-// import 'package:flutter_easyrefresh/material_footer.dart';
 import 'video_list_item.dart';
 
 class MinorVideoPage extends StatefulWidget {
@@ -16,16 +12,14 @@ class MinorVideoPage extends StatefulWidget {
 class _MinorVideoPageState extends State<MinorVideoPage>
     with AutomaticKeepAliveClientMixin<MinorVideoPage> {
   bool _loading = false;
-  bool _showBottomLoading = true;
-  EasyRefreshController _controller = EasyRefreshController();
-  // ScrollController _controller = ScrollController();
+  bool _finished = false;
+  ScrollController _controller = ScrollController();
   List listData = List();
   int start = 0;
 
   // Widget createListItem(index, data) {
   //   return ListViewItem(Key(index.toString()), data);
   // }
-
   Future getArticleList() async {
     if (!_loading) {
       setState(() {
@@ -41,12 +35,17 @@ class _MinorVideoPageState extends State<MinorVideoPage>
         List _data = data;
         setState(() {
           _loading = false;
-          _showBottomLoading = false;
           if (start == 0) listData = _data;
           listData += _data;
           start += _data.length;
+          if (_data.length < 10) {
+            _finished = true;
+          }
         });
         return data;
+      }).catchError((err) {
+        _loading = false;
+        print(err);
       });
     }
   }
@@ -54,6 +53,16 @@ class _MinorVideoPageState extends State<MinorVideoPage>
   @override
   void initState() {
     this.getArticleList();
+    _controller?.addListener(() async {
+      // print(_controller.offset);
+      if (_controller.offset >= _controller.position.maxScrollExtent) {
+        await Future.delayed(new Duration(seconds: 1), () {
+          setState(() {
+            this.getArticleList();
+          });
+        });
+      }
+    });
     super.initState();
   }
 
@@ -66,53 +75,91 @@ class _MinorVideoPageState extends State<MinorVideoPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Scrollbar(
-      child: EasyRefresh.custom(
-        enableControlFinishRefresh: false,
-        enableControlFinishLoad: true,
-        controller: _controller,
-        header: BezierHourGlassHeader(
-          // color: Theme.of(context).primaryColor,
-          backgroundColor: Theme.of(context).primaryColor
-        ),
-        footer: BezierBounceFooter(
-          backgroundColor: Theme.of(context).primaryColor,
-        ),
-        onRefresh: () async {
-          await Future.delayed(Duration(seconds: 2), () {
-            setState(() {
-              this.start = 0;
-              this.getArticleList();
-            });
-
-            _controller.resetLoadState();
-          });
-        },
-        onLoad: () async {
-          await Future.delayed(Duration(seconds: 2), () {
-            this.getArticleList();
-            _controller.finishLoad(noMore: false);
-          });
-        },
-        slivers: <Widget>[
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) {
-                return VideoListViewItem(
-                  key: Key(index.toString()),
-                  index: index,
-                  length: listData.length,
-                  loading: _showBottomLoading,
-                  itemData: listData[index],
-                  callback: widget.callback,
-                );
-              },
-              childCount: listData.length,
-            ),
+    return Container(
+      color: Color(0xfff5f5f5),
+      child: new RefreshIndicator(
+        displacement: 28.0.px,
+        onRefresh: () => _handlerRefresh(),
+        child: MediaQuery.removePadding(
+          removeTop: true,
+          context: context,
+          child: Scrollbar(
+            child: (start == 0 && _loading)
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : new ListView.builder(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    itemCount: listData.length + 1,
+                    controller: _controller,
+                    itemBuilder: (context, index) {
+                      if (listData.length == index) {
+                        if (!_finished) {
+                          if (_loading) {
+                            return _buildFootView('loading...');
+                          } else {
+                            return _buildFootView('come on....');
+                          }
+                        } else {
+                          return _buildFootView('finished...');
+                        }
+                      }
+                      return VideoListViewItem(
+                        key: Key(index.toString()),
+                        // index: index,
+                        // length: listData.length,
+                        // loading: _showBottomLoading,
+                        itemData: listData[index],
+                        callback: widget.callback,
+                      );
+                    },
+                  ),
           ),
-        ],
+        ),
       ),
     );
+  }
+
+  Widget _buildFootView(String text) {
+    return Container(
+      child: Center(
+          child: Padding(
+        padding: EdgeInsets.all(10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            _loading
+                ? Container(
+                    width: 14,
+                    height: 14,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                    ),
+                  )
+                : Container(),
+            Padding(
+              padding: EdgeInsets.all(24.0.px),
+              child: Text(
+                text,
+                style: TextStyle(fontSize: 16.0.px),
+              ),
+            )
+          ],
+        ),
+      )),
+    );
+  }
+
+  Future<void> _handlerRefresh() async {
+    //模拟耗时5秒
+    await new Future.delayed(new Duration(seconds: 1), () {
+      if (this.mounted) {
+        setState(() {
+          this.start = 0;
+          this.getArticleList();
+        });
+      }
+    });
   }
 
   @override

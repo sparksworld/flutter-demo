@@ -1,11 +1,12 @@
 import 'package:flutterdemo/module.dart';
 import 'package:flutterdemo/tabPages/index.dart'
     show HomePage, VideoPage, MyPage, CenterPage, ActivityPage;
-import 'package:flutterdemo/pages/theme.dart';
-import 'package:flutterdemo/pages/detail.dart';
-import 'package:flutterdemo/pages/setting.dart';
-import 'package:flutterdemo/pages/settingText.dart';
-import 'package:flutterdemo/pages/login.dart';
+import 'package:flutterdemo/routers/index.dart';
+// import 'package:flutterdemo/routers/theme.dart';
+// import 'package:flutterdemo/routers/detail.dart';
+// import 'package:flutterdemo/routers/setting.dart';
+// import 'package:flutterdemo/routers/settingText.dart';
+// import 'package:flutterdemo/routers/login.dart';
 import 'package:flutter/services.dart';
 
 // void main() => runApp(MyApp());
@@ -45,7 +46,11 @@ class MyApp extends StatelessWidget {
               '/articleDetail': (context) => DetailPage(),
               '/setting': (context) => Setting(),
               '/settingText': (context) => SettingTextPage(),
-              '/login': (context) => LoginRoute()
+              '/login': (context) => LoginRoute(),
+            },
+            onGenerateRoute: (RouteSettings setting) {
+              print(setting);
+              // return setting;
             },
             home: MyHome(
               title: 'MaterialApp',

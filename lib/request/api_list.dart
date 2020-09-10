@@ -1,4 +1,5 @@
 import 'package:flutterdemo/models/index.dart';
+import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'dio.dart';
 
@@ -19,9 +20,16 @@ class ApiList {
     return http
         .get('/qktx-content/task/getArticleRelationList',
             queryParameters: queryParameters)
-        .then((Response res) {
-      return res.data['data'].map((e) => ListItem.fromJson(e)).toList();
-    });
+        .then(
+      (Response res) {
+        log(res.toString());
+        if (res.data != null && res.data['result'] == 1) {
+          return res.data['data'].map((e) => ListItem.fromJson(e)).toList();
+        } else {
+          return List();
+        }
+      },
+    );
   }
 
   static getPostData(data) {

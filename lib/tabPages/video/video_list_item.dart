@@ -1,112 +1,134 @@
 import 'package:flutterdemo/module.dart';
 
 class VideoListViewItem extends StatelessWidget {
-  final index;
-  final length;
-  final loading;
   final itemData;
   final Function callback;
 
   const VideoListViewItem({
     Key key,
-    @required this.index,
-    @required this.length,
-    this.loading,
     this.itemData,
     this.callback,
   }) : super(key: key);
 
-  void _push(BuildContext context, Widget widget) {
-    Navigator.push(context,
-        new MaterialPageRoute(builder: (BuildContext context) {
-      return widget;
-    }));
-  }
+  // void _push(BuildContext context, Widget widget) {
+  //   Navigator.push(context,
+  //       new MaterialPageRoute(builder: (BuildContext context) {
+  //     return widget;
+  //   }));
+  // }
 
   @override
   Widget build(BuildContext context) {
     // print(itemData());
     List _images = itemData.strImages.toList();
     // print('r=' + Random().nextInt(1000).toString());
-    return Column(
-      children: [
-        Container(
-          decoration: new BoxDecoration(
-            border: new Border(
-              bottom: BorderSide(color: Color(0xffE6E6FA), width: 0.5),
-              //  color:
+    return Container(
+      margin: EdgeInsets.fromLTRB(0.0.px, 6.0.px, 0.0.px, 6.0.px),
+      decoration: new BoxDecoration(
+        border: new Border(
+          bottom: BorderSide(color: Color(0xffE6E6FA), width: 0.5.px),
+        ),
+        color: Colors.white, // 底色
+      ),
+      child: Column(
+        children: [
+          Container(
+            decoration: new BoxDecoration(
+              // border: new Border(
+              //   bottom: BorderSide(color: Color(0xffE6E6FA), width: 0.5),
+              // ),
+              // boxShadow: ,
+              image: DecorationImage(
+                image: NetworkImage(_images[0]['image']),
+                fit: BoxFit.cover,
+                colorFilter: ColorFilter.mode(
+                    Colors.black.withOpacity(0.4), BlendMode.multiply),
+              ),
+              // 边色与边宽度
+              color: Colors.grey, // 底色
+              // borderRadius: new BorderRadius.circular((10.0.px)), // 圆角度
+              // borderRadius: new BorderRadius.vertical(
+              //     top: Radius.elliptical(20, 50)), // 也可控件一边圆角大小
             ),
-            // 边色与边宽度
-            color: Colors.white, // 底色
-            //        borderRadius: new BorderRadius.circular((20.0)), // 圆角度
-            // borderRadius: new BorderRadius.vertical(
-            //     top: Radius.elliptical(20, 50)), // 也可控件一边圆角大小
-          ),
-          child: Card(
-            color: Colors.white,
-            elevation: 0.0,
             child: GestureDetector(
-              onTap: () {
-                // callback(1);
-                Navigator.pushNamed(context, '/articleDetail');
-                // _push(context, DetailPage());
-              },
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(8.0, 12.0, 8.0, 12.0),
+                onTap: () {
+                  // callback(1);
+                  Navigator.pushNamed(context, '/articleDetail');
+                  // _push(context, DetailPage());
+                },
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(bottom: 10.0),
+                      padding:
+                          EdgeInsets.fromLTRB(12.0.px, 10.0.px, 12.0.px, 0),
                       child: Text(
-                        itemData.tTitle * 10,
+                        itemData.tTitle,
                         softWrap: true,
                         textAlign: TextAlign.justify,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
                         style: new TextStyle(
-                            color: Colors.black87,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          height: 1.4,
+                        ),
                       ),
                     ),
                     Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: _images
-                            .map((item) => SizedBox(
-                                  width: 110.px,
-                                  height: 88.px,
-                                  child: CachedNetworkImage(
-                                    imageUrl: item['image'],
-                                    imageBuilder: (context, imageProvider) =>
-                                        Container(
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          image: imageProvider,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-                                    placeholder: (context, url) => Container(
-                                      width: 110.px,
-                                      height: 88.px,
-                                      color: Color(0xffd5d5d5),
-                                    ),
-                                    errorWidget: (context, url, error) =>
-                                        const Icon(Icons.error),
-                                  ),
-                                ))
-                            .toList(),
-                      ),
+                      width: double.infinity,
+                      height: 132.0.px,
+                      padding: EdgeInsets.only(bottom: 10.0.px),
+                      child: Center(
+                          child: Container(
+                        decoration: new BoxDecoration(
+                          color: Colors.black.withOpacity(.5),
+                          borderRadius: BorderRadius.circular(100.0.px),
+                        ),
+                        width: 60.0.px,
+                        height: 60.0.px,
+                        child: Icon(
+                          Icons.play_arrow,
+                          size: 50.0.px,
+                          color: Colors.white70,
+                        ),
+                      )),
                     )
                   ],
-                ),
-              ),
-            ),
+                )),
           ),
-        ),
-      ],
+          Padding(
+            padding: EdgeInsets.fromLTRB(10.0.px, 10.0.px, 10.0.px, 10.0.px),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  itemData.tuName ?? '',
+                  style: TextStyle(color: Colors.grey),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(right: 6.0.px),
+                      child: Icon(
+                        Icons.comment,
+                        color: Colors.grey,
+                        size: 18.0.px,
+                      ),
+                    ),
+                    Text(
+                      itemData.commentCount.toString() ?? '',
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 }

@@ -5,17 +5,17 @@ import 'package:flutterdemo/module.dart';
 // import 'dart:math';
 
 class HomeListViewItem extends StatelessWidget {
-  final index;
-  final length;
-  final loading;
+  // final index;
+  // final length;
+  // final loading;
   final itemData;
   final Function callback;
 
   const HomeListViewItem({
     Key key,
-    @required this.index,
-    @required this.length,
-    this.loading,
+    // @required this.index,
+    // @required this.length,
+    // this.loading,
     this.itemData,
     this.callback,
   }) : super(key: key);
@@ -56,22 +56,24 @@ class HomeListViewItem extends StatelessWidget {
                 // _push(context, DetailPage());
               },
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(8.0, 12.0, 8.0, 12.0),
+                padding: const EdgeInsets.fromLTRB(8.0, 10.0, 8.0, 10.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Padding(
                       padding: EdgeInsets.only(bottom: 10.0),
                       child: Text(
-                        itemData.tTitle * 10,
+                        itemData.tTitle,
                         softWrap: true,
                         textAlign: TextAlign.justify,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
                         style: new TextStyle(
-                            color: Colors.black87,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
+                          color: Colors.black87,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          height: 1.5
+                        ),
                       ),
                     ),
                     Container(

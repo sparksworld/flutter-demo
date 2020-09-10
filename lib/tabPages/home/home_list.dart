@@ -1,12 +1,6 @@
 // import 'dart:math';
-
 import 'package:flutterdemo/module.dart';
-import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'home_list_item.dart';
-// import 'dart:developer';
-// import 'package:flutterdemo/component/refresh_list_view.dart';
-// List<String> _titles = ['湖人', '勇士', '雄鹿', '快船', '凯尔特人', '马刺', '76人', '猛龙'];
-// TabController _tabController;
 
 class MinorHomePage extends StatefulWidget {
   final Function callback;
@@ -19,9 +13,8 @@ class MinorHomePage extends StatefulWidget {
 class _MinorHomePageState extends State<MinorHomePage>
     with AutomaticKeepAliveClientMixin {
   bool _loading = false;
-  bool _showBottomLoading = true;
-  // ScrollController _controller = ScrollController();
-  EasyRefreshController _controller = EasyRefreshController();
+  bool _finished = false;
+  ScrollController _controller = ScrollController();
   List listData = List();
   int start = 0;
 
@@ -41,15 +34,20 @@ class _MinorHomePageState extends State<MinorHomePage>
         'token': '',
         'start': start
       }).then((data) {
+        List _data = data;
         setState(() {
           _loading = false;
-          _showBottomLoading = false;
-          List _data = data;
           if (start == 0) listData = _data;
           listData += _data;
           start += _data.length;
+          if (_data.length < 10) {
+            _finished = true;
+          }
         });
         return data;
+      }).catchError((err) {
+        _loading = false;
+        print(err);
       });
     }
   }
@@ -57,15 +55,16 @@ class _MinorHomePageState extends State<MinorHomePage>
   @override
   void initState() {
     this.getArticleList();
-    // _controller?.addListener(() async {
-    //   // print(_controller.offset);
-    //   if (_controller.offset >= _controller.position.maxScrollExtent - 50) {
-    //     setState(() {
-    //       _showBottomLoading = true;
-    //       this.getArticleList();
-    //     });
-    //   }
-    // });
+    _controller?.addListener(() async {
+      // print(_controller.offset);
+      if (_controller.offset >= _controller.position.maxScrollExtent) {
+        await Future.delayed(new Duration(seconds: 1), () {
+          setState(() {
+            this.getArticleList();
+          });
+        });
+      }
+    });
     super.initState();
   }
 
@@ -78,53 +77,84 @@ class _MinorHomePageState extends State<MinorHomePage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Scrollbar(
-      child: EasyRefresh.custom(
-        enableControlFinishRefresh: false,
-        enableControlFinishLoad: true,
-        controller: _controller,
-        header: BezierHourGlassHeader(
-          // color: Theme.of(context).primaryColor,
-          backgroundColor: Theme.of(context).primaryColor.withOpacity(.5),
-        ),
-        footer: BezierBounceFooter(
-          backgroundColor: Theme.of(context).primaryColor.withOpacity(.5),
-        ),
-        onRefresh: () async {
-          await Future.delayed(Duration(seconds: 2), () {
-            setState(() {
-              this.start = 0;
-              this.getArticleList();
-            });
-
-            _controller.resetLoadState();
-          });
-        },
-        onLoad: () async {
-          await Future.delayed(Duration(seconds: 2), () {
-            this.getArticleList();
-            _controller.finishLoad(noMore: false);
-          });
-        },
-        slivers: <Widget>[
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) {
-                return HomeListViewItem(
-                  key: Key(index.toString()),
-                  index: index,
-                  length: listData.length,
-                  loading: _showBottomLoading,
-                  itemData: listData[index],
-                  callback: widget.callback,
-                );
-              },
-              childCount: listData.length,
-            ),
-          ),
-        ],
+    return new RefreshIndicator(
+      displacement: 28.0.px,
+      onRefresh: () => _handlerRefresh(),
+      child: Scrollbar(
+        child: (start == 0 && _loading)
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : new ListView.builder(
+                physics: const AlwaysScrollableScrollPhysics(),
+                itemCount: listData.length + 1,
+                controller: _controller,
+                itemBuilder: (context, index) {
+                  if (listData.length == index) {
+                    if (!_finished) {
+                      if (_loading) {
+                        return _buildFootView('loading...');
+                      } else {
+                        return _buildFootView('come on....');
+                      }
+                    } else {
+                      return _buildFootView('finished...');
+                    }
+                  }
+                  return HomeListViewItem(
+                    key: Key(index.toString()),
+                    // index: index,
+                    // length: listData.length,
+                    // loading: _showBottomLoading,
+                    itemData: listData[index],
+                    callback: widget.callback,
+                  );
+                },
+              ),
       ),
     );
+  }
+
+  Widget _buildFootView(String text) {
+    return Container(
+      child: Center(
+          child: Padding(
+        padding: EdgeInsets.all(24.0.px),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            _loading
+                ? Container(
+                    width: 15,
+                    height: 15,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                    ),
+                  )
+                : Container(),
+            Padding(
+              padding: EdgeInsets.only(left: 10),
+              child: Text(
+                text,
+                style: TextStyle(fontSize: 16.0.px),
+              ),
+            )
+          ],
+        ),
+      )),
+    );
+  }
+
+  Future<void> _handlerRefresh() async {
+    //模拟耗时5秒
+    await new Future.delayed(new Duration(seconds: 1), () {
+      if (this.mounted) {
+        setState(() {
+          this.start = 0;
+          this.getArticleList();
+        });
+      }
+    });
   }
 
   @override
