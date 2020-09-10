@@ -78,7 +78,7 @@ class VideoListViewItem extends StatelessWidget {
                     ),
                     Container(
                       width: double.infinity,
-                      height: 132.0.px,
+                      height: 152.0.px,
                       padding: EdgeInsets.only(bottom: 10.0.px),
                       child: Center(
                           child: Container(
