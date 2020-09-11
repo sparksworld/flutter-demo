@@ -12,11 +12,12 @@ class MinorHomePage extends StatefulWidget {
 
 class _MinorHomePageState extends State<MinorHomePage>
     with AutomaticKeepAliveClientMixin {
-  bool _loading = false;
-  bool _finished = false;
-  ScrollController _controller = ScrollController();
-  List listData = List();
-  int start = 0;
+  bool _loading;
+  bool _finished;
+  bool _error;
+  ScrollController _controller;
+  List listData;
+  int start;
 
   // Widget createListItem(index, data) {
   //   return ListViewItem(Key(index.toString()), data);
@@ -33,38 +34,53 @@ class _MinorHomePageState extends State<MinorHomePage>
         'articleType': 1,
         'token': '',
         'start': start
-      }).then((data) {
+      }).then((data) async {
         List _data = data;
-        setState(() {
-          _loading = false;
-          if (start == 0) listData = _data;
-          listData += _data;
-          start += _data.length;
-          if (_data.length < 10) {
-            _finished = true;
-          }
+        _error = false;
+        await new Future.delayed(Duration(seconds: 3), () {
+          setState(() {
+            _loading = false;
+            if (start == 0) listData = _data;
+            listData += _data;
+            start += _data.length;
+            if (_data.length < 10) {
+              _finished = true;
+            }
+          });
         });
         return data;
       }).catchError((err) {
-        _loading = false;
-        print(err);
+        setState(() {
+          _loading = false;
+          _finished = false;
+          _error = true;
+        });
       });
     }
   }
 
   @override
   void initState() {
-    this.getArticleList();
-    _controller?.addListener(() async {
-      // print(_controller.offset);
-      if (_controller.offset >= _controller.position.maxScrollExtent) {
-        await Future.delayed(new Duration(seconds: 1), () {
-          setState(() {
-            this.getArticleList();
+    if (mounted) {
+      _loading = false;
+      _finished = false;
+      _error = false;
+      listData = List();
+      start = 0;
+      _controller = ScrollController();
+      this.getArticleList();
+      _controller.addListener(() async {
+        // print(_controller.offset);
+        if (_controller.offset >= _controller.position.maxScrollExtent) {
+          await Future.delayed(new Duration(seconds: 1), () {
+            setState(() {
+              this.getArticleList();
+            });
           });
-        });
-      }
-    });
+        }
+      });
+    }
+
     super.initState();
   }
 
@@ -81,36 +97,58 @@ class _MinorHomePageState extends State<MinorHomePage>
       displacement: 28.0.px,
       onRefresh: () => _handlerRefresh(),
       child: Scrollbar(
-        child: (start == 0 && _loading)
+        child: _error
             ? Center(
-                child: CircularProgressIndicator(),
+                child: GestureDetector(
+                  onTap: () => _handlerRefresh(),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        '网络错误',
+                        style: TextStyle(
+                          fontSize: 17.0.px,
+                          color: Color(0xff999999),
+                        ),
+                      ),
+                      Icon(
+                        Icons.refresh,
+                        color: Color(0xff999999),
+                      )
+                    ],
+                  ),
+                ),
               )
-            : new ListView.builder(
-                physics: const AlwaysScrollableScrollPhysics(),
-                itemCount: listData.length + 1,
-                controller: _controller,
-                itemBuilder: (context, index) {
-                  if (listData.length == index) {
-                    if (!_finished) {
-                      if (_loading) {
-                        return _buildFootView('loading...');
-                      } else {
-                        return _buildFootView('come on....');
+            : ((start == 0 && _loading)
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : new ListView.builder(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    itemCount: listData.length + 1,
+                    controller: _controller,
+                    itemBuilder: (context, index) {
+                      if (listData.length == index) {
+                        if (!_finished) {
+                          if (_loading) {
+                            return _buildFootView('loading...');
+                          } else {
+                            return _buildFootView('come on....');
+                          }
+                        } else {
+                          return _buildFootView('finished...');
+                        }
                       }
-                    } else {
-                      return _buildFootView('finished...');
-                    }
-                  }
-                  return HomeListViewItem(
-                    key: Key(index.toString()),
-                    // index: index,
-                    // length: listData.length,
-                    // loading: _showBottomLoading,
-                    itemData: listData[index],
-                    callback: widget.callback,
-                  );
-                },
-              ),
+                      return HomeListViewItem(
+                        key: Key(index.toString()),
+                        // index: index,
+                        // length: listData.length,
+                        // loading: _showBottomLoading,
+                        itemData: listData[index],
+                        callback: widget.callback,
+                      );
+                    },
+                  )),
       ),
     );
   }

@@ -1,6 +1,5 @@
 import 'package:flutterdemo/module.dart';
 import 'package:flutterdemo/widgets/index.dart';
-import 'package:flutter_easyrefresh/easy_refresh.dart';
 
 class MyPage extends StatefulWidget {
   final Function callback;
@@ -56,7 +55,7 @@ class _MyPageState extends State<MyPage> {
                 ],
               ),
             ),
-            EasyRefresh.custom(
+            CustomScrollView(
               slivers: <Widget>[
                 SliverList(
                   delegate: SliverChildListDelegate([

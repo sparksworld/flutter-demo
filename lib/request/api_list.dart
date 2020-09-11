@@ -1,5 +1,5 @@
 import 'package:flutterdemo/models/index.dart';
-import 'dart:developer';
+// import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'dio.dart';
 
@@ -22,7 +22,6 @@ class ApiList {
             queryParameters: queryParameters)
         .then(
       (Response res) {
-        log(res.toString());
         if (res.data != null && res.data['result'] == 1) {
           return res.data['data'].map((e) => ListItem.fromJson(e)).toList();
         } else {
