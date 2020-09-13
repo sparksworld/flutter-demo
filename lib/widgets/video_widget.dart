@@ -113,6 +113,7 @@ class VideoWidgetState extends State<VideoWidget> {
                                 setState(() {
                                   if (fullScreen) {
                                     height = 210;
+                                    fullScreen = false;
                                     SystemChrome.setPreferredOrientations([
                                       DeviceOrientation.portraitUp,
                                       DeviceOrientation.portraitUp,
