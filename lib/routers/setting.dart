@@ -38,6 +38,19 @@ class Setting extends StatelessWidget {
               );
             }),
           ),
+          Card(
+            child: Consumer<TestChange>(builder:
+                (BuildContext context, TestChange testChange, Widget child) {
+              return InkWell(
+                // onTap: () => DmPuppeteer.init(),
+                child: ListTile(
+                  leading: FlutterLogo(),
+                  title: Text('斗米自动化'),
+                  trailing: Icon(Icons.navigate_next),
+                ),
+              );
+            }),
+          ),
           // Card(
           //   child: ListTile(
           //     leading: FlutterLogo(),

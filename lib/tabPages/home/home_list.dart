@@ -37,7 +37,7 @@ class _MinorHomePageState extends State<MinorHomePage>
       }).then((data) async {
         List _data = data;
         _error = false;
-        await new Future.delayed(Duration(seconds: 3), () {
+        await new Future.delayed(Duration(seconds: 1), () {
           setState(() {
             _loading = false;
             if (start == 0) listData = _data;

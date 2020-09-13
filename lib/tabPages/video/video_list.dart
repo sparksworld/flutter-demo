@@ -28,15 +28,15 @@ class _MinorVideoPageState extends State<MinorVideoPage>
         _loading = true;
       });
       return ApiList.getInitData({
-        'taskId': 11728664,
+        'taskId': 11728669,
         'os': 1,
-        'articleType': 1,
+        'articleType': 2,
         'token': '',
         'start': start
       }).then((data) async {
         List _data = data;
         _error = false;
-        await new Future.delayed(Duration(seconds: 3), () {
+        await new Future.delayed(Duration(seconds: 1), () {
           setState(() {
             _loading = false;
             if (start == 0) listData = _data;

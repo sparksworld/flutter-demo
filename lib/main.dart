@@ -1,5 +1,4 @@
 import 'package:flutterdemo/module.dart';
-import 'package:flutterdemo/routers/video.dart';
 import 'package:flutterdemo/tabPages/index.dart'
     show HomePage, VideoPage, MyPage, CenterPage, ActivityPage;
 import 'package:flutterdemo/routers/index.dart';
@@ -43,7 +42,8 @@ class MyApp extends StatelessWidget {
             title: "MaterialApp",
             routes: {
               '/themeSetting': (context) => ThemeSetting(),
-              '/articleDetail': (context) => ChewieDemo(),
+              '/videoPlay': (context) => VideoPlay(),
+              '/articleDetail': (context) => ArticleDetail(),
               '/setting': (context) => Setting(),
               '/settingText': (context) => SettingTextPage(),
               '/login': (context) => LoginRoute(),
