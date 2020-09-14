@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutterdemo/common/appGlobal.dart';
+import 'package:flutterdemo/common/index.dart';
 import 'package:flutterdemo/models/index.dart';
 // import 'package:flutterdemo/states/index.dart';
 // import 'package:provider/provider.dart';

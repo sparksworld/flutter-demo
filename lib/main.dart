@@ -1,6 +1,7 @@
 import 'package:flutterdemo/module.dart';
 import 'package:flutterdemo/tabPages/index.dart'
     show HomePage, VideoPage, MyPage, CenterPage, ActivityPage;
+import 'package:flutterdemo/common/index.dart';
 import 'package:flutterdemo/routers/index.dart';
 // import 'package:flutterdemo/routers/theme.dart';
 // import 'package:flutterdemo/routers/detail.dart';
@@ -8,6 +9,7 @@ import 'package:flutterdemo/routers/index.dart';
 // import 'package:flutterdemo/routers/settingText.dart';
 // import 'package:flutterdemo/routers/login.dart';
 
+final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 // void main() => runApp(MyApp());
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,6 +33,7 @@ class MyApp extends StatelessWidget {
       child: Consumer2<ThemeModel, TestChange>(
         builder: (BuildContext context, themeModel, testChange, Widget child) {
           return MaterialApp(
+            navigatorKey: navigatorKey,
             theme: ThemeData(
               // primaryIconTheme: IconThemeData(color: Colors.red),
               primarySwatch: createMaterialColor(themeModel.theme),
@@ -48,10 +51,7 @@ class MyApp extends StatelessWidget {
               '/settingText': (context) => SettingTextPage(),
               '/login': (context) => LoginRoute(),
             },
-            onGenerateRoute: (RouteSettings setting) {
-              print(setting);
-              // return setting;
-            },
+            // onGenerateRoute: onGenerateRoute,
             home: MyHome(
               title: 'MaterialApp',
             ),

@@ -1,83 +1,91 @@
+import 'dart:math';
+
+import 'package:flutterdemo/widgets/chewie.dart';
 import 'package:flutterdemo/module.dart';
-// import 'package:flutter_ijkplayer/flutter_ijkplayer.dart';
-import 'package:flutterdemo/widgets/video_widget.dart';
 import 'dart:developer';
+import 'package:video_player/video_player.dart';
+// import 'custom_controls.dart';
 
 class VideoPlay extends StatefulWidget {
+  final arguments;
+  VideoPlay({this.arguments});
+
   @override
   State<StatefulWidget> createState() {
     return _VideoPlayState();
   }
 }
 
-class _VideoPlayState extends State<VideoPlay> with WidgetsBindingObserver {
+class _VideoPlayState extends State<VideoPlay> {
+  VideoPlayerController videoPlayerController;
+  ChewieController chewieController;
+  bool isInit;
+  double aspectRatio;
 
-  ListItem args;
   @override
   void initState() {
+    // var context = ;
+    new Future.delayed(Duration.zero, () {
+      ListItem argv = ModalRoute.of(context).settings.arguments;
+      videoPlayerController = VideoPlayerController.network(
+        argv.videoUrl,
+      )..initialize().then((_) => setState(() {
+            aspectRatio = videoPlayerController.value.aspectRatio;
+            chewieController = ChewieController(
+              videoPlayerController: videoPlayerController,
+              aspectRatio: aspectRatio,
+              autoPlay: true,
+              looping: true,
+              // customControls: CustomControls()
+            );
+          }));
+    });
+    // chewieController =
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
-    // controller.setIjkPlayerOptions(
-    //   [
-    //     Platform.isAndroid ? TargetPlatform.android: TargetPlatform.iOS,
-    //   ],
-    //   [
-    //     IjkOption(IjkOptionCategory.player,
-    //         Platform.isAndroid ? "mediacodec" : "videotoolbox", 0),
-    //   ],
-    // );
-
   }
 
   @override
   void dispose() {
-    // controller.release();
+    videoPlayerController.dispose();
+    chewieController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    args = ModalRoute.of(context).settings.arguments;
-  
     return Scaffold(
-      // appBar: PreferredSizeWidget(),
-      body: MediaQuery.removePadding(
-        removeTop: true,
-        context: context,
-        child: Container(
-          color: Colors.black,
-          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-          child: VideoWidget(),
+      body: Container(
+        color: Colors.black,
+        padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+        child: Stack(
+          children: [
+            Container(
+              width: double.infinity,
+              height: 210.0.px,
+              child: aspectRatio != null
+                  ? Chewie(
+                      controller: chewieController,
+                    )
+                  : Center(
+                      child: CircularProgressIndicator(),
+                    ),
+            ),
+            Positioned(
+              left: 12.0.px,
+              top: 12.0.px,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Icon(
+                  Icons.arrow_back,
+                  color: Colors.white,
+                ),
+              ),
+            )
+          ],
         ),
       ),
     );
-  }
-
-}
-
-class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
-  final Widget child;
-
-  SliverCustomHeaderDelegate(this.child);
-
-  @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    // TODO: implement build
-    return child;
-  }
-
-  @override
-  // TODO: implement maxExtent
-  double get maxExtent => 245.0;
-
-  @override
-  // TODO: implement minExtent
-  double get minExtent => 245.0;
-
-  @override
-  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
-    // TODO: implement shouldRebuild
-    return true;
   }
 }

@@ -41,6 +41,9 @@ dependencies:
 #   flutter_ijkplayer: ^0.3.5+1
   auto_orientation: ^1.0.5 
   video_player: ^0.10.12+2
+  open_iconic_flutter: ^0.3.0
+#   flt_video_player: ^0.0.4
+#   chewie: ^0.9.10
 #   fijkplayer:
 #     git:
 #       url: https://github.com/befovy/fijkplayer.git
