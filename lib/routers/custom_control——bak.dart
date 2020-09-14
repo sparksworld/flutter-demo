@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import 'package:flutterdemo/widgets/chewie/chewie_player.dart';
-import 'package:flutterdemo/widgets/chewie/chewie_progress_colors.dart';
-import 'package:flutterdemo/widgets/chewie/material_progress_bar.dart';
-import 'package:flutterdemo/widgets/chewie/utils.dart';
+import 'package:flutterdemo/widgets/spark_chewie/chewie_player.dart';
+import 'package:flutterdemo/widgets/spark_chewie/chewie_progress_colors.dart';
+import 'package:flutterdemo/widgets/spark_chewie/material_progress_bar.dart';
+import 'package:flutterdemo/widgets/spark_chewie/utils.dart';
 import 'package:video_player/video_player.dart';
 
 class CustomControls extends StatefulWidget {

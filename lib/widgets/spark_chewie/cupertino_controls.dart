@@ -2,10 +2,10 @@ import 'dart:async';
 import 'dart:math' as math;
 import 'dart:ui' as ui;
 
-import 'package:flutterdemo/widgets/chewie/chewie_player.dart';
-import 'package:flutterdemo/widgets/chewie/chewie_progress_colors.dart';
-import 'package:flutterdemo/widgets/chewie/cupertino_progress_bar.dart';
-import 'package:flutterdemo/widgets/chewie/utils.dart';
+import 'package:flutterdemo/widgets/spark_chewie/chewie_player.dart';
+import 'package:flutterdemo/widgets/spark_chewie/chewie_progress_colors.dart';
+import 'package:flutterdemo/widgets/spark_chewie/cupertino_progress_bar.dart';
+import 'package:flutterdemo/widgets/spark_chewie/utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:open_iconic_flutter/open_iconic_flutter.dart';

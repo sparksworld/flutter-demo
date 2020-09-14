@@ -1,8 +1,5 @@
-import 'dart:ui';
-
-import 'package:flutterdemo/widgets/chewie/chewie_player.dart';
-import 'package:flutterdemo/widgets/chewie/cupertino_controls.dart';
-import 'package:flutterdemo/widgets/chewie/material_controls.dart';
+import 'package:flutterdemo/widgets/spark_chewie/chewie_player.dart';
+import 'package:flutterdemo/widgets/spark_chewie/material_controls.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
@@ -53,12 +50,7 @@ class PlayerWithControls extends StatelessWidget {
     return chewieController.showControls
         ? chewieController.customControls != null
             ? chewieController.customControls
-            : Theme.of(context).platform == TargetPlatform.android
-                ? MaterialControls()
-                : CupertinoControls(
-                    backgroundColor: Color.fromRGBO(41, 41, 41, 0.7),
-                    iconColor: Color.fromARGB(255, 200, 200, 200),
-                  )
+            : MaterialControls()
         : Container();
   }
 

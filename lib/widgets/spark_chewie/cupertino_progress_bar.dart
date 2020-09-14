@@ -1,10 +1,10 @@
-import 'package:flutterdemo/widgets/chewie/chewie_progress_colors.dart';
+import 'package:flutterdemo/widgets/spark_chewie/chewie_progress_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:video_player/video_player.dart';
 
-class MaterialVideoProgressBar extends StatefulWidget {
-  MaterialVideoProgressBar(
+class CupertinoVideoProgressBar extends StatefulWidget {
+  CupertinoVideoProgressBar(
     this.controller, {
     ChewieProgressColors colors,
     this.onDragEnd,
@@ -24,7 +24,7 @@ class MaterialVideoProgressBar extends StatefulWidget {
   }
 }
 
-class _VideoProgressBarState extends State<MaterialVideoProgressBar> {
+class _VideoProgressBarState extends State<CupertinoVideoProgressBar> {
   _VideoProgressBarState() {
     listener = () {
       setState(() {});
@@ -61,7 +61,7 @@ class _VideoProgressBarState extends State<MaterialVideoProgressBar> {
     return GestureDetector(
       child: Center(
         child: Container(
-          height: MediaQuery.of(context).size.height / 2,
+          height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           color: Colors.transparent,
           child: CustomPaint(
@@ -127,13 +127,15 @@ class _ProgressBarPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final height = 2.0;
+    final barHeight = 5.0;
+    final handleHeight = 6.0;
+    final baseOffset = size.height / 2 - barHeight / 2.0;
 
     canvas.drawRRect(
       RRect.fromRectAndRadius(
         Rect.fromPoints(
-          Offset(0.0, size.height / 2),
-          Offset(size.width, size.height / 2 + height),
+          Offset(0.0, baseOffset),
+          Offset(size.width, baseOffset + barHeight),
         ),
         Radius.circular(4.0),
       ),
@@ -152,8 +154,8 @@ class _ProgressBarPainter extends CustomPainter {
       canvas.drawRRect(
         RRect.fromRectAndRadius(
           Rect.fromPoints(
-            Offset(start, size.height / 2),
-            Offset(end, size.height / 2 + height),
+            Offset(start, baseOffset),
+            Offset(end, baseOffset + barHeight),
           ),
           Radius.circular(4.0),
         ),
@@ -163,16 +165,23 @@ class _ProgressBarPainter extends CustomPainter {
     canvas.drawRRect(
       RRect.fromRectAndRadius(
         Rect.fromPoints(
-          Offset(0.0, size.height / 2),
-          Offset(playedPart, size.height / 2 + height),
+          Offset(0.0, baseOffset),
+          Offset(playedPart, baseOffset + barHeight),
         ),
         Radius.circular(4.0),
       ),
       colors.playedPaint,
     );
+
+    final shadowPath = Path()
+      ..addOval(Rect.fromCircle(
+          center: Offset(playedPart, baseOffset + barHeight / 2),
+          radius: handleHeight));
+
+    canvas.drawShadow(shadowPath, Colors.black, 0.2, false);
     canvas.drawCircle(
-      Offset(playedPart, size.height / 2 + height / 2),
-      height * 3,
+      Offset(playedPart, baseOffset + barHeight / 2),
+      handleHeight,
       colors.handlePaint,
     );
   }

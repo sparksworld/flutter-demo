@@ -1,12 +1,13 @@
 import 'dart:async';
 
-import 'package:flutterdemo/widgets/chewie/chewie_progress_colors.dart';
-import 'package:flutterdemo/widgets/chewie/player_with_controls.dart';
+import 'package:flutterdemo/widgets/spark_chewie/chewie_progress_colors.dart';
+import 'package:flutterdemo/widgets/spark_chewie/player_with_controls.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:video_player/video_player.dart';
 // import 'package:wakelock/wakelock.dart';
+import 'dart:developer';
 
 typedef Widget ChewieRoutePageBuilder(
     BuildContext context,
@@ -127,14 +128,16 @@ class ChewieState extends State<Chewie> {
     final TransitionRoute<Null> route = PageRouteBuilder<Null>(
       pageBuilder: _fullScreenRoutePageBuilder,
     );
+    log(widget.controller.isFullScreen.toString());
+
 
     SystemChrome.setEnabledSystemUIOverlays([]);
-    if (isAndroid) {
+    // if (isAndroid) {
       SystemChrome.setPreferredOrientations([
         DeviceOrientation.landscapeLeft,
         DeviceOrientation.landscapeRight,
       ]);
-    }
+    // }
 
     // if (!widget.controller.allowedScreenSleep) {
     //   Wakelock.enable();
@@ -144,12 +147,12 @@ class ChewieState extends State<Chewie> {
     _isFullScreen = false;
     widget.controller.exitFullScreen();
 
-    // The wakelock plugins checks whether it needs to perform an action internally,
-    // so we do not need to check Wakelock.isEnabled.
-    // Wakelock.disable();
+    // // The wakelock plugins checks whether it needs to perform an action internally,
+    // // so we do not need to check Wakelock.isEnabled.
+    // // Wakelock.disable();
 
-    SystemChrome.setEnabledSystemUIOverlays(
-        widget.controller.systemOverlaysAfterFullScreen);
+    // SystemChrome.setEnabledSystemUIOverlays(
+    //     widget.controller.systemOverlaysAfterFullScreen);
     SystemChrome.setPreferredOrientations(
         widget.controller.deviceOrientationsAfterFullScreen);
   }
@@ -189,9 +192,9 @@ class ChewieController extends ChangeNotifier {
     this.systemOverlaysAfterFullScreen = SystemUiOverlay.values,
     this.deviceOrientationsAfterFullScreen = const [
       DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight,
+      // DeviceOrientation.portraitDown,
+      // DeviceOrientation.landscapeLeft,
+      // DeviceOrientation.landscapeRight,
     ],
     this.routePageBuilder = null,
   }) : assert(videoPlayerController != null,

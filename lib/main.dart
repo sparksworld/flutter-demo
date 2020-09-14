@@ -120,10 +120,13 @@ class _MyHomeState extends State<MyHome> {
     HYSizeFit.initialize(context);
     // _mainPageList[_bottomAppBarIndex]
     return Scaffold(
-        body: IndexedStack(
-          index: _bottomAppBarIndex,
-          children: [..._mainPageList],
-        ),
+        body: OrientationBuilder(builder: (context, orientation) {
+          // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+          return IndexedStack(
+            index: _bottomAppBarIndex,
+            children: [..._mainPageList],
+          );
+        }),
         bottomNavigationBar: BottomAppBar(
             shape: CircularNotchedRectangle(),
             child: Container(

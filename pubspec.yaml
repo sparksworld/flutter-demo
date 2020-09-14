@@ -48,7 +48,7 @@ dependencies:
 #     git:
 #       url: https://github.com/befovy/fijkplayer.git
 #       ref: develop # can be replaced to branch or tag name
-  screen: ^0.0.5
+  wakelock: ^0.1.4+2
   common_utils: ^1.1.3
 
 dev_dependencies:

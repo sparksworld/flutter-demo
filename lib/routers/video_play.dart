@@ -1,9 +1,7 @@
-import 'dart:math';
-
-import 'package:flutterdemo/widgets/chewie.dart';
+import 'package:flutterdemo/widgets/spark_chewie.dart';
 import 'package:flutterdemo/module.dart';
-import 'dart:developer';
 import 'package:video_player/video_player.dart';
+import 'package:wakelock/wakelock.dart';
 // import 'custom_controls.dart';
 
 class VideoPlay extends StatefulWidget {
@@ -21,24 +19,33 @@ class _VideoPlayState extends State<VideoPlay> {
   ChewieController chewieController;
   bool isInit;
   double aspectRatio;
+  double initHeight;
+  void _listener() async {
+    bool isKeptOn = await Wakelock.isEnabled;
+    if (videoPlayerController.value.isPlaying && !isKeptOn) {
+      Wakelock.enable();
+    }
+  }
 
   @override
   void initState() {
-    // var context = ;
+    initHeight = 210.px;
     new Future.delayed(Duration.zero, () {
       ListItem argv = ModalRoute.of(context).settings.arguments;
       videoPlayerController = VideoPlayerController.network(
         argv.videoUrl,
-      )..initialize().then((_) => setState(() {
-            aspectRatio = videoPlayerController.value.aspectRatio;
-            chewieController = ChewieController(
-              videoPlayerController: videoPlayerController,
-              aspectRatio: aspectRatio,
-              autoPlay: true,
-              looping: true,
-              // customControls: CustomControls()
-            );
-          }));
+      )
+        ..addListener(_listener)
+        ..initialize().then((_) => setState(() {
+              aspectRatio = videoPlayerController.value.aspectRatio;
+              chewieController = ChewieController(
+                videoPlayerController: videoPlayerController,
+                aspectRatio: aspectRatio,
+                autoPlay: true,
+                looping: false,
+                // customControls: CustomControls()
+              );
+            }));
     });
     // chewieController =
     super.initState();
@@ -46,6 +53,12 @@ class _VideoPlayState extends State<VideoPlay> {
 
   @override
   void dispose() {
+    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values); //恢复
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
+    Wakelock.disable();
+    videoPlayerController.removeListener(_listener);
     videoPlayerController.dispose();
     chewieController.dispose();
     super.dispose();
@@ -61,7 +74,7 @@ class _VideoPlayState extends State<VideoPlay> {
           children: [
             Container(
               width: double.infinity,
-              height: 210.0.px,
+              height: initHeight,
               child: aspectRatio != null
                   ? Chewie(
                       controller: chewieController,

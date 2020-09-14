@@ -1,9 +1,8 @@
 import 'dart:async';
-
-import 'package:flutterdemo/widgets/chewie/chewie_player.dart';
-import 'package:flutterdemo/widgets/chewie/chewie_progress_colors.dart';
-import 'package:flutterdemo/widgets/chewie/material_progress_bar.dart';
-import 'package:flutterdemo/widgets/chewie/utils.dart';
+import 'package:flutterdemo/widgets/spark_chewie/chewie_player.dart';
+import 'package:flutterdemo/widgets/spark_chewie/chewie_progress_colors.dart';
+import 'package:flutterdemo/widgets/spark_chewie/material_progress_bar.dart';
+import 'package:flutterdemo/widgets/spark_chewie/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
@@ -54,26 +53,49 @@ class _MaterialControlsState extends State<MaterialControls> {
         _cancelAndRestartTimer();
       },
       child: GestureDetector(
-        onTap: () => _cancelAndRestartTimer(),
-        child: AbsorbPointer(
-          absorbing: _hideStuff,
-          child: Column(
-            children: <Widget>[
-              _latestValue != null &&
-                          !_latestValue.isPlaying &&
-                          _latestValue.duration == null ||
-                      _latestValue.isBuffering
-                  ? const Expanded(
-                      child: const Center(
-                        child: const CircularProgressIndicator(),
+          onTap: () => _cancelAndRestartTimer(),
+          child: Stack(
+            children: [
+              AbsorbPointer(
+                absorbing: _hideStuff,
+                child: Column(
+                  children: <Widget>[
+                    _latestValue != null &&
+                                !_latestValue.isPlaying &&
+                                _latestValue.duration == null ||
+                            _latestValue.isBuffering
+                        ? const Expanded(
+                            child: const Center(
+                              child: const CircularProgressIndicator(),
+                            ),
+                          )
+                        : _buildHitArea(),
+                    _buildBottomBar(context),
+                  ],
+                ),
+              ),
+              chewieController.isFullScreen
+                  ? Positioned(
+                      left: 12.0,
+                      top: 12.0,
+                      child: AbsorbPointer(
+                        absorbing: _hideStuff,
+                        child: AnimatedOpacity(
+                          opacity: _hideStuff ? 0.0 : 1.0,
+                          duration: Duration(milliseconds: 300),
+                          child: GestureDetector(
+                            onTap: _onExpandCollapse,
+                            child: Icon(
+                              Icons.arrow_back_ios,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
                       ),
                     )
-                  : _buildHitArea(),
-              _buildBottomBar(context),
+                  : Container()
             ],
-          ),
-        ),
-      ),
+          )),
     );
   }
 
@@ -363,7 +385,7 @@ class _MaterialControlsState extends State<MaterialControls> {
 
   Widget _buildProgressBar() {
     return Expanded(
-      child: Padding(
+      child: Container(
         padding: EdgeInsets.only(right: 20.0),
         child: MaterialVideoProgressBar(
           controller,
