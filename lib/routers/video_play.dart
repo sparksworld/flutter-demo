@@ -6,7 +6,7 @@ import 'package:wakelock/wakelock.dart';
 
 class VideoPlay extends StatefulWidget {
   final arguments;
-  VideoPlay({this.arguments});
+  VideoPlay({Key key, this.arguments}):super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -32,23 +32,22 @@ class _VideoPlayState extends State<VideoPlay> {
   void initState() {
     initWidth = double.infinity;
     initHeight = 210.px;
-    new Future.delayed(Duration.zero, () {
-      ListItem argv = ModalRoute.of(context).settings.arguments;
-      videoPlayerController = VideoPlayerController.network(
-        argv.videoUrl,
-      )
-        ..addListener(_listener)
-        ..initialize().then((_) => setState(() {
-              aspectRatio = videoPlayerController.value.aspectRatio;
-              chewieController = ChewieController(
-                videoPlayerController: videoPlayerController,
-                aspectRatio: aspectRatio,
-                autoPlay: true,
-                looping: false,
-                // customControls: CustomControls()
-              );
-            }));
-    });
+    ListItem argv = widget.arguments;
+    // ModalRoute.of(context).settings.arguments 无命名路由获取参数
+    videoPlayerController = VideoPlayerController.network(
+      argv.videoUrl,
+    )
+      ..addListener(_listener)
+      ..initialize().then((_) => setState(() {
+            aspectRatio = videoPlayerController.value.aspectRatio;
+            chewieController = ChewieController(
+              videoPlayerController: videoPlayerController,
+              aspectRatio: aspectRatio,
+              autoPlay: true,
+              looping: false,
+              // customControls: CustomControls()
+            );
+          }));
     // chewieController =
     super.initState();
   }

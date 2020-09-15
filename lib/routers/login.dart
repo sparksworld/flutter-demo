@@ -1,6 +1,8 @@
 import 'package:flutterdemo/module.dart';
 
 class LoginRoute extends StatefulWidget {
+  final arguments;
+  LoginRoute({Key key, this.arguments}):super(key: key);
   @override
   _LoginRouteState createState() => _LoginRouteState();
 }

@@ -3,11 +3,22 @@ import 'package:flutterdemo/tabPages/index.dart'
     show HomePage, VideoPage, MyPage, CenterPage, ActivityPage;
 import 'package:flutterdemo/common/index.dart';
 import 'package:flutterdemo/routers/index.dart';
+
 // import 'package:flutterdemo/routers/theme.dart';
 // import 'package:flutterdemo/routers/detail.dart';
 // import 'package:flutterdemo/routers/setting.dart';
 // import 'package:flutterdemo/routers/settingText.dart';
 // import 'package:flutterdemo/routers/login.dart';
+Map routeTable = {
+  '/themeSetting': (context, {arguments}) => ThemeSetting(arguments: arguments),
+  '/videoPlay': (context, {arguments}) => VideoPlay(arguments: arguments),
+  '/articleDetail': (context, {arguments}) =>
+      ArticleDetail(arguments: arguments),
+  '/setting': (context, {arguments}) => Setting(arguments: arguments),
+  '/settingText': (context, {arguments}) =>
+      SettingTextPage(arguments: arguments),
+  '/login': (context, {arguments}) => LoginRoute(arguments: arguments),
+};
 
 final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 // void main() => runApp(MyApp());
@@ -46,15 +57,25 @@ class MyApp extends StatelessWidget {
               }),
             ),
             title: "MaterialApp",
-            routes: {
-              '/themeSetting': (context) => ThemeSetting(),
-              '/videoPlay': (context) => VideoPlay(),
-              '/articleDetail': (context) => ArticleDetail(),
-              '/setting': (context) => Setting(),
-              '/settingText': (context) => SettingTextPage(),
-              '/login': (context) => LoginRoute(),
+            // routes: routeTable,
+            onGenerateRoute: (RouteSettings settings) {
+              //把路由对象的name用变量保存
+              final String name = settings.name;
+              //保存路由对象对于的方法
+              final Function pageContentBuilder = routeTable[name];
+              //如果方法不为空
+              if (settings.arguments != null) {
+                return MaterialPageRoute(
+                  builder: (context) => pageContentBuilder(context,
+                      arguments: settings.arguments),
+                );
+                //放回路由组件对象
+              } else {
+                return MaterialPageRoute(
+                    builder: (context) => pageContentBuilder(context));
+              }
             },
-            // onGenerateRoute: onGenerateRoute,
+
             home: MyHome(
               title: 'MaterialApp',
             ),

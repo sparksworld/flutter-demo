@@ -53,6 +53,8 @@ class VideoListViewItem extends StatelessWidget {
             child: GestureDetector(
                 onTap: () {
                   // callback(1);
+                  // Navigator.pushNamed(context, '/articleDetail',
+                  //   arguments: itemData);
                   Navigator.pushNamed(context, '/videoPlay', arguments: itemData);
                   // _push(context, DetailPage());
                 },

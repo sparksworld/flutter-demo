@@ -2,6 +2,8 @@ import 'package:flutterdemo/module.dart';
 import 'package:flutterdemo/widgets/header.dart';
 
 class Setting extends StatelessWidget {
+  final arguments;
+  Setting({Key key, this.arguments}):super(key: key);
   @override
   Widget build(BuildContext context) {
     return CommonHeader(

@@ -16,6 +16,8 @@ List themes = <Map>[
 ];
 
 class ThemeSetting extends StatelessWidget {
+  final arguments;
+  ThemeSetting({Key key, this.arguments}):super(key: key);
   @override
   Widget build(BuildContext context) {
     print(Provider.of<ThemeModel>(context).theme);

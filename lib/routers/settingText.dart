@@ -2,6 +2,9 @@ import 'package:flutterdemo/module.dart';
 import 'package:flutterdemo/widgets/header.dart';
 
 class SettingTextPage extends StatefulWidget {
+  final arguments;
+  SettingTextPage({Key key, this.arguments}):super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return _SettingTextPage();

@@ -2,6 +2,8 @@ import 'package:flutterdemo/module.dart';
 import 'package:flutterdemo/routers/index.dart';
 
 class ArticleDetail extends StatefulWidget {
+  final arguments;
+  ArticleDetail({this.arguments});
   @override
   State<StatefulWidget> createState() {
     return _ArticleDetailState();
@@ -19,7 +21,8 @@ class _ArticleDetailState extends State<ArticleDetail> {
 
   @override
   Widget build(BuildContext context) {
-    ListItem itemData = ModalRoute.of(context).settings.arguments;
+    print(ModalRoute.of(context));
+    ListItem itemData = widget.arguments;
     return Scaffold(
       appBar: AppBar(
         title: Text(itemData.tTitle),
