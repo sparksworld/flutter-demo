@@ -52,7 +52,8 @@ class HomeListViewItem extends StatelessWidget {
             child: GestureDetector(
               onTap: () {
                 // callback(1);
-                Navigator.pushNamed(context, '/articleDetail');
+                Navigator.pushNamed(context, '/articleDetail',
+                    arguments: itemData);
                 // _push(context, DetailPage());
               },
               child: Padding(
@@ -69,11 +70,10 @@ class HomeListViewItem extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
                         style: new TextStyle(
-                          color: Colors.black87,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          height: 1.5
-                        ),
+                            color: Colors.black87,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            height: 1.5),
                       ),
                     ),
                     Container(

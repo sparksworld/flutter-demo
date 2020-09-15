@@ -13,10 +13,13 @@ final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 // void main() => runApp(MyApp());
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-      .then((_) async {
+  SystemChrome.setPreferredOrientations(
+    [DeviceOrientation.portraitUp],
+  ).then((_) async {
     await Global.init().then((e) {
-      runApp(MyApp());
+      runApp(
+        MyApp(),
+      );
     });
   });
 }
