@@ -350,6 +350,7 @@ class NavigationControls extends StatelessWidget {
         final bool webViewReady =
             snapshot.connectionState == ConnectionState.done;
         final WebViewController controller = snapshot.data;
+        
         return Row(
           children: <Widget>[
             // IconButton(
