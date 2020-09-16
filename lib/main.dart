@@ -2,7 +2,7 @@ import 'package:flutterdemo/module.dart';
 import 'package:flutterdemo/tabPages/index.dart'
     show HomePage, VideoPage, MyPage, CenterPage, ActivityPage;
 import 'package:flutterdemo/common/index.dart';
-import 'package:flutterdemo/routers/index.dart';
+// import 'package:flutterdemo/routers/index.dart';
 
 // import 'package:flutterdemo/routers/theme.dart';
 // import 'package:flutterdemo/routers/detail.dart';
@@ -10,6 +10,7 @@ import 'package:flutterdemo/routers/index.dart';
 // import 'package:flutterdemo/routers/settingText.dart';
 // import 'package:flutterdemo/routers/login.dart';
 Map routeTable = {
+  '/webview': (context, {arguments}) => WebViewExample(arguments: arguments),
   '/themeSetting': (context, {arguments}) => ThemeSetting(arguments: arguments),
   '/videoPlay': (context, {arguments}) => VideoPlay(arguments: arguments),
   '/articleDetail': (context, {arguments}) =>
@@ -95,9 +96,10 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHome extends StatefulWidget {
+  final int tabActiveIndex;
   final String title;
 
-  MyHome({Key key, this.title}) : super(key: key);
+  MyHome({Key key, this.title, this.tabActiveIndex}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _MyHomeState();
@@ -110,6 +112,9 @@ class _MyHomeState extends State<MyHome> {
   void initState() {
     // print(Foo<String>().toString());
     if (mounted) {
+      _bottomAppBarIndex = widget.tabActiveIndex != null
+          ? widget.tabActiveIndex
+          : _bottomAppBarIndex;
       eventBus.on<SwitchTab>().listen((event) async {
         // print(event.runtimeType);
         setState(() {

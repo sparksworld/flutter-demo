@@ -37,17 +37,17 @@ class _MinorHomePageState extends State<MinorHomePage>
       }).then((data) async {
         List _data = data;
         _error = false;
-        await new Future.delayed(Duration(seconds: 1), () {
-          setState(() {
-            _loading = false;
-            if (start == 0) listData = _data;
-            listData += _data;
-            start += _data.length;
-            if (_data.length < 10) {
-              _finished = true;
-            }
-          });
+        // await new Future.delayed(Duration(seconds: 1), () {
+        setState(() {
+          _loading = false;
+          if (start == 0) listData = _data;
+          listData += _data;
+          start += _data.length;
+          if (_data.length < 10) {
+            _finished = true;
+          }
         });
+        // });
         return data;
       }).catchError((err) {
         setState(() {
@@ -72,11 +72,11 @@ class _MinorHomePageState extends State<MinorHomePage>
       _controller.addListener(() async {
         // print(_controller.offset);
         if (_controller.offset >= _controller.position.maxScrollExtent) {
-          await Future.delayed(new Duration(seconds: 1), () {
-            setState(() {
-              this.getArticleList();
-            });
+          // await Future.delayed(new Duration(seconds: 1), () {
+          setState(() {
+            this.getArticleList();
           });
+          // });
         }
       });
     }
@@ -131,12 +131,12 @@ class _MinorHomePageState extends State<MinorHomePage>
                       if (listData.length == index) {
                         if (!_finished) {
                           if (_loading) {
-                            return _buildFootView('loading...');
+                            return _buildFootView('加载中...');
                           } else {
-                            return _buildFootView('come on....');
+                            return _buildFootView('上划继续加载...');
                           }
                         } else {
-                          return _buildFootView('finished...');
+                          return _buildFootView('加载完成');
                         }
                       }
                       return HomeListViewItem(

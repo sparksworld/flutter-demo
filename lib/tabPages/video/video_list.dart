@@ -36,17 +36,17 @@ class _MinorVideoPageState extends State<MinorVideoPage>
       }).then((data) async {
         List _data = data;
         _error = false;
-        await new Future.delayed(Duration(seconds: 1), () {
-          setState(() {
-            _loading = false;
-            if (start == 0) listData = _data;
-            listData += _data;
-            start += _data.length;
-            if (_data.length < 10) {
-              _finished = true;
-            }
-          });
+        // await new Future.delayed(Duration(seconds: 1), () {
+        setState(() {
+          _loading = false;
+          if (start == 0) listData = _data;
+          listData += _data;
+          start += _data.length;
+          if (_data.length < 10) {
+            _finished = true;
+          }
         });
+        // });
         return data;
       }).catchError((err) {
         setState(() {
@@ -71,11 +71,11 @@ class _MinorVideoPageState extends State<MinorVideoPage>
       _controller.addListener(() async {
         // print(_controller.offset);
         if (_controller.offset >= _controller.position.maxScrollExtent) {
-          await Future.delayed(new Duration(seconds: 1), () {
-            setState(() {
-              this.getArticleList();
-            });
+          // await Future.delayed(new Duration(seconds: 1), () {
+          setState(() {
+            this.getArticleList();
           });
+          // });
         }
       });
     }

@@ -27,7 +27,11 @@ class _VideoPlayState extends State<VideoPlay> {
       Wakelock.enable();
     }
   }
-
+  /**
+   * @description:  Future.delayed(Duration.zero, () {  这里能获取到有效的context }) 
+   * @param {type} 
+   * @return {type} 
+   */
   @override
   void initState() {
     initWidth = double.infinity;

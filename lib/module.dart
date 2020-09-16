@@ -12,3 +12,4 @@ export 'package:flutterdemo/event_bus/index.dart';
 export 'package:flutterdemo/common/index.dart';
 export 'package:flutterdemo/tools/index.dart';
 export 'package:flutterdemo/request/index.dart';
+export 'package:flutterdemo/routers/index.dart';

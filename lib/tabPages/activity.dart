@@ -11,11 +11,24 @@ class ActivityPage extends StatefulWidget {
 class _ActivityPageState extends State<ActivityPage> {
   WebViewController _controller;
   // FlutterWebviewPlugin flutterWebviewPlugin = FlutterWebviewPlugin();
-  bool _webviewLoading = true;
-  bool _webviewError = false;
-  double _lineProgress = 0.0;
-  String _title = "";
-  String _initialUrl = 'http://blog.fe-spark.cn';
+  bool _webviewLoading;
+  bool _pageLoading;
+  bool _webviewError;
+  double _lineProgress;
+  String _title;
+  String _initialUrl = 'http://blog.fe-spark.cn/';
+
+  @override
+  void initState() {
+    _webviewLoading = true;
+    _pageLoading = true;
+    _webviewError = false;
+
+    _lineProgress = 0.0;
+    _title = "";
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,11 +54,6 @@ class _ActivityPageState extends State<ActivityPage> {
       body: Stack(
         alignment: Alignment.center, //指定未定位或部分定位widget的对齐方式
         children: <Widget>[
-          Container(
-            child: Center(
-              child: CircularProgressIndicator(),
-            ),
-          ),
           // Container(
           //   child: Center(
           //     child: Text('加载失败'),
@@ -66,17 +74,23 @@ class _ActivityPageState extends State<ActivityPage> {
               //   _toasterJavascriptChannel(context),
               // ].toSet(),
               navigationDelegate: (NavigationRequest request) {
-                // if (request.url.startsWith('http://blog.fe-spark.cn')) {
-                //   print('blocking navigation to $request}');
-                //   return NavigationDecision.prevent;
-                // }
-                print('allowing navigation to $request');
+                print(request.url);
+                print(_initialUrl);
+                if (request.url != _initialUrl) {
+                  Navigator.pushNamed(
+                    context,
+                    '/webview',
+                    arguments: request.url,
+                  );
+                  return NavigationDecision.prevent;
+                }
                 return NavigationDecision.navigate;
               },
               onPageStarted: (String url) {
                 setState(() {
                   this._title = '加载中...';
                   this._webviewLoading = true;
+                  this._pageLoading = false;
                   // lineProgress += 10;
                 });
                 print('Page started loading: $url');
@@ -87,18 +101,23 @@ class _ActivityPageState extends State<ActivityPage> {
                   RegExp reg = new RegExp(r'^\"(.*)\"$');
                   setState(() {
                     this._webviewLoading = false;
-                    this._title = result.replaceAllMapped(reg, (m) => '${m[1]}');
+                    this._title =
+                        result.replaceAllMapped(reg, (m) => '${m[1]}');
                   });
                 });
               },
               gestureNavigationEnabled: true,
             ),
           ),
-
-          // Positioned(
-          //   top: 18.0,
-          //   child: Text("Your friend"),
-          // )
+          
+          Offstage(
+            offstage: !_pageLoading,
+            child: Container(
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+          ),
         ],
       ),
     );

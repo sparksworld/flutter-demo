@@ -2,6 +2,9 @@ PODS:
   - auto_orientation (0.0.1):
     - Flutter
   - Flutter (1.0.0)
+  - fluwx (0.0.1):
+    - Flutter
+    - WechatOpenSDK (= 1.8.7.1)
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
@@ -18,10 +21,12 @@ PODS:
     - Flutter
   - webview_flutter (0.0.1):
     - Flutter
+  - WechatOpenSDK (1.8.7.1)
 
 DEPENDENCIES:
   - auto_orientation (from `.symlinks/plugins/auto_orientation/ios`)
   - Flutter (from `Flutter`)
+  - fluwx (from `.symlinks/plugins/fluwx/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
@@ -32,12 +37,15 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - FMDB
+    - WechatOpenSDK
 
 EXTERNAL SOURCES:
   auto_orientation:
     :path: ".symlinks/plugins/auto_orientation/ios"
   Flutter:
     :path: Flutter
+  fluwx:
+    :path: ".symlinks/plugins/fluwx/ios"
   path_provider:
     :path: ".symlinks/plugins/path_provider/ios"
   shared_preferences:
@@ -54,6 +62,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   auto_orientation: 2941c44ebe5c3d41016001597ab03e81a92a26ce
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  fluwx: 07a55ed66bf3a4961e836a2a411b02dcada32902
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
   shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
@@ -61,6 +70,7 @@ SPEC CHECKSUMS:
   video_player: 9cc823b1d9da7e8427ee591e8438bfbcde500e6e
   wakelock: 0d4a70faf8950410735e3f61fb15d517c8a6efc4
   webview_flutter: d2b4d6c66968ad042ad94cbb791f5b72b4678a96
+  WechatOpenSDK: 6a4d1436c15b3b5fe2a0bd383f3046010186da44
 
 PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
 

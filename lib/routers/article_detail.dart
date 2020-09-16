@@ -12,10 +12,14 @@ class ArticleDetail extends StatefulWidget {
 
 class _ArticleDetailState extends State<ArticleDetail> {
   bool _webviewloading;
+  bool _pageLoading;
+  final Completer<WebViewController> _controller =
+      Completer<WebViewController>();
 
   @override
   void initState() {
     _webviewloading = true;
+    _pageLoading = true;
     super.initState();
   }
 
@@ -40,20 +44,26 @@ class _ArticleDetailState extends State<ArticleDetail> {
                 preferredSize: Size.fromHeight(0),
               ),
         actions: [
-          //   _webviewloading
-          //       ? SizedBox(
-          //           width: 12.0.px,
-          //           height: 12.0.px,
-          //           child: Center(
-          //             child: CircularProgressIndicator(
-          //               strokeWidth: 1.0,
-
-          //               backgroundColor: Colors.white,
-          //               valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-          //             ),
-          //           ),
-          //         )
-          //       : Container()
+          _webviewloading
+              ? UnconstrainedBox(
+                  child: SizedBox(
+                    width: 60.0.px,
+                    height: 24.0.px,
+                    child: Center(
+                      child: Container(
+                        width: 24.px,
+                        height: 24.px,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2.0,
+                          backgroundColor: Colors.white,
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                              Theme.of(context).primaryColor),
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              : Container()
         ],
       ),
       body: Stack(
@@ -67,6 +77,16 @@ class _ArticleDetailState extends State<ArticleDetail> {
                 javascriptMode: JavascriptMode.unrestricted,
                 initialUrl: 'https://ssr.qukantx.com/qk_app/' +
                     itemData.taskId.toString(),
+                onWebViewCreated: (WebViewController webViewController) {
+                  _controller.complete(webViewController);
+                },
+                onPageStarted: (String url) async {
+                  var controller = await _controller.future;
+                  setState(() {
+                    _webviewloading = true;
+                    _pageLoading = false;
+                  });
+                },
                 onPageFinished: (String url) {
                   setState(() {
                     _webviewloading = false;
@@ -75,14 +95,15 @@ class _ArticleDetailState extends State<ArticleDetail> {
               ),
             ),
           ),
-          // Offstage(
-          //   offstage: !_webviewloading,
-          //   child: Container(
-          //     child: Center(
-          //       child: CircularProgressIndicator(),
-          //     ),
-          //   ),
-          // ),
+          Offstage(
+            offstage: !_pageLoading,
+            child: Container(
+              color: Colors.white,
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+          ),
         ],
       ),
     );
