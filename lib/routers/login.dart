@@ -2,7 +2,7 @@ import 'package:flutterdemo/module.dart';
 
 class LoginRoute extends StatefulWidget {
   final arguments;
-  LoginRoute({Key key, this.arguments}):super(key: key);
+  LoginRoute({Key key, this.arguments}) : super(key: key);
   @override
   _LoginRouteState createState() => _LoginRouteState();
 }
@@ -18,6 +18,7 @@ class _LoginRouteState extends State<LoginRoute> {
   void initState() {
     // 自动填充上次登录的用户名，填充后将焦点定位到密码输入框
     _unameController.text = '';
+    _pwdController.text = '';
     // if (_unameController.text != null) {
     //   _nameAutoFocus = false;
     // }
@@ -74,11 +75,19 @@ class _LoginRouteState extends State<LoginRoute> {
                 padding: const EdgeInsets.only(top: 25),
                 child: ConstrainedBox(
                   constraints: BoxConstraints.expand(height: 55.0),
-                  child: RaisedButton(
-                    color: Theme.of(context).primaryColor,
-                    onPressed: _onLogin,
-                    textColor: Colors.white,
-                    child: Text("立即登陆"),
+                  child: ChangeNotifierProvider(
+                    create: (context) => UserModel(),
+                    child: Consumer<UserModel>(
+                      builder: (BuildContext context, UserModel userModel,
+                          Widget child) {
+                        return RaisedButton(
+                          color: Theme.of(context).primaryColor,
+                          onPressed: () async => _onLogin(context, userModel),
+                          textColor: Colors.white,
+                          child: Text("立即登陆"),
+                        );
+                      },
+                    ),
                   ),
                 ),
               ),
@@ -89,7 +98,17 @@ class _LoginRouteState extends State<LoginRoute> {
     );
   }
 
-  void _onLogin() async {
-    // 提交前，先验证各个表单字段是否合法
+  void _onLogin(context, userModel) async {
+    if ((_formKey.currentState as FormState).validate()) {
+      ApiList.getUserInfo({
+        "username": _unameController.text,
+        "password": _pwdController.text
+      }).then(
+        (value) => {
+          userModel.setUserInfo(value),
+          if (userModel.userInfo.token != null) {Navigator.pop(context, true)},
+        },
+      );
+    }
   }
 }

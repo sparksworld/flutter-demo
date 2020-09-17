@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutterdemo/models/profile.dart';
 import 'package:flutterdemo/request/index.dart';
+import 'package:fluwx/fluwx.dart';
 
 class Global {
   static SharedPreferences _prefs;
@@ -25,6 +26,9 @@ class Global {
     }
 
     ApiList();
+
+    registerWxApi(
+        appId: 'wxfbd86ad315b260b9', universalLink: "https://your.univerallink.com/link/");
   }
 
   static saveProfile() =>

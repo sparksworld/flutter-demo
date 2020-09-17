@@ -32,3 +32,13 @@ class ThemeModel extends NotifierProfileStore {
     notifyListeners();
   }
 }
+
+
+class UserModel extends NotifierProfileStore {
+  User get userInfo => _profile.user;
+
+  void setUserInfo(User user) {
+    _profile.user = user;
+    notifyListeners();
+  }
+}

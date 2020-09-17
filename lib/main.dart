@@ -10,15 +10,34 @@ import 'package:flutterdemo/common/index.dart';
 // import 'package:flutterdemo/routers/settingText.dart';
 // import 'package:flutterdemo/routers/login.dart';
 Map routeTable = {
-  '/webview': (context, {arguments}) => WebViewExample(arguments: arguments),
-  '/themeSetting': (context, {arguments}) => ThemeSetting(arguments: arguments),
-  '/videoPlay': (context, {arguments}) => VideoPlay(arguments: arguments),
-  '/articleDetail': (context, {arguments}) =>
-      ArticleDetail(arguments: arguments),
-  '/setting': (context, {arguments}) => Setting(arguments: arguments),
-  '/settingText': (context, {arguments}) =>
-      SettingTextPage(arguments: arguments),
-  '/login': (context, {arguments}) => LoginRoute(arguments: arguments),
+  '/webview': {
+    'page': (context, {arguments}) => WebViewExample(arguments: arguments),
+    'needlogin': true
+  },
+  '/themeSetting': {
+    'page': (context, {arguments}) => ThemeSetting(arguments: arguments),
+    'needlogin': false
+  },
+  '/videoPlay': {
+    'page': (context, {arguments}) => VideoPlay(arguments: arguments),
+    'needlogin': false
+  },
+  '/articleDetail': {
+    'page': (context, {arguments}) => ArticleDetail(arguments: arguments),
+    'needlogin': false
+  },
+  '/setting': {
+    'page': (context, {arguments}) => Setting(arguments: arguments),
+    'needlogin': false
+  },
+  '/settingText': {
+    'page': (context, {arguments}) => SettingTextPage(arguments: arguments),
+    'needlogin': false
+  },
+  '/login': {
+    'page': (context, {arguments}) => LoginRoute(arguments: arguments),
+    'needlogin': false
+  }
 };
 
 final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
@@ -43,10 +62,12 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => TestChange()),
         ChangeNotifierProvider(create: (context) => ThemeModel()),
+        ChangeNotifierProvider(create: (context) => UserModel()),
         // ChangeNotifierProvider(create: (context) => ThemeModel()),
       ],
-      child: Consumer2<ThemeModel, TestChange>(
-        builder: (BuildContext context, themeModel, testChange, Widget child) {
+      child: Consumer3<ThemeModel, TestChange, UserModel>(
+        builder: (BuildContext context, themeModel, testChange, userModel,
+            Widget child) {
           return MaterialApp(
             navigatorKey: navigatorKey,
             theme: ThemeData(
@@ -63,17 +84,27 @@ class MyApp extends StatelessWidget {
               //把路由对象的name用变量保存
               final String name = settings.name;
               //保存路由对象对于的方法
-              final Function pageContentBuilder = routeTable[name];
+              final Function pageContentBuilder = routeTable[name]['page'];
+              print(pageContentBuilder);
+
+              User userinfo = Provider.of<UserModel>(context).userInfo;
+              print(userinfo?.token);
               //如果方法不为空
-              if (settings.arguments != null) {
-                return MaterialPageRoute(
-                  builder: (context) => pageContentBuilder(context,
-                      arguments: settings.arguments),
-                );
-                //放回路由组件对象
+              if (userinfo?.token == null && routeTable[name]['needlogin']) {
+                return MaterialPageRoute(builder: (context) => LoginRoute());
               } else {
-                return MaterialPageRoute(
-                    builder: (context) => pageContentBuilder(context));
+                if (settings.arguments != null) {
+                  return MaterialPageRoute(
+                    builder: (context) => pageContentBuilder(
+                      context,
+                      arguments: settings.arguments,
+                    ),
+                  );
+                  //放回路由组件对象
+                } else {
+                  return MaterialPageRoute(
+                      builder: (context) => pageContentBuilder(context));
+                }
               }
             },
 

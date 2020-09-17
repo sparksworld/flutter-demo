@@ -38,3 +38,13 @@ class Request {
     dio.interceptors.add(CustomInterceptors());
   }
 }
+
+// example
+
+// **
+// Response response = await dio.post('user/login',
+//         data: FormData.fromMap({
+//           "username": _accountController.text.trim(),
+//           "password": _pwdController.text.trim(),
+//         }));
+

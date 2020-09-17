@@ -15,11 +15,24 @@ class ApiList {
   //   super.run();
   //   print("student running...");
   // }
+  static Future getUserInfo(data) {
+    print(DateTime.now().second);
+    if (data["username"] != null && data["password"] != null) {
+      return Future.delayed(Duration(seconds: 2), () {
+        return User.fromJson({
+          "username": data["username"],
+          "gender": "",
+          "age": "",
+          "token": DateTime.now().millisecondsSinceEpoch.toString()
+          // "permissions": {}
+        });
+      });
+    }
+  }
 
-  static getInitData(Map<String, dynamic> queryParameters) {
+  static Future getInitData(Map<String, dynamic> data) {
     return http
-        .get('/qktx-content/task/getArticleRelationList',
-            queryParameters: queryParameters)
+        .get('/qktx-content/task/getArticleRelationList', queryParameters: data)
         .then(
       (Response res) {
         if (res.data != null && res.data['result'] == 1) {
@@ -36,3 +49,4 @@ class ApiList {
     return http.post("/info", data: formData);
   }
 }
+
