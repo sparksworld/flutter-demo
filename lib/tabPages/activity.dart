@@ -1,4 +1,5 @@
 import 'package:flutterdemo/module.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 class ActivityPage extends StatefulWidget {
   final Function callback;
@@ -9,7 +10,7 @@ class ActivityPage extends StatefulWidget {
 }
 
 class _ActivityPageState extends State<ActivityPage> {
-  WebViewController _controller;
+  InAppWebViewController _controller;
   // FlutterWebviewPlugin flutterWebviewPlugin = FlutterWebviewPlugin();
   bool _webviewLoading;
   bool _pageLoading;
@@ -42,7 +43,7 @@ class _ActivityPageState extends State<ActivityPage> {
           ),
           IconButton(
             icon: Icon(Icons.home),
-            onPressed: () => {_controller?.loadUrl(_initialUrl)},
+            onPressed: () => {_controller?.loadUrl(url: _initialUrl)},
           ),
         ],
         bottom: PreferredSize(
@@ -61,55 +62,67 @@ class _ActivityPageState extends State<ActivityPage> {
           // ),
           Offstage(
             offstage: _webviewLoading,
-            child: WebView(
+            child: InAppWebView(
               initialUrl: _initialUrl,
-              javascriptMode: JavascriptMode.unrestricted,
-              onWebViewCreated: (WebViewController webViewController) {
-                // _controller.complete(webViewController);
+              initialOptions: InAppWebViewGroupOptions(
+                crossPlatform: InAppWebViewOptions(
+                  debuggingEnabled: true,
+                  useShouldOverrideUrlLoading: true,
+                  useOnLoadResource: true,
+                  verticalScrollBarEnabled: false,
+                  horizontalScrollBarEnabled: false,
+                ),
+              ),
+              onWebViewCreated: (InAppWebViewController webViewController) {
                 _controller = webViewController;
               },
-              // TODO(iskakaushik): Remove this when collection literals makes it to stable.
-              // ignore: prefer_collection_literals
-              // javascriptChannels: <JavascriptChannel>[
-              //   _toasterJavascriptChannel(context),
-              // ].toSet(),
-              navigationDelegate: (NavigationRequest request) {
-                print(request.url);
-                print(_initialUrl);
-                if (request.url != _initialUrl) {
-                  Navigator.pushNamed(
-                    context,
-                    '/webview',
-                    arguments: request.url,
-                  );
-                  return NavigationDecision.prevent;
-                }
-                return NavigationDecision.navigate;
-              },
-              onPageStarted: (String url) {
+              onLoadResource: (
+                InAppWebViewController controller,
+                LoadedResource loadedResource,
+              ) async {
+                String t = await _controller.getTitle();
                 setState(() {
-                  this._title = '加载中...';
+                  this._title = t;
+                });
+              },
+              onLoadStart:
+                  (InAppWebViewController controller, String url) async {
+                setState(() {
                   this._webviewLoading = true;
                   this._pageLoading = false;
-                  // lineProgress += 10;
                 });
                 print('Page started loading: $url');
               },
-              onPageFinished: (String url) {
+              onLoadStop: (InAppWebViewController controller, String url) {
                 print('Page finished loading: $url');
-                _controller.evaluateJavascript("document.title").then((result) {
-                  RegExp reg = new RegExp(r'^\"(.*)\"$');
-                  setState(() {
-                    this._webviewLoading = false;
-                    this._title =
-                        result.replaceAllMapped(reg, (m) => '${m[1]}');
-                  });
+                setState(() {
+                  this._webviewLoading = false;
                 });
               },
-              gestureNavigationEnabled: true,
+              shouldOverrideUrlLoading: (
+                InAppWebViewController controller,
+                ShouldOverrideUrlLoadingRequest shouldOverrideUrlLoadingRequest,
+              ) async {
+                // String _old_host = Uri.parse(_initialUrl).host;
+                // String _old_path = Uri.parse(_initialUrl).path;
+                // String _host =
+                //     Uri.parse(shouldOverrideUrlLoadingRequest.url).host;
+                // String _path =
+                //     Uri.parse(shouldOverrideUrlLoadingRequest.url).path;
+                // print(shouldOverrideUrlLoadingRequest.url);
+                if (shouldOverrideUrlLoadingRequest.url != _initialUrl) {
+                  Navigator.pushNamed(
+                    context,
+                    '/in_app_webview',
+                    arguments: shouldOverrideUrlLoadingRequest.url,
+                  );
+                  return ShouldOverrideUrlLoadingAction.CANCEL;
+                }
+                return ShouldOverrideUrlLoadingAction.ALLOW;
+              },
             ),
           ),
-          
+
           Offstage(
             offstage: !_pageLoading,
             child: Container(
@@ -130,14 +143,4 @@ class _ActivityPageState extends State<ActivityPage> {
       valueColor: new AlwaysStoppedAnimation<Color>(Colors.blue),
     );
   }
-}
-
-JavascriptChannel _toasterJavascriptChannel(BuildContext context) {
-  return JavascriptChannel(
-      name: 'Toaster',
-      onMessageReceived: (JavascriptMessage message) {
-        Scaffold.of(context).showSnackBar(
-          SnackBar(content: Text(message.message)),
-        );
-      });
 }

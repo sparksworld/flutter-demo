@@ -1,5 +1,6 @@
 import 'package:flutterdemo/module.dart';
 import 'package:flutterdemo/routers/index.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 class ArticleDetail extends StatefulWidget {
   final arguments;
@@ -13,8 +14,9 @@ class ArticleDetail extends StatefulWidget {
 class _ArticleDetailState extends State<ArticleDetail> {
   bool _webviewloading;
   bool _pageLoading;
-  final Completer<WebViewController> _controller =
-      Completer<WebViewController>();
+  InAppWebViewController _controller;
+  // final Completer<WebViewController> _controller =
+  //     Completer<WebViewController>();
 
   @override
   void initState() {
@@ -73,21 +75,29 @@ class _ArticleDetailState extends State<ArticleDetail> {
             offstage: false,
             child: Container(
               color: Colors.white,
-              child: WebView(
-                javascriptMode: JavascriptMode.unrestricted,
+              child: InAppWebView(
                 initialUrl: 'https://ssr.qukantx.com/qk_app/' +
                     itemData.taskId.toString(),
-                onWebViewCreated: (WebViewController webViewController) {
-                  _controller.complete(webViewController);
+                initialOptions: InAppWebViewGroupOptions(
+                  crossPlatform: InAppWebViewOptions(
+                    debuggingEnabled: true,
+                    verticalScrollBarEnabled: false,
+                    horizontalScrollBarEnabled: false
+                    // scrollBarStyle: ''
+                  ),
+                ),
+                onWebViewCreated: (InAppWebViewController webViewController) {
+                  _controller = webViewController;
                 },
-                onPageStarted: (String url) async {
-                  var controller = await _controller.future;
+                onLoadStart: (InAppWebViewController webViewController,
+                    String url) async {
                   setState(() {
                     _webviewloading = true;
                     _pageLoading = false;
                   });
                 },
-                onPageFinished: (String url) {
+                onLoadStop:
+                    (InAppWebViewController webViewController, String url) {
                   setState(() {
                     _webviewloading = false;
                   });

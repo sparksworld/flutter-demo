@@ -5,7 +5,7 @@ import 'package:flutterdemo/routers/index.dart';
 
 Map routeTable = {
   '/webview': {
-    'page': (context, {arguments}) => WebViewExample(arguments: arguments),
+    'page': (context, {arguments}) => WebViewPage(arguments: arguments),
     'needlogin': false
   },
   '/themeSetting': {

@@ -11,7 +11,7 @@ import 'package:flutterdemo/common/index.dart';
 // import 'package:flutterdemo/routers/login.dart';
 Map routeTable = {
   '/webview': {
-    'page': (context, {arguments}) => WebViewExample(arguments: arguments),
+    'page': (context, {arguments}) => WebViewPage(arguments: arguments),
     'needlogin': true
   },
   '/themeSetting': {
@@ -36,6 +36,10 @@ Map routeTable = {
   },
   '/login': {
     'page': (context, {arguments}) => LoginRoute(arguments: arguments),
+    'needlogin': false
+  },
+  '/in_app_webview': {
+    'page': (context, {arguments}) => InAppWebViewPage(),
     'needlogin': false
   }
 };

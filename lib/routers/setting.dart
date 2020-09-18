@@ -51,6 +51,19 @@ class _SettingState extends State<Setting> {
           Card(
             child: LoginButton(),
           ),
+          Card(
+            child: InkWell(
+              onTap: () {
+                print(MediaQuery.of(context).toString());
+                Navigator.pushNamed(context, "/in_app_webview");
+              },
+              child: ListTile(
+                leading: Icon(Icons.open_in_browser),
+                title: Text('测试'),
+                trailing: Icon(Icons.navigate_next),
+              ),
+            ),
+          ),
         ],
       ),
     );
