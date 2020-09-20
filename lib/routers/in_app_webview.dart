@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:flutterdemo/module.dart';
 
 class MyInAppBrowser extends InAppBrowser {
   @override

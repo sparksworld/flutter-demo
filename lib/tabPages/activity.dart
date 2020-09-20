@@ -3,7 +3,8 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 class ActivityPage extends StatefulWidget {
   final Function callback;
-  ActivityPage({this.callback});
+  final arguments;
+  ActivityPage({this.callback, this.arguments});
 
   @override
   State<StatefulWidget> createState() => _ActivityPageState();
@@ -17,10 +18,10 @@ class _ActivityPageState extends State<ActivityPage> {
   bool _webviewError;
   double _lineProgress;
   String _title;
-  String _initialUrl = 'http://blog.fe-spark.cn/';
-
+  String _initialUrl;
   @override
   void initState() {
+    _initialUrl = widget.arguments ?? 'http://blog.fe-spark.cn/';
     _webviewLoading = true;
     _pageLoading = true;
     _webviewError = false;
@@ -35,22 +36,21 @@ class _ActivityPageState extends State<ActivityPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_title),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.refresh),
-            onPressed: () => {_controller?.reload()},
-          ),
-          IconButton(
-            icon: Icon(Icons.home),
-            onPressed: () => {_controller?.loadUrl(url: _initialUrl)},
-          ),
-        ],
-        bottom: PreferredSize(
-          child: _progressBar(_lineProgress, context),
-          preferredSize: Size.fromHeight(1.0.rpx),
-        ),
-      ),
+          title: Text(_title),
+          actions: [
+            // IconButton(
+            //   icon: Icon(Icons.refresh),
+            //   onPressed: () => {_controller?.reload()},
+            // ),
+            IconButton(
+              icon: Icon(Icons.home),
+              onPressed: () => {_controller?.loadUrl(url: _initialUrl)},
+            ),
+          ],
+          bottom: PreferredSize(
+            child: _progressBar(_lineProgress, context),
+            preferredSize: Size.fromHeight(1.0.rpx),
+          )),
       // Offstage
       body: Stack(
         alignment: Alignment.center, //指定未定位或部分定位widget的对齐方式
@@ -62,64 +62,111 @@ class _ActivityPageState extends State<ActivityPage> {
           // ),
           Offstage(
             offstage: _webviewLoading,
-            child: InAppWebView(
-              initialUrl: _initialUrl,
-              initialOptions: InAppWebViewGroupOptions(
-                crossPlatform: InAppWebViewOptions(
-                  debuggingEnabled: true,
-                  useShouldOverrideUrlLoading: true,
-                  useOnLoadResource: true,
-                  verticalScrollBarEnabled: false,
-                  horizontalScrollBarEnabled: false,
+            child: Scrollbar(
+              child: InAppWebView(
+                initialUrl: _initialUrl,
+                initialOptions: InAppWebViewGroupOptions(
+                  crossPlatform: InAppWebViewOptions(
+                    debuggingEnabled: true,
+                    useShouldOverrideUrlLoading: true,
+                    useOnLoadResource: true,
+                    useOnDownloadStart: true
+                    // verticalScrollBarEnabled: false,
+                    // horizontalScrollBarEnabled: false,
+                    // javaScriptCanOpenWindowsAutomatically: true,
+                  ),
+                  android: AndroidInAppWebViewOptions(
+                      // supportMultipleWindows: true,
+                      ),
                 ),
-              ),
-              onWebViewCreated: (InAppWebViewController webViewController) {
-                _controller = webViewController;
-              },
-              onLoadResource: (
-                InAppWebViewController controller,
-                LoadedResource loadedResource,
-              ) async {
-                String t = await _controller.getTitle();
-                setState(() {
-                  this._title = t;
-                });
-              },
-              onLoadStart:
-                  (InAppWebViewController controller, String url) async {
-                setState(() {
-                  this._webviewLoading = true;
-                  this._pageLoading = false;
-                });
-                print('Page started loading: $url');
-              },
-              onLoadStop: (InAppWebViewController controller, String url) {
-                print('Page finished loading: $url');
-                setState(() {
-                  this._webviewLoading = false;
-                });
-              },
-              shouldOverrideUrlLoading: (
-                InAppWebViewController controller,
-                ShouldOverrideUrlLoadingRequest shouldOverrideUrlLoadingRequest,
-              ) async {
-                // String _old_host = Uri.parse(_initialUrl).host;
-                // String _old_path = Uri.parse(_initialUrl).path;
-                // String _host =
-                //     Uri.parse(shouldOverrideUrlLoadingRequest.url).host;
-                // String _path =
-                //     Uri.parse(shouldOverrideUrlLoadingRequest.url).path;
-                // print(shouldOverrideUrlLoadingRequest.url);
-                if (shouldOverrideUrlLoadingRequest.url != _initialUrl) {
-                  Navigator.pushNamed(
-                    context,
-                    '/in_app_webview',
-                    arguments: shouldOverrideUrlLoadingRequest.url,
+                onWebViewCreated:
+                    (InAppWebViewController webViewController) async {
+                  _controller = webViewController;
+                },
+                // onLoadResource: (
+                //   InAppWebViewController controller,
+                //   LoadedResource loadedResource,
+                // ) async {
+
+                // },
+                onLoadStart:
+                    (InAppWebViewController controller, String url) async {
+                  setState(() {
+                    this._webviewLoading = true;
+                    this._pageLoading = false;
+                  });
+
+                  print('Page started loading: $url');
+                },
+                onLoadStop: (InAppWebViewController controller, String url) {
+                  print('Page finished loading: $url');
+                  setState(() {
+                    this._webviewLoading = false;
+                    this._lineProgress = 1.0;
+                  });
+                },
+                onProgressChanged:
+                    (InAppWebViewController controller, int progress) async {
+                  String t = await _controller.getTitle();
+                  setState(() {
+                    this._lineProgress = progress / 100;
+                    this._title = t;
+                  });
+                },
+                androidOnPermissionRequest: (InAppWebViewController controller,
+                    String origin, List<String> resources) async {
+                  return PermissionRequestResponse(
+                    resources: resources,
+                    action: PermissionRequestResponseAction.GRANT,
                   );
-                  return ShouldOverrideUrlLoadingAction.CANCEL;
-                }
-                return ShouldOverrideUrlLoadingAction.ALLOW;
-              },
+                },
+                shouldOverrideUrlLoading: (
+                  InAppWebViewController controller,
+                  ShouldOverrideUrlLoadingRequest
+                      shouldOverrideUrlLoadingRequest,
+                ) async {
+                  var url = shouldOverrideUrlLoadingRequest.url;
+                  var uri = Uri.parse(url);
+                  String _oldHost = Uri.parse(_initialUrl).host;
+                  String _oldPath = Uri.parse(_initialUrl).path;
+                  String _host = Uri.parse(url).host;
+                  String _path = Uri.parse(url).path;
+
+                  if (![
+                    "http",
+                    "https",
+                    "file",
+                    "chrome",
+                    "data",
+                    "javascript",
+                    "about"
+                  ].contains(uri.scheme)) {
+                    if (await canLaunch(url)) {
+                      // Launch the App
+                      await launch(
+                        url,
+                      );
+                      // and cancel the request
+                    } else {
+                      _controller.evaluateJavascript(
+                          source: "window.alert('内部错误🙅')");
+                    }
+                    return ShouldOverrideUrlLoadingAction.CANCEL;
+                  }
+                  // print(_host.contains('fe-spark'));
+                  if (_oldHost == _host && _oldPath != _path) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ActivityPage(
+                                  arguments:
+                                      shouldOverrideUrlLoadingRequest.url,
+                                )));
+                    return ShouldOverrideUrlLoadingAction.CANCEL;
+                  }
+                  return ShouldOverrideUrlLoadingAction.ALLOW;
+                },
+              ),
             ),
           ),
 
@@ -137,10 +184,13 @@ class _ActivityPageState extends State<ActivityPage> {
   }
 
   Widget _progressBar(double progress, BuildContext context) {
-    return LinearProgressIndicator(
-      backgroundColor: Colors.white70.withOpacity(0),
-      value: progress == 1.0 ? 0 : progress,
-      valueColor: new AlwaysStoppedAnimation<Color>(Colors.blue),
+    return Container(
+      child: LinearProgressIndicator(
+        backgroundColor: Colors.blueAccent.withOpacity(0),
+        value: progress == 1.0 ? 0 : progress,
+        valueColor: new AlwaysStoppedAnimation<Color>(Colors.lightBlue),
+      ),
+      height: 1,
     );
   }
 }

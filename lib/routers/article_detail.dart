@@ -1,6 +1,4 @@
 import 'package:flutterdemo/module.dart';
-import 'package:flutterdemo/routers/index.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 class ArticleDetail extends StatefulWidget {
   final arguments;

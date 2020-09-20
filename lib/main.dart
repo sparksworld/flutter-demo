@@ -48,10 +48,16 @@ final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 // void main() => runApp(MyApp());
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Permission.camera.request();
+  await Permission.microphone.request();
+  await FlutterDownloader.initialize(
+    debug: true, // optional: set false to disable printing logs to console
+  );
   SystemChrome.setPreferredOrientations(
     [DeviceOrientation.portraitUp],
   ).then((_) async {
-    await Global.init().then((e) {
+    await Global.init().then((e) async {
       runApp(
         MyApp(),
       );
