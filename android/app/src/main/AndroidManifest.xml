@@ -19,7 +19,10 @@
 	<uses-permission android:name="android.permission.AUDIO_CAPTURE" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
-	<application android:usesCleartextTraffic="true" android:name="io.flutter.app.FlutterApplication" android:label="flutterdemo" android:icon="@mipmap/ic_launcher">
+	<application 
+        android:usesCleartextTraffic="true" 
+        android:name="io.flutter.app.FlutterApplication" 
+        android:label="flutterdemo" android:icon="@mipmap/ic_launcher">
 		<activity android:name=".MainActivity" android:usesCleartextTraffic="true" android:launchMode="singleTop" android:theme="@style/LaunchTheme" android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode" android:hardwareAccelerated="true" android:windowSoftInputMode="adjustResize">
 			<!--
 			Specifies an Android theme to apply to this Activity as soon as
@@ -46,13 +49,6 @@
 		This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
 		-->
 		<meta-data android:name="flutterEmbedding" android:value="2" />
-		<provider android:name="vn.hunghd.flutterdownloader.DownloadedFileProvider" android:authorities="${applicationId}.flutter_downloader.provider" android:exported="false" android:grantUriPermissions="true">
-			<meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/provider_paths" />
-		</provider>
-		<provider android:name="androidx.work.impl.WorkManagerInitializer" android:authorities="${applicationId}.workmanager-init" tools:node="remove" />
-		<provider android:name="vn.hunghd.flutterdownloader.FlutterDownloaderInitializer" android:authorities="${applicationId}.flutter-downloader-init" android:exported="false">
-			<!-- changes this number to configure the maximum number of concurrent tasks -->
-			<meta-data android:name="vn.hunghd.flutterdownloader.MAX_CONCURRENT_TASKS" android:value="5" />
-		</provider>
+		
 	</application>
 </manifest>

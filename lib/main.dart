@@ -51,9 +51,9 @@ void main() async {
 
   await Permission.camera.request();
   await Permission.microphone.request();
-  await FlutterDownloader.initialize(
-    debug: true, // optional: set false to disable printing logs to console
-  );
+  // await FlutterDownloader.initialize(
+  //   debug: true, // optional: set false to disable printing logs to console
+  // );
   SystemChrome.setPreferredOrientations(
     [DeviceOrientation.portraitUp],
   ).then((_) async {
