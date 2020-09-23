@@ -12,9 +12,8 @@ class ArticleDetail extends StatefulWidget {
 class _ArticleDetailState extends State<ArticleDetail> {
   bool _webviewloading;
   bool _pageLoading;
-  InAppWebViewController _controller;
-  // final Completer<WebViewController> _controller =
-  //     Completer<WebViewController>();
+  // InAppWebViewController _controller;
+  WebViewController _controller;
 
   @override
   void initState() {
@@ -73,29 +72,21 @@ class _ArticleDetailState extends State<ArticleDetail> {
             offstage: false,
             child: Container(
               color: Colors.white,
-              child: InAppWebView(
+              child: WebView(
                 initialUrl: 'https://ssr.qukantx.com/qk_app/' +
                     itemData.taskId.toString(),
-                initialOptions: InAppWebViewGroupOptions(
-                  crossPlatform: InAppWebViewOptions(
-                    debuggingEnabled: true,
-                    verticalScrollBarEnabled: false,
-                    horizontalScrollBarEnabled: false
-                    // scrollBarStyle: ''
-                  ),
-                ),
-                onWebViewCreated: (InAppWebViewController webViewController) {
+                onWebViewCreated: (WebViewController webViewController) {
                   _controller = webViewController;
                 },
-                onLoadStart: (InAppWebViewController webViewController,
-                    String url) async {
+                javascriptMode: JavascriptMode.unrestricted,
+                onPageStarted: (String url) async {
                   setState(() {
                     _webviewloading = true;
                     _pageLoading = false;
                   });
                 },
-                onLoadStop:
-                    (InAppWebViewController webViewController, String url) {
+                onPageFinished:
+                    (String url) {
                   setState(() {
                     _webviewloading = false;
                   });

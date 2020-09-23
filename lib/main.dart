@@ -38,10 +38,10 @@ Map routeTable = {
     'page': (context, {arguments}) => LoginRoute(arguments: arguments),
     'needlogin': false
   },
-  '/in_app_webview': {
-    'page': (context, {arguments}) => InAppWebViewPage(),
-    'needlogin': false
-  }
+  // '/in_app_webview': {
+  //   'page': (context, {arguments}) => InAppWebViewPage(),
+  //   'needlogin': false
+  // }
 };
 
 final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();

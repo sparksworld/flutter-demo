@@ -1,5 +1,5 @@
 import 'package:flutterdemo/module.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+// import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 class ActivityPage extends StatefulWidget {
   final Function callback;
@@ -11,25 +11,29 @@ class ActivityPage extends StatefulWidget {
 }
 
 class _ActivityPageState extends State<ActivityPage> {
-  InAppWebViewController _controller;
-  // FlutterWebviewPlugin flutterWebviewPlugin = FlutterWebviewPlugin();
+  // WebViewController _controller;
+  WebViewController _controller;
   bool _webviewLoading;
   bool _pageLoading;
-  bool _webviewError;
   double _lineProgress;
   String _title;
   String _initialUrl;
+  Timer _timer;
   @override
   void initState() {
-    _initialUrl = widget.arguments ?? 'http://blog.fe-spark.cn/';
     _webviewLoading = true;
     _pageLoading = true;
-    _webviewError = false;
-
+    // _controller.future.then((value) => webView = value);
+    _initialUrl = widget.arguments ?? 'http://blog.fe-spark.cn/';
     _lineProgress = 0.0;
     _title = "";
-
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    this._timerCancel();
+    super.dispose();
   }
 
   @override
@@ -44,7 +48,7 @@ class _ActivityPageState extends State<ActivityPage> {
             // ),
             IconButton(
               icon: Icon(Icons.home),
-              onPressed: () => {_controller?.loadUrl(url: _initialUrl)},
+              onPressed: () => {},
             ),
           ],
           bottom: PreferredSize(
@@ -63,68 +67,125 @@ class _ActivityPageState extends State<ActivityPage> {
           Offstage(
             offstage: _webviewLoading,
             child: Scrollbar(
-              child: InAppWebView(
-                initialUrl: _initialUrl,
-                initialOptions: InAppWebViewGroupOptions(
-                  crossPlatform: InAppWebViewOptions(
-                    debuggingEnabled: true,
-                    useShouldOverrideUrlLoading: true,
-                    useOnLoadResource: true,
-                    useOnDownloadStart: true
-                    // verticalScrollBarEnabled: false,
-                    // horizontalScrollBarEnabled: false,
-                    // javaScriptCanOpenWindowsAutomatically: true,
-                  ),
-                  android: AndroidInAppWebViewOptions(
-                      // supportMultipleWindows: true,
-                      ),
-                ),
-                onWebViewCreated:
-                    (InAppWebViewController webViewController) async {
-                  _controller = webViewController;
-                },
-                // onLoadResource: (
-                //   InAppWebViewController controller,
-                //   LoadedResource loadedResource,
-                // ) async {
+              child: WebView(
+                  initialUrl: _initialUrl,
+                  debuggingEnabled: true,
+                  javascriptMode: JavascriptMode.unrestricted,
+                  onWebViewCreated: (WebViewController webViewController) {
+                    _controller = webViewController;
+                    setState(() {
+                      _pageLoading = true;
+                      _webviewLoading = true;
+                    });
+                  },
+                  onPageStarted: (url) {
+                    setState(() {
+                      _webviewLoading = false;
+                      _pageLoading = true;
+                      // _lineProgress =
+                      this._timerCancel();
+                      _timer =
+                          Timer.periodic(Duration(milliseconds: 100), (timer) {
+                        if (_lineProgress < 0.8) {
+                          setState(() {
+                            _lineProgress += 0.05;
+                          });
+                        }
+                      });
+                    });
+                  },
+                  onPageFinished: (url) {
+                    setState(() {
+                      _lineProgress = 0.95;
+                    });
+                    Future.delayed(Duration(seconds: 1), () {
+                      setState(() {
+                        this._timerCancel();
+                        _pageLoading = false;
+                        _lineProgress = 1.0;
+                      });
+                    });
+                  },
+                  navigationDelegate:
+                      (NavigationRequest navigationRequest) async {
+                    var url = navigationRequest.url;
+                    var uri = Uri.parse(url);
+                    String _oldHost = Uri.parse(_initialUrl).host;
+                    String _oldPath = Uri.parse(_initialUrl).path;
+                    String _host = Uri.parse(url).host;
+                    String _path = Uri.parse(url).path;
 
-                // },
-                onLoadStart:
-                    (InAppWebViewController controller, String url) async {
-                  setState(() {
-                    this._webviewLoading = true;
-                    this._pageLoading = false;
-                  });
+                    if (![
+                      "http",
+                      "https",
+                      "file",
+                      "chrome",
+                      "data",
+                      "javascript",
+                      "about"
+                    ].contains(uri.scheme)) {
+                      if (await canLaunch(url)) {
+                        // Launch the App
+                        await launch(
+                          url,
+                        );
+                        // and cancel the request
+                      } else {
+                        _controller
+                            .evaluateJavascript("window.alert('内部错误🙅')");
+                      }
+                      return NavigationDecision.prevent;
+                    }
+                    // print(_host.contains('fe-spark'));
+                    if (_oldHost == _host && _oldPath != _path) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ActivityPage(
+                                    arguments: navigationRequest.url,
+                                  )));
+                      return NavigationDecision.prevent;
+                    }
+                    return NavigationDecision.navigate;
+                  }),
+            ),
+          ),
 
-                  print('Page started loading: $url');
-                },
-                onLoadStop: (InAppWebViewController controller, String url) {
-                  print('Page finished loading: $url');
-                  setState(() {
-                    this._webviewLoading = false;
-                    this._lineProgress = 1.0;
-                  });
-                },
-                onProgressChanged:
-                    (InAppWebViewController controller, int progress) async {
-                  String t = await _controller.getTitle();
-                  setState(() {
-                    this._lineProgress = progress / 100;
-                    this._title = t;
-                  });
-                },
-                androidOnPermissionRequest: (InAppWebViewController controller,
-                    String origin, List<String> resources) async {
-                  return PermissionRequestResponse(
-                    resources: resources,
-                    action: PermissionRequestResponseAction.GRANT,
-                  );
-                },
-                shouldOverrideUrlLoading: (
-                  InAppWebViewController controller,
-                  ShouldOverrideUrlLoadingRequest
-                      shouldOverrideUrlLoadingRequest,
-                ) async {
+          // Offstage(
+          //   offstage: !_pageLoading,
+          //   child: Container(
+          //     child: Center(
+          //       child: CircularProgressIndicator(),
+          //     ),
+          //   ),
+          // ),
+        ],
+      ),
+    );
+  }
+
+  void _timerCancel() {
+    if (_timer != null) {
+      _timer.cancel();
+      _timer = null;
+    }
+  }
+
+  Widget _progressBar(double progress, BuildContext context) {
+    return Container(
+      child: LinearProgressIndicator(
+        backgroundColor: Colors.blueAccent.withOpacity(0),
+        value: progress == 1.0 ? 0 : progress,
+        valueColor: new AlwaysStoppedAnimation<Color>(Colors.lightBlue),
+      ),
+      height: 1,
+    );
+  }
+}
+
+/**
+ * @description: 
+ * @param {type} 
                   var url = shouldOverrideUrlLoadingRequest.url;
                   var uri = Uri.parse(url);
                   String _oldHost = Uri.parse(_initialUrl).host;
@@ -148,8 +209,7 @@ class _ActivityPageState extends State<ActivityPage> {
                       );
                       // and cancel the request
                     } else {
-                      _controller.evaluateJavascript(
-                          source: "window.alert('内部错误🙅')");
+                      _controller.evaluateJavascript("window.alert('内部错误🙅')");
                     }
                     return ShouldOverrideUrlLoadingAction.CANCEL;
                   }
@@ -166,31 +226,5 @@ class _ActivityPageState extends State<ActivityPage> {
                   }
                   return ShouldOverrideUrlLoadingAction.ALLOW;
                 },
-              ),
-            ),
-          ),
-
-          Offstage(
-            offstage: !_pageLoading,
-            child: Container(
-              child: Center(
-                child: CircularProgressIndicator(),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _progressBar(double progress, BuildContext context) {
-    return Container(
-      child: LinearProgressIndicator(
-        backgroundColor: Colors.blueAccent.withOpacity(0),
-        value: progress == 1.0 ? 0 : progress,
-        valueColor: new AlwaysStoppedAnimation<Color>(Colors.lightBlue),
-      ),
-      height: 1,
-    );
-  }
-}
+ * @return {type} 
+ */
