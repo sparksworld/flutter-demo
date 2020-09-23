@@ -63,9 +63,9 @@ class _VideoPlayState extends State<VideoPlay> {
       DeviceOrientation.portraitUp,
     ]);
     Wakelock.disable();
-    videoPlayerController.removeListener(_listener);
-    videoPlayerController.dispose();
-    chewieController.dispose();
+    videoPlayerController?.removeListener(_listener);
+    videoPlayerController?.dispose();
+    chewieController?.dispose();
     super.dispose();
   }
 
