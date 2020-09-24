@@ -4,7 +4,7 @@ import 'package:flutterdemo/module.dart';
 class ActivityPage extends StatefulWidget {
   final Function callback;
   final arguments;
-  ActivityPage({this.callback, this.arguments});
+  ActivityPage({Key key, this.callback, this.arguments}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _ActivityPageState();
@@ -19,6 +19,7 @@ class _ActivityPageState extends State<ActivityPage> {
   String _title;
   String _initialUrl;
   Timer _timer;
+  GlobalKey key = GlobalKey();
   @override
   void initState() {
     _webviewLoading = true;
@@ -48,7 +49,12 @@ class _ActivityPageState extends State<ActivityPage> {
             // ),
             IconButton(
               icon: Icon(Icons.home),
-              onPressed: () => {},
+              onPressed: () async => {
+                // _controller.loadUrl(_initialUrl),
+                await _controller.evaluateJavascript(
+                    'Toaster.postMessage("User Agent: " + navigator.userAgent);')
+                // _toasterJavascriptChannel(context)
+              },
             ),
           ],
           bottom: PreferredSize(
@@ -66,91 +72,98 @@ class _ActivityPageState extends State<ActivityPage> {
           // ),
           Offstage(
             offstage: _webviewLoading,
-            child: Scrollbar(
-              child: WebView(
-                  initialUrl: _initialUrl,
-                  debuggingEnabled: true,
-                  javascriptMode: JavascriptMode.unrestricted,
-                  onWebViewCreated: (WebViewController webViewController) {
-                    _controller = webViewController;
-                    setState(() {
-                      _pageLoading = true;
-                      _webviewLoading = true;
-                    });
-                  },
-                  onPageStarted: (url) {
-                    setState(() {
-                      _webviewLoading = false;
-                      _pageLoading = true;
-                      // _lineProgress =
-                      this._timerCancel();
-                      _timer =
-                          Timer.periodic(Duration(milliseconds: 100), (timer) {
-                        if (_lineProgress < 0.8) {
-                          setState(() {
-                            _lineProgress += 0.05;
-                          });
-                        }
-                      });
-                    });
-                  },
-                  onPageFinished: (url) {
-                    setState(() {
-                      _lineProgress = 0.95;
-                    });
-                    Future.delayed(Duration(seconds: 1), () {
-                      setState(() {
-                        this._timerCancel();
-                        _pageLoading = false;
-                        _lineProgress = 1.0;
-                      });
-                    });
-                  },
-                  navigationDelegate:
-                      (NavigationRequest navigationRequest) async {
-                    var url = navigationRequest.url;
-                    var uri = Uri.parse(url);
-                    String _oldHost = Uri.parse(_initialUrl).host;
-                    String _oldPath = Uri.parse(_initialUrl).path;
-                    String _host = Uri.parse(url).host;
-                    String _path = Uri.parse(url).path;
+            child: Builder(
+              builder: (BuildContext context) {
+                return WebView(
+                    key: key,
+                    initialUrl: _initialUrl,
+                    debuggingEnabled: true,
+                    javascriptMode: JavascriptMode.unrestricted,
+                    javascriptChannels: <JavascriptChannel>[
+                      _toasterJavascriptChannel(context),
+                    ].toSet(),
+                    onWebViewCreated: (WebViewController webViewController) {
+                      _controller = webViewController;
 
-                    if (![
-                      "http",
-                      "https",
-                      "file",
-                      "chrome",
-                      "data",
-                      "javascript",
-                      "about"
-                    ].contains(uri.scheme)) {
-                      if (await canLaunch(url)) {
-                        // Launch the App
-                        await launch(
-                          url,
-                        );
-                        // and cancel the request
-                      } else {
-                        _controller
-                            .evaluateJavascript("window.alert('内部错误🙅')");
+                      setState(() {
+                        _pageLoading = true;
+                        _webviewLoading = true;
+                      });
+                    },
+                    onPageStarted: (url) async {
+                      setState(() {
+                        _webviewLoading = false;
+                        _pageLoading = true;
+                        // _lineProgress =
+                        this._timerCancel();
+                        _timer =
+                            Timer.periodic(Duration(milliseconds: 60), (timer) {
+                          if (_lineProgress < 0.8) {
+                            setState(() {
+                              _lineProgress += 0.05;
+                            });
+                          }
+                        });
+                      });
+                    },
+                    onPageFinished: (url) {
+                      _controller.getTitle().then(
+                            (value) => {
+                              setState(() {
+                                _timerCancel();
+                                _title = value;
+                                _lineProgress = 1;
+                                _pageLoading = false;
+                              })
+                            },
+                          );
+                    },
+                    navigationDelegate:
+                        (NavigationRequest navigationRequest) async {
+                      var url = navigationRequest.url;
+                      var uri = Uri.parse(url);
+                      String _oldHost = Uri.parse(_initialUrl).host;
+                      String _oldPath = Uri.parse(_initialUrl).path;
+                      String _host = Uri.parse(url).host;
+                      String _path = Uri.parse(url).path;
+                      if (![
+                        "http",
+                        "https",
+                        "file",
+                        "chrome",
+                        "data",
+                        "javascript",
+                        "about"
+                      ].contains(uri.scheme)) {
+                        if (await canLaunch(url)) {
+                          // Launch the App
+                          await launch(
+                            url,
+                          );
+                          // and cancel the request
+                        } else {
+                          _controller
+                              .evaluateJavascript("window.alert('内部错误🙅')");
+                        }
+                        return NavigationDecision.prevent;
                       }
-                      return NavigationDecision.prevent;
-                    }
-                    // print(_host.contains('fe-spark'));
-                    if (_oldHost == _host && _oldPath != _path) {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ActivityPage(
-                                    arguments: navigationRequest.url,
-                                  )));
-                      return NavigationDecision.prevent;
-                    }
-                    return NavigationDecision.navigate;
-                  }),
+
+                      if (_oldHost == _host && _oldPath != _path) {
+                        GlobalKey _key = GlobalKey();
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ActivityPage(
+                                      arguments: url,
+                                      key: _key,
+                                    )));
+                        return NavigationDecision.prevent;
+                      }
+                      return NavigationDecision.navigate;
+                    });
+              },
             ),
           ),
-
           // Offstage(
           //   offstage: !_pageLoading,
           //   child: Container(
@@ -169,6 +182,22 @@ class _ActivityPageState extends State<ActivityPage> {
       _timer.cancel();
       _timer = null;
     }
+  }
+
+  JavascriptChannel _toasterJavascriptChannel(BuildContext context) {
+    return JavascriptChannel(
+        name: 'Toaster',
+        onMessageReceived: (JavascriptMessage message) {
+          print(1111111);
+          Scaffold.of(context).removeCurrentSnackBar();
+          Scaffold.of(context).showSnackBar(
+            SnackBar(
+              duration: Duration(seconds: 2),
+              content: Text(message.message),
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
+        });
   }
 
   Widget _progressBar(double progress, BuildContext context) {
