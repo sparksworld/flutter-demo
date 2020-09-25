@@ -9,10 +9,6 @@ class CenterPage extends StatefulWidget {
 }
 
 class _CenterPageState extends State<CenterPage> {
-  void onChangeEvent() {
-    eventBus.fire(SwitchTab(0));
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,6 +83,11 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
         .clamp(0, 255)
         .toInt();
     return Color.fromARGB(alpha, 255, 255, 255);
+  }
+
+  void onChangeEvent() {
+    // eventBus.fire(SwitchTab(0));
+    Share.share('check out my website http://blog.fe-spark.cn');
   }
 
   Color makeStickyHeaderTextColor(shrinkOffset, isIcon) {
@@ -168,7 +169,7 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
                           color: this
                               .makeStickyHeaderTextColor(shrinkOffset, true),
                         ),
-                        onPressed: () {},
+                        onPressed: onChangeEvent,
                       ),
                     ],
                   ),

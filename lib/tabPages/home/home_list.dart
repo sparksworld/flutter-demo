@@ -1,5 +1,6 @@
 // import 'dart:math';
 import 'package:flutterdemo/module.dart';
+import 'package:flutterdemo/tabPages/video/video_list_item.dart';
 import 'home_list_item.dart';
 
 class MinorHomePage extends StatefulWidget {
@@ -139,14 +140,17 @@ class _MinorHomePageState extends State<MinorHomePage>
                           return _buildFootView('加载完成');
                         }
                       }
-                      return HomeListViewItem(
-                        key: Key(index.toString()),
-                        // index: index,
-                        // length: listData.length,
-                        // loading: _showBottomLoading,
-                        itemData: listData[index],
-                        callback: widget.callback,
-                      );
+                      return listData[index].articleType == 1
+                          ? HomeListViewItem(
+                              key: Key(index.toString()),
+                              itemData: listData[index],
+                              callback: widget.callback,
+                            )
+                          : VideoListViewItem(
+                              key: Key(index.toString()),
+                              itemData: listData[index],
+                              callback: widget.callback,
+                            );
                     },
                   )),
       ),

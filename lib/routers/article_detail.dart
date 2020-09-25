@@ -13,7 +13,7 @@ class _ArticleDetailState extends State<ArticleDetail> {
   bool _webviewloading;
   bool _pageLoading;
   // InAppWebViewController _controller;
-  WebViewController _controller;
+  // WebViewController _controller;
 
   @override
   void initState() {
@@ -76,7 +76,7 @@ class _ArticleDetailState extends State<ArticleDetail> {
                 initialUrl: 'https://ssr.qukantx.com/qk_app/' +
                     itemData.taskId.toString(),
                 onWebViewCreated: (WebViewController webViewController) {
-                  _controller = webViewController;
+                  // _controller = webViewController;
                 },
                 javascriptMode: JavascriptMode.unrestricted,
                 onPageStarted: (String url) async {

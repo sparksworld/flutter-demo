@@ -100,7 +100,9 @@ class ChewieState extends State<Chewie> {
     return AnimatedBuilder(
       animation: animation,
       builder: (BuildContext context, Widget child) {
-        return _buildFullScreenVideo(context, animation, controllerProvider);
+        return SafeArea(
+          child: _buildFullScreenVideo(context, animation, controllerProvider),
+        );
       },
     );
   }
@@ -130,20 +132,26 @@ class ChewieState extends State<Chewie> {
     );
     log(widget.controller.isFullScreen.toString());
 
-
     SystemChrome.setEnabledSystemUIOverlays([]);
-    // if (isAndroid) {
+    if (isAndroid) {
       SystemChrome.setPreferredOrientations([
         DeviceOrientation.landscapeLeft,
         DeviceOrientation.landscapeRight,
       ]);
-    // }
+    } else {
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+        DeviceOrientation.landscapeLeft,
+        DeviceOrientation.landscapeRight,
+      ]);
+    }
 
     // if (!widget.controller.allowedScreenSleep) {
     //   Wakelock.enable();
     // }
 
-    await Navigator.of(context, rootNavigator: true).push(route);
+    await Navigator.of(context, rootNavigator: false).push(route);
     _isFullScreen = false;
     widget.controller.exitFullScreen();
 

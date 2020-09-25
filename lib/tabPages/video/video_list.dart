@@ -1,6 +1,6 @@
 import 'package:flutterdemo/module.dart';
+import 'package:flutterdemo/tabPages/home/home_list_item.dart';
 import 'video_list_item.dart';
-import 'dart:developer';
 
 class MinorVideoPage extends StatefulWidget {
   final Function callback;
@@ -49,6 +49,7 @@ class _MinorVideoPageState extends State<MinorVideoPage>
         // });
         return data;
       }).catchError((err) {
+        print(err);
         setState(() {
           _loading = false;
           _finished = false;
@@ -142,14 +143,17 @@ class _MinorVideoPageState extends State<MinorVideoPage>
                               return _buildFootView('加载完成');
                             }
                           }
-                          return VideoListViewItem(
-                            key: Key(index.toString()),
-                            // index: index,
-                            // length: listData.length,
-                            // loading: _showBottomLoading,
-                            itemData: listData[index],
-                            callback: widget.callback,
-                          );
+                          return listData[index].articleType == 1
+                              ? HomeListViewItem(
+                                  key: Key(index.toString()),
+                                  itemData: listData[index],
+                                  callback: widget.callback,
+                                )
+                              : VideoListViewItem(
+                                  key: Key(index.toString()),
+                                  itemData: listData[index],
+                                  callback: widget.callback,
+                                );
                         },
                       )),
           ),

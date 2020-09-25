@@ -188,13 +188,11 @@ class _ActivityPageState extends State<ActivityPage> {
     return JavascriptChannel(
         name: 'Toaster',
         onMessageReceived: (JavascriptMessage message) {
-          print(1111111);
           Scaffold.of(context).removeCurrentSnackBar();
           Scaffold.of(context).showSnackBar(
             SnackBar(
               duration: Duration(seconds: 2),
-              content: Text(message.message),
-              behavior: SnackBarBehavior.floating,
+              content: Text(message.message)
             ),
           );
         });
