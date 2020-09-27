@@ -1,21 +1,9 @@
-name: flutterdemo
-description: A new Flutter project.
+name: spark_share_example
+description: Demonstrates how to use the spark_share plugin.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-
-# The following defines the version and build number for your application.
-# A version number is three numbers separated by dots, like 1.2.43
-# followed by an optional build number separated by a +.
-# Both the version and the builder number may be overridden in flutter
-# build by specifying --build-name and --build-number, respectively.
-# In Android, build-name is used as versionName while build-number used as versionCode.
-# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
-# In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
-# Read more about iOS versioning at
-# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.0+1
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -23,47 +11,22 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
+  spark_share:
+    # When depending on this package from a real application you should use:
+    #   spark_share: ^x.y.z
+    # See https://dart.dev/tools/pub/dependencies#version-constraints
+    # The example app is bundled with the plugin so we use a path dependency on
+    # the parent directory to use the current plugin's version.
+    path: ../
+
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.3
-  shared_preferences: ^0.5.1+1
-  cached_network_image: ^2.3.1
-  dio: ^3.0.10 #latest version
-  provider: ^3.0.0+1
-  json_annotation: ^3.0.1
-  event_bus: ^1.1.1
-  flutter_custom_bottom_tab_bar:
-    git: https://github.com/LiuC520/flutter_custom_bottom_tab_bar.git
-  flutter_staggered_grid_view: ^0.3.2
-  webview_flutter: 
-    path: ./webview_flutter_hack/
-  spark_share: 
-    path: ./spark_share/
-#   webview_flutter: ^0.3.24
-  auto_orientation: ^1.0.5 
-  video_player: ^0.10.12+2
-  open_iconic_flutter: ^0.3.0
-#   flt_video_player: ^0.0.4
-#   chewie: ^0.9.10
-#   fijkplayer:
-#     git:
-#       url: https://github.com/befovy/fijkplayer.git
-#       ref: develop # can be replaced to branch or tag name
-  wakelock: ^0.1.4+2
-  common_utils: ^1.1.3
-  fluwx: ^2.3.0
-  permission_handler: ^5.0.1+1
-#   flutter_inappwebview: ^4.0.0+4
-  url_launcher: ^5.6.0
-  flutter_downloader: ^1.5.0
-  share: ^0.6.5+2
 
 dev_dependencies:
   flutter_test:
-    sdk: flutter 
-  json_serializable: ^3.2.0
-  build_runner: ^1.7.4
-  json_to_model: ^1.4.0
+    sdk: flutter
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
