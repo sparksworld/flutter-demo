@@ -38,7 +38,7 @@ class ShareWeChatUtils {
         fun getLocalAppCache(options): ArrayList<AppInfoBean> {
             this.appInfoJson =  options.appInfoJson;
             return Gson().fromJson(
-                    appInfoJson,
+                    this.appInfoJson,
                     object : TypeToken<ArrayList<AppInfoBean>>() {}.type
             )
         }
