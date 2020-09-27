@@ -1,5 +1,6 @@
-package com.spark.spark_share
+package com.spark.spark_share.utils
 
+import android.os.Build
 import androidx.annotation.NonNull;
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
@@ -8,6 +9,7 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry.Registrar
+
 
 /** SparkSharePlugin */
 public class SparkSharePlugin: FlutterPlugin, MethodCallHandler {
@@ -40,8 +42,10 @@ public class SparkSharePlugin: FlutterPlugin, MethodCallHandler {
   }
 
   override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
-    if (call.method == "getPlatformVersion") {
-      result.success("Android ${android.os.Build.VERSION.RELEASE}")
+    if (call.method == "checkAppInstalled") {
+//      result.success("Android ${Build.VERSION.RELEASE}
+
+      call.arguments
     } else {
       result.notImplemented()
     }

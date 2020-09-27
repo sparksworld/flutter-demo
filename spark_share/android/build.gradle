@@ -1,4 +1,4 @@
-group 'com.example.spark_share'
+group 'com.spark.spark_share'
 version '1.0-SNAPSHOT'
 
 buildscript {
@@ -40,4 +40,8 @@ android {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    api 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+    implementation 'com.google.code.gson:gson:2.8.6'
 }
