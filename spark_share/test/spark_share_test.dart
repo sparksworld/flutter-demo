@@ -18,6 +18,6 @@ void main() {
   });
 
   test('getPlatformVersion', () async {
-    expect(await SparkShare.platformVersion, '42');
+    expect(await SparkShare.getAppInfoList(), '42');
   });
 }

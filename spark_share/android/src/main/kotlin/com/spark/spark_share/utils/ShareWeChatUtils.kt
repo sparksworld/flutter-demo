@@ -12,14 +12,13 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-//import com.hlq.struggle.app.appInfoJson
-import com.spark.spark_share.bean.AppInfoBean
-import com.spark.spark_share.utils.LogUtils
-import com.spark.spark_share.utils.MMessageUtils
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage.IMediaObject
 import com.tencent.mm.opensdk.modelmsg.WXWebpageObject
+
+import com.spark.spark_share.bean.AppInfoBean
+
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 
@@ -28,28 +27,24 @@ import java.io.IOException
 class ShareWeChatUtils {
 
     companion object {
-        private var appInfoJson = "[]";
+        var appInfoJson: ArrayList<AppInfoBean> = ArrayList<AppInfoBean>()
 
-        /**
-         * 解析本地缓存 App 信息
-         */
-//        private appInfoJson
-
-        fun getLocalAppCache(options): ArrayList<AppInfoBean> {
-            this.appInfoJson =  options.appInfoJson;
-            return Gson().fromJson(
-                    this.appInfoJson,
-                    object : TypeToken<ArrayList<AppInfoBean>>() {}.type
-            )
+        fun initShare(appInfoJson: String): ArrayList<AppInfoBean> {
+            this.appInfoJson = Gson().fromJson(appInfoJson.toString(),
+                    object : TypeToken<ArrayList<AppInfoBean>>() {}.type)
+            return this.appInfoJson
+        }
+        private fun getLocalAppCache(): ArrayList<AppInfoBean> {
+            return this.appInfoJson
         }
 
         /**
          * 检测用户设备安装 App 信息
          */
-        fun checkAppInstalled(context: Context, options): Int {
+        fun checkAppInstalled(context: Context): Int {
             var tempCount = 0
             // 获取本地宿主 App 信息
-            val appInfoList = getLocalAppCache(options)
+            val appInfoList = getLocalAppCache()
             // 获取用户设备已安装 App 信息
             val packageManager = context.packageManager
             val installPackageList = packageManager.getInstalledPackages(0)
@@ -241,7 +236,7 @@ class ShareWeChatUtils {
             intent.putExtra("_mmessage_appPackage", appInfoBean?.packageName)
             val stringBuilder = StringBuilder()
             stringBuilder.append("weixin://sendreq?appid=")
-            stringBuilder.append(appInfoBean?.packageSign)
+            stringBuilder.append(appInfoBean?.appId)
             intent.putExtra("_mmessage_content", stringBuilder.toString())
             intent.putExtra(
                     "_mmessage_checksum",

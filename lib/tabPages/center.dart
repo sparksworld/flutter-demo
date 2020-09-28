@@ -85,9 +85,18 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
     return Color.fromARGB(alpha, 255, 255, 255);
   }
 
-  void onChangeEvent() {
+  void onChangeEvent() async {
+    print(
+      await SparkShare.initShare({
+        "appInfoList":
+            "[{\"appName\":\"QQ\",\"downloadUrl\":\"\",\"optional\":1,\"packageName\":\"com.tencent.mobileqq\",\"appId\":\"wxf0a80d0ac2e82aa7\",\"type\":1}]"
+      }),
+    );
+//    await SparkShare
+    print(await SparkShare.getAppInfoList());
+    print(await SparkShare.checkAppInstalled());
     // eventBus.fire(SwitchTab(0));
-    Share.share('check out my website http://blog.fe-spark.cn');
+//    Share.share('check out my website http://blog.fe-spark.cn');
   }
 
   Color makeStickyHeaderTextColor(shrinkOffset, isIcon) {

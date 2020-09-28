@@ -19,3 +19,4 @@ export 'package:flutterdemo/tools/index.dart';
 export 'package:flutterdemo/request/index.dart';
 export 'package:flutterdemo/routers/index.dart';
 export 'package:flutter_downloader/flutter_downloader.dart';
+export 'package:spark_share/spark_share.dart';

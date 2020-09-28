@@ -1,21 +1,18 @@
-
 import 'dart:async';
 import 'package:flutter/services.dart';
 
 class SparkShare {
-  static List appInfoJson = [];
-  static const MethodChannel _channel =
-      const MethodChannel('spark_share');
+  static const MethodChannel _channel = const MethodChannel('spark_share');
 
-
-  static initShare(Map options) async {
-    if(options['appInfoJson'] == null) return Error();
-    appInfoJson = options['appInfoJson'];
-    await _channel.invokeMethod('checkAppInstalled');
-
+  static initShare(data) async {
+    return await _channel.invokeMethod('initShare', data);
   }
-  static Future<String> get platformVersion async {
-    final String version = await _channel.invokeMethod('getPlatformVersion');
-    return version;
+
+  static getAppInfoList() async {
+    return await _channel.invokeMethod('getAppInfoList');
+  }
+
+  static checkAppInstalled() async {
+    return await _channel.invokeMethod('checkAppInstalled');
   }
 }

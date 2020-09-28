@@ -2,6 +2,7 @@ import 'package:flutterdemo/module.dart';
 import 'package:flutterdemo/tabPages/index.dart'
     show HomePage, VideoPage, MyPage, CenterPage, ActivityPage;
 import 'package:flutterdemo/common/index.dart';
+//import 'package:spark_share/spark_share.dart';
 // import 'package:flutterdemo/routers/index.dart';
 
 // import 'package:flutterdemo/routers/theme.dart';
@@ -57,7 +58,7 @@ void main() async {
   SystemChrome.setPreferredOrientations(
     [DeviceOrientation.portraitUp],
   ).then((_) async {
-    await Global.init().then((e) {
+    await Global.init().then((e) async {
       runApp(
         MyApp(),
       );
