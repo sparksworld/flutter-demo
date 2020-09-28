@@ -10,8 +10,8 @@ class AppInfoBean {
     var appId: String = ""
     var type = 0
 
-    override fun toString(): String {
-        return "AppInfoBean(appName='$appName', downloadUrl='$downloadUrl', optional=$optional, packageName='$packageName', packageSign='$appId', type=$type)"
-    }
+     override fun toString(): String {
+         return "AppInfoBean(appName='$appName',downloadUrl='$downloadUrl',optional=$optional,packageName='$packageName',appId='$appId',type=$type)"
+     }
 
 }

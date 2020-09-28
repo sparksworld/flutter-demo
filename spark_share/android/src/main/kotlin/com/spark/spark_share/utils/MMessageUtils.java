@@ -2,12 +2,7 @@ package com.spark.spark_share.utils;
 
 import java.security.MessageDigest;
 
-/**
- * @author：HLQ_Struggle
- * @date：2020/6/27
- * @desc：
- */
-@SuppressWarnings("ALL")
+
 public class MMessageUtils {
 
     public static String getMessageDigest(byte[] paramArrayOfbyte) {

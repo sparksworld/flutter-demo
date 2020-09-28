@@ -11,27 +11,32 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.google.gson.Gson
+import com.google.gson.JsonArray
 import com.google.gson.reflect.TypeToken
+
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage.IMediaObject
 import com.tencent.mm.opensdk.modelmsg.WXWebpageObject
-
 import com.spark.spark_share.bean.AppInfoBean
+import com.spark.spark_share.utils.MMessageUtils
+import org.json.JSONArray
+import org.json.JSONObject
 
 import java.io.ByteArrayOutputStream
 import java.io.IOException
-
 
 @Suppress("SpellCheckingInspection")
 class ShareWeChatUtils {
 
     companion object {
-        var appInfoJson: ArrayList<AppInfoBean> = ArrayList<AppInfoBean>()
-
+        var appInfoJson: ArrayList<AppInfoBean> = ArrayList()
         fun initShare(appInfoJson: String): ArrayList<AppInfoBean> {
-            this.appInfoJson = Gson().fromJson(appInfoJson.toString(),
-                    object : TypeToken<ArrayList<AppInfoBean>>() {}.type)
+            var a= "[{\"appName\":\"111111111\",\"downloadUrl\":\"\",\"optional\":1,\"packageName\":\"com.ss.android.article.news\",\"appId\":\"appId\",\"type\":1}]"
+            this.appInfoJson = Gson().fromJson(
+                    a,
+                    object : TypeToken<ArrayList<AppInfoBean>>() {}.type
+            )
             return this.appInfoJson
         }
         private fun getLocalAppCache(): ArrayList<AppInfoBean> {

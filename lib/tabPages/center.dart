@@ -87,14 +87,13 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
 
   void onChangeEvent() async {
     print(
-      await SparkShare.initShare({
-        "appInfoList":
-            "[{\"appName\":\"QQ\",\"downloadUrl\":\"\",\"optional\":1,\"packageName\":\"com.tencent.mobileqq\",\"appId\":\"wxf0a80d0ac2e82aa7\",\"type\":1}]"
-      }),
+      await SparkShare.initShare(
+        """[{"appName":"AppName","downloadUrl":"","optional":1,"packageName":"com.ss.android.article.news","appId":"appId","type":1}]""",
+      ),
     );
 //    await SparkShare
-    print(await SparkShare.getAppInfoList());
-    print(await SparkShare.checkAppInstalled());
+    // print(await SparkShare.getAppInfoList());
+    // print(await SparkShare.checkAppInstalled());
     // eventBus.fire(SwitchTab(0));
 //    Share.share('check out my website http://blog.fe-spark.cn');
   }

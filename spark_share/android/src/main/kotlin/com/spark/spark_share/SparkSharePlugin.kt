@@ -3,17 +3,20 @@ package com.spark.spark_share
 import android.app.Activity
 import android.content.Context
 import androidx.annotation.NonNull
-import com.spark.spark_share.utils.ShareWeChatUtils.Companion.appInfoJson
-import com.spark.spark_share.utils.ShareWeChatUtils.Companion.checkAppInstalled
+import com.spark.spark_share.bean.AppInfoBean
+import com.spark.spark_share.utils.LogUtils
 import com.spark.spark_share.utils.ShareWeChatUtils.Companion.initShare
 import io.flutter.embedding.engine.plugins.FlutterPlugin
+import io.flutter.embedding.engine.plugins.activity.ActivityAware
+import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry.Registrar
-import io.flutter.embedding.engine.plugins.activity.ActivityAware
-import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
+import java.security.Key
+import java.util.*
+import kotlin.collections.ArrayList
 
 /** SparkSharePlugin */
 public class SparkSharePlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
@@ -49,12 +52,13 @@ public class SparkSharePlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
     }
   }
   override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
-    if (call.method == "initShare") {
-      result?.success(initShare(call.argument<String>("appInfoList")!!))
+    if (call.method == "initShare") {;
+      LogUtils.logE((call.arguments<String>())!!)
+      result?.success(initShare((call.arguments<String>())!!))
     } else if(call.method == "getAppInfoList") {
 //        result?.success(appInfoJson)
     } else if(call.method == "checkAppInstalled"){
-      result?.success(checkAppInstalled(activity))
+//      result?.success(checkAppInstalled(activity))
     }else {
       result.notImplemented()
     }
