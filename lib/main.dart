@@ -52,6 +52,9 @@ void main() async {
 
   await Permission.camera.request();
   await Permission.microphone.request();
+  await SparkShare.initShare(
+    """[{\"appName\":\"QQ\",\"downloadUrl\":\"\",\"optional\":1,\"packageName\":\"com.tencent.mobileqq\",\"appId\":\"wxf0a80d0ac2e82aa7\",\"type\":1}]""",
+  );
   // await FlutterDownloader.initialize(
   //   debug: true, // optional: set false to disable printing logs to console
   // );

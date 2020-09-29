@@ -3,9 +3,10 @@ package com.spark.spark_share
 import android.app.Activity
 import android.content.Context
 import androidx.annotation.NonNull
-import com.spark.spark_share.bean.AppInfoBean
 import com.spark.spark_share.utils.LogUtils
 import com.spark.spark_share.utils.ShareWeChatUtils.Companion.initShare
+import com.spark.spark_share.utils.ShareWeChatUtils.Companion.checkAppInstalled
+import com.spark.spark_share.utils.ShareWeChatUtils.Companion.shareWeChat
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
@@ -14,9 +15,6 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry.Registrar
-import java.security.Key
-import java.util.*
-import kotlin.collections.ArrayList
 
 /** SparkSharePlugin */
 public class SparkSharePlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
@@ -52,15 +50,29 @@ public class SparkSharePlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
     }
   }
   override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
-    if (call.method == "initShare") {;
-      LogUtils.logE((call.arguments<String>())!!)
-      result?.success(initShare((call.arguments<String>())!!))
-    } else if(call.method == "getAppInfoList") {
-//        result?.success(appInfoJson)
-    } else if(call.method == "checkAppInstalled"){
-//      result?.success(checkAppInstalled(activity))
-    }else {
-      result.notImplemented()
+    when (call.method) {
+        "initShare" -> { // 获取命中 App 数量
+          result?.success(initShare((call.arguments<String>())!!))
+        }
+        "checkAppInstalled" -> {
+          result?.success(checkAppInstalled(activity))
+        }
+        "shareWeChat" -> {  // 分享微信
+            val shareType = if (call.argument<Boolean>("isScene")!!) {
+                0
+            } else {
+                1
+            }
+            result?.success(shareWeChat(
+                    context, shareType,
+                    call.argument<String>("shareUrl")!!,
+                    call.argument<String>("shareTitle")!!,
+                    call.argument<String>("shareDesc")!!,
+                    call.argument<String>("shareThumbnail")!!, ""))
+        }
+        else -> {
+            result?.notImplemented()
+        }
     }
   }
 

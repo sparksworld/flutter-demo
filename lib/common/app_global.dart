@@ -3,13 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutterdemo/models/profile.dart';
 import 'package:flutterdemo/request/index.dart';
-import 'package:fluwx/fluwx.dart';
+
 
 class Global {
   static SharedPreferences _prefs;
   static Profile profile = Profile();
 
   static bool get isRelease => bool.fromEnvironment("dart.vm.product");
+
+  
 
   static Future init() async {
     WidgetsFlutterBinding.ensureInitialized();
@@ -24,11 +26,7 @@ class Global {
         print(e);
       }
     }
-
     ApiList();
-
-    registerWxApi(
-        appId: 'wxfbd86ad315b260b9', universalLink: "https://your.univerallink.com/link/");
   }
 
   static saveProfile() =>

@@ -86,16 +86,24 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
   }
 
   void onChangeEvent() async {
-    print(
-      await SparkShare.initShare(
-        """[{"appName":"AppName","downloadUrl":"","optional":1,"packageName":"com.ss.android.article.news","appId":"appId","type":1}]""",
-      ),
-    );
+      if(Platform.isAndroid) {
+        await SparkShare.checkAppInstalled();
+        SparkShare.shareWeChat({
+          'isScene': true,
+          'shareTitle': '我是分享标题',
+          'shareDesc': '我是分享内容',
+          'shareUrl': 'http://blog.fe-spark.cn',
+          'shareThumbnail':
+          'http://blog.fe-spark.cn/content/images/2019/07/timg--1----1-1.png'
+        });
+      }else {
+        Share.share('check out my website http://blog.fe-spark.cn');
+      }
+
 //    await SparkShare
     // print(await SparkShare.getAppInfoList());
     // print(await SparkShare.checkAppInstalled());
     // eventBus.fire(SwitchTab(0));
-//    Share.share('check out my website http://blog.fe-spark.cn');
   }
 
   Color makeStickyHeaderTextColor(shrinkOffset, isIcon) {

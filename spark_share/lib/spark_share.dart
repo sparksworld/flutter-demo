@@ -15,4 +15,8 @@ class SparkShare {
   static checkAppInstalled() async {
     return await _channel.invokeMethod('checkAppInstalled');
   }
+
+  static shareWeChat(data) async {
+    return await _channel.invokeMethod('shareWeChat', data);
+  }
 }
