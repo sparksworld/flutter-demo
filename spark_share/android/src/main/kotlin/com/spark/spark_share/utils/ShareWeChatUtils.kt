@@ -114,12 +114,12 @@ class ShareWeChatUtils: AppGlideModule() {
                             LogUtils.logE(" ---> Load Image Ready")
                             val i =
                                     send(
-                                            context,
-                                            shareType,
-                                            url,
-                                            title,
-                                            text,
-                                            param1Bitmap
+                                        context,
+                                        shareType,
+                                        url,
+                                        title,
+                                        text,
+                                        param1Bitmap
                                     )
                             val stringBuilder = StringBuilder()
                             stringBuilder.append("send index: ")
