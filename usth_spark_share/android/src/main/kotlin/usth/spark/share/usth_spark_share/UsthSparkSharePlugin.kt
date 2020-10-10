@@ -2,8 +2,12 @@ package usth.spark.share.usth_spark_share
 
 import android.app.Activity
 import android.content.Context
-import androidx.annotation.NonNull;
+import androidx.annotation.NonNull
 
+import usth.spark.share.usth_spark_share.utils.LogUtils
+import usth.spark.share.usth_spark_share.utils.ShareWeChatUtils.Companion.initShare
+import usth.spark.share.usth_spark_share.utils.ShareWeChatUtils.Companion.checkAppInstalled
+import usth.spark.share.usth_spark_share.utils.ShareWeChatUtils.Companion.shareWeChat
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
@@ -14,14 +18,15 @@ import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry.Registrar
 
 /** UsthSparkSharePlugin */
-public class UsthSparkSharePlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
+public class UsthSparkSharePlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
     /// The MethodChannel that will the communication between Flutter and native Android
     ///
     /// This local reference serves to register the plugin with the Flutter Engine and unregister it
     /// when the Flutter Engine is detached from the Activity
-    private lateinit var channel: MethodChannel
+    private lateinit var channel : MethodChannel
     private lateinit var context: Context
     private lateinit var activity: Activity
+
 
     override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         channel = MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), "usth_spark_share")
@@ -45,30 +50,32 @@ public class UsthSparkSharePlugin : FlutterPlugin, MethodCallHandler, ActivityAw
             channel.setMethodCallHandler(UsthSparkSharePlugin())
         }
     }
-
     override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
         when (call.method) {
             "getPlatformVersion" -> { // 获取命中 App 数量
                 result.success("Android ${android.os.Build.VERSION.RELEASE}")
             }
-
+            "initShare" -> { // 获取命中 App 数量
+                result?.success(initShare((call.arguments<String>())!!))
+            }
+            "checkAppInstalled" -> {
+                result?.success(checkAppInstalled(activity))
+            }
             "usthWxFriendShare" -> {  // 分享微信
-                result?.success(ShareUtils.usthWxFriendShare(
-                        activity,
-                        call.argument<String>("title")!!,
-                        call.argument<String>("subTitle")!!,
-                        call.argument<String>("image")!!,
-                        call.argument<String>("url")!!
-                ));
+                result?.success(shareWeChat(
+                        context, 0,
+                        call.argument<String>("shareUrl")!!,
+                        call.argument<String>("shareTitle")!!,
+                        call.argument<String>("shareDesc")!!,
+                        call.argument<String>("shareThumbnail")!!, ""))
             }
             "usthWxCircleOfFriendsShare" -> {
-                result?.success(ShareUtils.usthWxCircleOfFriendsShare(
-                        activity,
-                        call.argument<String>("title")!!,
-                        call.argument<String>("subTitle")!!,
-                        call.argument<String>("image")!!,
-                        call.argument<String>("url")!!
-                ));
+                result?.success(shareWeChat(
+                        context, 1,
+                        call.argument<String>("shareUrl")!!,
+                        call.argument<String>("shareTitle")!!,
+                        call.argument<String>("shareDesc")!!,
+                        call.argument<String>("shareThumbnail")!!, ""))
             }
             else -> {
                 result?.notImplemented()
@@ -80,11 +87,7 @@ public class UsthSparkSharePlugin : FlutterPlugin, MethodCallHandler, ActivityAw
         channel.setMethodCallHandler(null)
     }
 
-    override fun onAttachedToActivity(binding: ActivityPluginBinding) {
-        activity = binding.activity;
-    }
-
-    override fun onDetachedFromActivityForConfigChanges() {
+    override fun onDetachedFromActivity() {
         TODO("Not yet implemented")
     }
 
@@ -92,7 +95,11 @@ public class UsthSparkSharePlugin : FlutterPlugin, MethodCallHandler, ActivityAw
         TODO("Not yet implemented")
     }
 
-    override fun onDetachedFromActivity() {
+    override fun onAttachedToActivity(binding: ActivityPluginBinding) {
+        activity = binding.activity;
+    }
+
+    override fun onDetachedFromActivityForConfigChanges() {
         TODO("Not yet implemented")
     }
 }

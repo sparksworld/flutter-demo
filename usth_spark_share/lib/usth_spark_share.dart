@@ -10,11 +10,23 @@ class UsthSparkShare {
     return version;
   }
 
-  static Future usthWxFriendShare(data) async {
+  static initShare(data) async {
+    return await _channel.invokeMethod('initShare', data);
+  }
+
+  static getAppInfoList() async {
+    return await _channel.invokeMethod('getAppInfoList');
+  }
+
+  static checkAppInstalled() async {
+    return await _channel.invokeMethod('checkAppInstalled');
+  }
+
+  static usthWxFriendShare(data) async {
     return await _channel.invokeMethod('usthWxFriendShare', data);
   }
 
-  static Future usthWxCircleOfFriendsShare(data) async {
+  static usthWxCircleOfFriendsShare(data) async {
     return await _channel.invokeMethod('usthWxCircleOfFriendsShare', data);
   }
 }

@@ -1,8 +1,11 @@
 package usth.spark.share.usth_spark_share_example
 
-import android.os.Bundle
+import android.view.ContextMenu
+import android.view.View
 import io.flutter.embedding.android.FlutterActivity
-import usth.spark.share.usth_spark_share.ShareUtils
 
 class MainActivity: FlutterActivity() {
+    override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
+        super.onCreateContextMenu(menu, v, menuInfo)
+    }
 }

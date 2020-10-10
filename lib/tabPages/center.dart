@@ -86,19 +86,17 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
   }
 
   void onChangeEvent() async {
-      if(Platform.isAndroid) {
-        await SparkShare.checkAppInstalled();
-        SparkShare.shareWeChat({
-          'isScene': true,
-          'shareTitle': '我是分享标题',
-          'shareDesc': '我是分享内容',
-          'shareUrl': 'http://blog.fe-spark.cn',
-          'shareThumbnail':
-          'http://blog.fe-spark.cn/content/images/2019/07/timg--1----1-1.png'
-        });
-      }else {
-        Share.share('check out my website http://blog.fe-spark.cn');
-      }
+    if (Platform.isAndroid) {
+      UsthSparkShare.usthWxFriendShare({
+        'shareTitle': '我是分享标题',
+        'shareDesc': '我是分享内容',
+        'shareUrl': 'http://blog.fe-spark.cn',
+        'shareThumbnail':
+            'http://blog.fe-spark.cn/content/images/2019/07/timg--1----1-1.png'
+      });
+    } else {
+      Share.share('check out my website http://blog.fe-spark.cn');
+    }
 
 //    await SparkShare
     // print(await SparkShare.getAppInfoList());
@@ -213,13 +211,24 @@ class FilmContent extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(6),
-                  child: Image.network(
-                    'https://img1.gamersky.com/image2019/07/20190725_ll_red_136_2/gamersky_07small_14_201972510258D0.jpg',
-                    width: 130,
-                    height: 180,
-                    fit: BoxFit.cover,
+                GestureDetector(
+                  onTap: () {
+                    UsthSparkShare.usthWxCircleOfFriendsShare({
+                      'shareTitle': '我是分享标题',
+                      'shareDesc': '我是分享内容',
+                      'shareUrl': 'http://blog.fe-spark.cn',
+                      'shareThumbnail':
+                          'http://blog.fe-spark.cn/content/images/2019/07/timg--1----1-1.png'
+                    });
+                  },
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(6),
+                    child: Image.network(
+                      'https://img1.gamersky.com/image2019/07/20190725_ll_red_136_2/gamersky_07small_14_201972510258D0.jpg',
+                      width: 130,
+                      height: 180,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
                 Padding(padding: EdgeInsets.only(left: 16)),
