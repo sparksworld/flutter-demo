@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:usth_spark_share/usth_spark_share.dart';
+import 'dart:math';
 
 void main() {
   runApp(MyApp());
@@ -54,22 +55,24 @@ class _MyAppState extends State<MyApp> {
           children: [
             FlatButton(
               onPressed: () async {
-                await UsthSparkShare.usthWxFriendShare({
-                  "title": "11111",
-                  "subTitle": "12222",
-                  "image": "https://i.loli.net/2020/10/10/YVciL7hRxktpdJF.png",
-                  "url": "http://blog.fe-spark.cn"
+                await UsthSparkShare.usthWXSceneSession({
+                  'shareTitle': "",
+                  'shareDesc': '',
+                  'shareUrl': '',
+                  'shareThumbnail':
+                      'http://blog.fe-spark.cn/content/images/2019/07/timg--1----1-1.png'
                 });
               },
               child: Text('分享微信好友'),
             ),
             FlatButton(
               onPressed: () async {
-                await UsthSparkShare.usthWxCircleOfFriendsShare({
-                  "title": "333333",
-                  "subTitle": "12222",
-                  "image": "https://i.loli.net/2020/10/10/YVciL7hRxktpdJF.png",
-                  "url": "http://blog.fe-spark.cn"
+                await UsthSparkShare.usthWXSceneTimeline({
+                  'shareTitle': Random().nextInt(10000000).toString(),
+                  'shareDesc': '我是分享内容',
+                  'shareUrl': 'http://blog.fe-spark.cn',
+                  'shareThumbnail':
+                      'http://blog.fe-spark.cn/content/images/2019/07/timg--1----1-1.png'
                 });
               },
               child: Text('分享微信朋友圈'),
@@ -80,3 +83,5 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
+
+

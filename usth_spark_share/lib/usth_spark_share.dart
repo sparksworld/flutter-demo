@@ -22,11 +22,13 @@ class UsthSparkShare {
     return await _channel.invokeMethod('checkAppInstalled');
   }
 
-  static usthWxFriendShare(data) async {
-    return await _channel.invokeMethod('usthWxFriendShare', data);
+  static usthWXSceneSession(data) async {
+    return await _channel.invokeMethod('usthWXSceneSession', data);
   }
 
-  static usthWxCircleOfFriendsShare(data) async {
-    return await _channel.invokeMethod('usthWxCircleOfFriendsShare', data);
+  static usthWXSceneTimeline(data) async {
+    return await _channel.invokeMethod('usthWXSceneTimeline', data);
   }
+
+  // static usthWX
 }

@@ -14,14 +14,11 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.tencent.mm.opensdk.modelmsg.SendMessageToWX
-import com.tencent.mm.opensdk.modelmsg.WXMediaMessage
+import com.tencent.mm.opensdk.modelmsg.*
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage.IMediaObject
-import com.tencent.mm.opensdk.modelmsg.WXWebpageObject
+import usth.spark.share.usth_spark_share.bean.AppInfoBean
 import java.io.ByteArrayOutputStream
 import java.io.IOException
-
-import usth.spark.share.usth_spark_share.bean.AppInfoBean
 
 
 @GlideModule
@@ -94,8 +91,7 @@ class ShareWeChatUtils : AppGlideModule() {
                 url: String,
                 title: String,
                 text: String,
-                paramString4: String?,
-                umId: String?
+                paramString4: String?
         ): Boolean {
             if (this.appInfoJson.size == 0) {
                 this.appInfoJson = Gson().fromJson(
@@ -123,19 +119,31 @@ class ShareWeChatUtils : AppGlideModule() {
                                 param1Boolean: Boolean
                         ): Boolean {
                             LogUtils.logE(" ---> Load Image Ready")
-                            val i =
-                                    send(
-                                            context,
-                                            shareType,
-                                            url,
-                                            title,
-                                            text,
-                                            param1Bitmap
-                                    )
-                            val stringBuilder = StringBuilder()
-                            stringBuilder.append("send index: ")
-                            stringBuilder.append(i)
-                            LogUtils.logE(" ---> Ready stringBuilder.toString() :$stringBuilder")
+
+                            if (url == "" && title == "" && text == "" && param1Bitmap != null) {
+                                sendImage(
+                                        context,
+                                        shareType,
+                                        param1Bitmap
+                                )
+                            } else {
+                                send(
+                                        context,
+                                        shareType,
+                                        url,
+                                        title,
+                                        text,
+                                        param1Bitmap
+                                )
+                            }
+//                            val stringBuilder = StringBuilder()
+//                            stringBuilder.append("send index: ")
+//                            stringBuilder.append(i)
+//                            LogUtils.logE(" ---> Ready stringBuilder.toString() :$stringBuilder")
+
+//                            if(shareType) {
+//                                WXBitmapShare()
+//                            }
                             return false
                         }
                     }).preload(200, 200);
@@ -143,6 +151,80 @@ class ShareWeChatUtils : AppGlideModule() {
             return false;
         }
 
+        /**
+         * 微信文字分享
+         */
+        fun sendText(paramContext: Context, paramInt: Int, text: String): Int {
+//            if (this.appInfoJson.size == 0) {
+//                this.appInfoJson = Gson().fromJson(
+//                        "[{\"appName\":\"QQ\",\"downloadUrl\":\"\",\"optional\":1,\"packageName\":\"com.tencent.mobileqq\",\"appId\":\"wxf0a80d0ac2e82aa7\",\"type\":1}]",
+//                        object : TypeToken<ArrayList<AppInfoBean?>>() {}.type
+//                )
+//            }
+            //初始化一个WXImageObject对象和WXMediaMessage对象
+            val textObject = WXTextObject()
+            textObject.text = text
+            val msg = WXMediaMessage()
+
+            msg.mediaObject = textObject
+            msg.description = text
+
+            val req = SendMessageToWX.Req()
+            req.message = msg
+            req.scene = paramInt
+
+            /**
+             * paramInt
+             * 0: 好友
+             * 1: 朋友圈
+             * 2: 收藏
+             */
+            val bundle = Bundle()
+            req.toBundle(bundle)
+
+            return sendToWx(
+                    paramContext,
+                    "weixin://sendreq?appid=wxd930ea5d5a258f4f",
+                    bundle
+            )
+        }
+
+
+        /**
+         * 微信分享图片
+         */
+
+        private fun sendImage(paramContext: Context, paramInt: Int, bitmap: Bitmap): Int {
+            //初始化一个WXImageObject对象和WXMediaMessage对象
+            val imgObj = WXImageObject(bitmap)
+            val msg = WXMediaMessage()
+            msg.mediaObject = imgObj
+
+            //设置缩略图
+            val thumbBmp = Bitmap.createScaledBitmap(bitmap, 100, 100, true)
+//            bitmap.recycle()
+            //        msg.thumbData = ConvertUtil.ConvertBitmapToBytes(thumbBmp,true);
+            msg.thumbData = bmpToByteArray(paramContext, thumbBmp, true);
+            //构造一个Req
+            val req = SendMessageToWX.Req()
+            req.transaction = buildTransaction("img") //transaction字段用于唯一标识一个请求
+            req.message = msg
+            req.scene = paramInt
+            //分享到朋友圈：req.scene = SendMessageToWX.Req.WXSceneTimeline;
+            //分享到好友会话：req.scene = SendMessageToWX.Req.WXSceneSession;
+            //添加到微信收藏：req.scene = SendMessageToWX.Req.WXSceneFavorite;
+            val bundle = Bundle()
+            req.toBundle(bundle)
+            return sendToWx(
+                    paramContext,
+                    "weixin://sendreq?appid=wxd930ea5d5a258f4f",
+                    bundle
+            )
+        }
+
+        /**
+         * 微信webPage分享
+         */
         private fun send(
                 paramContext: Context,
                 paramInt: Int,
@@ -166,6 +248,7 @@ class ShareWeChatUtils : AppGlideModule() {
                             Bitmap.createScaledBitmap(paramBitmap!!, 150, 150, true),
                             true
                     )
+//            paramBitmap.recycle()
             val req = SendMessageToWX.Req()
             req.transaction =
                     buildTransaction(

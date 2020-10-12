@@ -61,21 +61,21 @@ public class UsthSparkSharePlugin: FlutterPlugin, MethodCallHandler, ActivityAwa
             "checkAppInstalled" -> {
                 result?.success(checkAppInstalled(activity))
             }
-            "usthWxFriendShare" -> {  // 分享微信
+            "usthWXSceneSession" -> {  // 分享微信
                 result?.success(shareWeChat(
                         context, 0,
                         call.argument<String>("shareUrl")!!,
                         call.argument<String>("shareTitle")!!,
                         call.argument<String>("shareDesc")!!,
-                        call.argument<String>("shareThumbnail")!!, ""))
+                        call.argument<String>("shareThumbnail")!!))
             }
-            "usthWxCircleOfFriendsShare" -> {
+            "usthWXSceneTimeline" -> {
                 result?.success(shareWeChat(
                         context, 1,
                         call.argument<String>("shareUrl")!!,
                         call.argument<String>("shareTitle")!!,
                         call.argument<String>("shareDesc")!!,
-                        call.argument<String>("shareThumbnail")!!, ""))
+                        call.argument<String>("shareThumbnail")!!))
             }
             else -> {
                 result?.notImplemented()

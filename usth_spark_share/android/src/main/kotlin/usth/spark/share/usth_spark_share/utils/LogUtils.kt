@@ -5,7 +5,7 @@ import io.flutter.BuildConfig
 
 
 object LogUtils {
-    private const val LOG_TAG = "HLQ_Struggle"
+    private const val LOG_TAG = "USTH_SPARK"
     fun logE(msg: String) {
         if (BuildConfig.DEBUG) {
             Log.e(LOG_TAG, msg)

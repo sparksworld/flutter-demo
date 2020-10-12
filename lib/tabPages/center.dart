@@ -85,15 +85,117 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
     return Color.fromARGB(alpha, 255, 255, 255);
   }
 
-  void onChangeEvent() async {
+  void onChangeEvent(BuildContext context) async {
     if (Platform.isAndroid) {
-      UsthSparkShare.usthWxFriendShare({
-        'shareTitle': '我是分享标题',
-        'shareDesc': '我是分享内容',
-        'shareUrl': 'http://blog.fe-spark.cn',
-        'shareThumbnail':
-            'http://blog.fe-spark.cn/content/images/2019/07/timg--1----1-1.png'
-      });
+      return showModalBottomSheet(
+          context: context,
+          isScrollControlled: true, //可滚动 解除showModalBottomSheet最大显示屏幕一半的限制
+          shape: RoundedRectangleBorder(
+            //圆角
+            borderRadius: BorderRadius.vertical(top: Radius.circular(30.0)),
+          ),
+          builder: (BuildContext context) {
+            return AnimatedPadding(
+              //showModalBottomSheet 键盘弹出时自适应
+              padding: MediaQuery.of(context).viewInsets, //边距（必要）
+              duration: const Duration(milliseconds: 100), //时常 （必要）
+              child: Container(
+                  // height: 180,
+                  constraints: BoxConstraints(
+                    minHeight: 90.0, //设置最小高度（必要）
+                    maxHeight:
+                        MediaQuery.of(context).size.height / 1.5, //设置最大高度（必要）
+                  ),
+                  padding: EdgeInsets.only(top: 34.0, bottom: 48.0),
+                  decoration: BoxDecoration(
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(30.0)),
+                      color: Colors.white), //圆角
+                  child: ScrollConfiguration(
+                    behavior: OverScrollBehavior(),
+                    child: ListView(
+                      shrinkWrap: true, //防止状态溢出 自适应大小
+                      children: <Widget>[
+                        Wrap(
+                          spacing: 2, //主轴上子控件的间距
+                          runSpacing: 4, //交叉轴上子控件之间的间距
+
+                          children: [
+                            Center(
+                              child: RaisedButton(
+                                onPressed: () {
+                                  UsthSparkShare.usthWXSceneSession({
+                                    'shareTitle': 'spark`极客笔录',
+                                    'shareDesc': '极客笔录',
+                                    'shareUrl': 'http://blog.fe-spark.cn',
+                                    'shareThumbnail':
+                                        'http://blog.fe-spark.cn/content/images/2019/07/timg--1----1-1.png'
+                                  });
+                                },
+                                child: Text('图文分享(好友)'),
+                              ),
+                            ),
+                            Center(
+                              child: RaisedButton(
+                                onPressed: () {
+                                  UsthSparkShare.usthWXSceneTimeline({
+                                    'shareTitle': 'spark`极客笔录',
+                                    'shareDesc': '极客笔录',
+                                    'shareUrl': 'http://blog.fe-spark.cn',
+                                    'shareThumbnail':
+                                        'http://blog.fe-spark.cn/content/images/2019/07/timg--1----1-1.png'
+                                  });
+                                },
+                                child: Text('图文分享(朋友圈)'),
+                              ),
+                            ),
+                            Center(
+                              child: RaisedButton(
+                                onPressed: () {
+                                  UsthSparkShare.usthWXSceneSession({
+                                    'shareTitle': "",
+                                    'shareDesc': '',
+                                    'shareUrl': '',
+                                    'shareThumbnail':
+                                        'http://blog.fe-spark.cn/content/images/2019/07/timg--1----1-1.png'
+                                  });
+                                },
+                                child: Text('图片分享(好友)'),
+                              ),
+                            ),
+                            Center(
+                              child: RaisedButton(
+                                onPressed: () {
+                                  UsthSparkShare.usthWXSceneTimeline({
+                                    'shareTitle': '',
+                                    'shareDesc': '',
+                                    'shareUrl': '',
+                                    'shareThumbnail':
+                                        'http://blog.fe-spark.cn/content/images/2019/07/timg--1----1-1.png'
+                                  });
+                                },
+                                child: Text('图片分享(朋友圈)'),
+                              ),
+                            ),
+                            Center(
+                              child: RaisedButton(
+                                onPressed: () {},
+                                child: Text('文字(好友)'),
+                              ),
+                            ),
+                            Center(
+                              child: RaisedButton(
+                                onPressed: () {},
+                                child: Text('文字(朋友圈)'),
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  )),
+            );
+          });
     } else {
       Share.share('check out my website http://blog.fe-spark.cn');
     }
@@ -183,7 +285,7 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
                           color: this
                               .makeStickyHeaderTextColor(shrinkOffset, true),
                         ),
-                        onPressed: onChangeEvent,
+                        onPressed: () => {onChangeEvent(context)},
                       ),
                     ],
                   ),
@@ -213,17 +315,18 @@ class FilmContent extends StatelessWidget {
               children: <Widget>[
                 GestureDetector(
                   onTap: () {
-                    if (Platform.isAndroid) {
-                      UsthSparkShare.usthWxCircleOfFriendsShare({
-                        'shareTitle': Random().nextInt(10000000).toString(),
-                        'shareDesc': '我是分享内容',
-                        'shareUrl': 'http://blog.fe-spark.cn',
-                        'shareThumbnail':
-                            'http://blog.fe-spark.cn/content/images/2019/07/timg--1----1-1.png'
-                      });
-                    }else {
-                      Share.share('check out my website http://blog.fe-spark.cn');
-                    }
+                    // if (Platform.isAndroid) {
+                    //   // UsthSparkShare.usthWXSceneTimeline({
+                    //   //   'shareTitle': Random().nextInt(10000000).toString(),
+                    //   //   'shareDesc': '我是分享内容',
+                    //   //   'shareUrl': 'http://blog.fe-spark.cn',
+                    //   //   'shareThumbnail':
+                    //   //       'http://blog.fe-spark.cn/content/images/2019/07/timg--1----1-1.png'
+                    //   // });
+                    // } else {
+                    //   Share.share(
+                    //       'check out my website http://blog.fe-spark.cn');
+                    // }
                   },
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(6),
@@ -304,5 +407,28 @@ class FilmContent extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class OverScrollBehavior extends ScrollBehavior {
+  @override
+  Widget buildViewportChrome(
+      BuildContext context, Widget child, AxisDirection axisDirection) {
+    switch (getPlatform(context)) {
+      case TargetPlatform.iOS:
+        return child;
+      case TargetPlatform.android:
+      case TargetPlatform.fuchsia:
+        return GlowingOverscrollIndicator(
+          child: child,
+          //不显示头部水波纹
+          showLeading: false,
+          //不显示尾部水波纹
+          showTrailing: false,
+          axisDirection: axisDirection,
+          color: Theme.of(context).accentColor,
+        );
+    }
+    return null;
   }
 }

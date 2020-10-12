@@ -3,6 +3,7 @@ export 'dart:io';
 export 'dart:convert';
 export 'dart:math';
 export 'package:share/share.dart';
+export 'package:fluttertoast/fluttertoast.dart';
 export 'package:flutter/services.dart';
 export 'package:flutter/material.dart';
 export 'package:webview_flutter/webview_flutter.dart';
