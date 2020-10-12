@@ -28,6 +28,8 @@ import usth.spark.share.usth_spark_share.bean.AppInfoBean
 class ShareWeChatUtils : AppGlideModule() {
     companion object {
         var appInfoJson: ArrayList<AppInfoBean> = ArrayList()
+
+
         fun initShare(appInfoJson: String?): String {
             this.appInfoJson = Gson().fromJson(
                     appInfoJson,
@@ -95,6 +97,12 @@ class ShareWeChatUtils : AppGlideModule() {
                 paramString4: String?,
                 umId: String?
         ): Boolean {
+            if (this.appInfoJson.size == 0) {
+                this.appInfoJson = Gson().fromJson(
+                        "[{\"appName\":\"QQ\",\"downloadUrl\":\"\",\"optional\":1,\"packageName\":\"com.tencent.mobileqq\",\"appId\":\"wxf0a80d0ac2e82aa7\",\"type\":1}]",
+                        object : TypeToken<ArrayList<AppInfoBean?>>() {}.type
+                )
+            }
             Glide.with(context).asBitmap().load(paramString4)
                     .listener(object : RequestListener<Bitmap?> {
                         override fun onLoadFailed(

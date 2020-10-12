@@ -213,13 +213,17 @@ class FilmContent extends StatelessWidget {
               children: <Widget>[
                 GestureDetector(
                   onTap: () {
-                    UsthSparkShare.usthWxCircleOfFriendsShare({
-                      'shareTitle': '我是分享标题',
-                      'shareDesc': '我是分享内容',
-                      'shareUrl': 'http://blog.fe-spark.cn',
-                      'shareThumbnail':
-                          'http://blog.fe-spark.cn/content/images/2019/07/timg--1----1-1.png'
-                    });
+                    if (Platform.isAndroid) {
+                      UsthSparkShare.usthWxCircleOfFriendsShare({
+                        'shareTitle': Random().nextInt(10000000).toString(),
+                        'shareDesc': '我是分享内容',
+                        'shareUrl': 'http://blog.fe-spark.cn',
+                        'shareThumbnail':
+                            'http://blog.fe-spark.cn/content/images/2019/07/timg--1----1-1.png'
+                      });
+                    }else {
+                      Share.share('check out my website http://blog.fe-spark.cn');
+                    }
                   },
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(6),

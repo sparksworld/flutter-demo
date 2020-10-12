@@ -1,6 +1,7 @@
 export 'dart:async';
 export 'dart:io';
 export 'dart:convert';
+export 'dart:math';
 export 'package:share/share.dart';
 export 'package:flutter/services.dart';
 export 'package:flutter/material.dart';
