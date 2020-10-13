@@ -85,6 +85,7 @@ class MyApp extends StatelessWidget {
         builder: (BuildContext context, themeModel, testChange, userModel,
             Widget child) {
           return MaterialApp(
+            title: "资讯悦读",
             navigatorKey: navigatorKey,
             theme: ThemeData(
               // primaryIconTheme: IconThemeData(color: Colors.red),
@@ -94,7 +95,6 @@ class MyApp extends StatelessWidget {
                 TargetPlatform.android: CupertinoPageTransitionsBuilder(),
               }),
             ),
-            title: "MaterialApp",
             // routes: routeTable,
             onGenerateRoute: (RouteSettings settings) {
               //把路由对象的name用变量保存
