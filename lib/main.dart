@@ -85,7 +85,7 @@ class MyApp extends StatelessWidget {
         builder: (BuildContext context, themeModel, testChange, userModel,
             Widget child) {
           return MaterialApp(
-            title: "资讯悦读",
+            title: "悦读",
             navigatorKey: navigatorKey,
             theme: ThemeData(
               // primaryIconTheme: IconThemeData(color: Colors.red),
@@ -125,7 +125,7 @@ class MyApp extends StatelessWidget {
             },
 
             home: MyHome(
-              title: '资讯悦读',
+              title: '悦读',
             ),
             builder: (context, widget) {
               return MediaQuery(

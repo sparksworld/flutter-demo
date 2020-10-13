@@ -23,7 +23,7 @@
 	<application 
         android:usesCleartextTraffic="true" 
         android:name="io.flutter.app.FlutterApplication" 
-        android:label="资讯悦读" android:icon="@mipmap/ic_launcher">
+        android:label="悦读" android:icon="@mipmap/ic_launcher">
 		<activity android:name=".MainActivity" android:usesCleartextTraffic="true" 
             android:launchMode="singleTop" 
             android:theme="@style/LaunchTheme" 
