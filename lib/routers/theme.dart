@@ -5,6 +5,7 @@ import 'package:flutterdemo/states/index.dart';
 import 'package:flutterdemo/models/index.dart';
 
 List themes = <Map>[
+  {'title': '默认', 'color': const Color(0xFF7fb9b3)},
   {'title': '烈焰红', 'color': Colors.red},
   {'title': '青草绿', 'color': Colors.green},
   {'title': '尊贵紫', 'color': Colors.purple},
@@ -17,7 +18,7 @@ List themes = <Map>[
 
 class ThemeSetting extends StatelessWidget {
   final arguments;
-  ThemeSetting({Key key, this.arguments}):super(key: key);
+  ThemeSetting({Key key, this.arguments}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     print(Provider.of<ThemeModel>(context).theme);
@@ -33,6 +34,8 @@ class ThemeSetting extends StatelessWidget {
             builder: (BuildContext context, themeModel, Widget child) {
               return GestureDetector(
                 onTap: () {
+                  print(const Color(0xFF7fb9b3).value);
+                  print(111111);
                   themeModel.setTheme(
                     AppTheme.fromJson(
                       {'primary': themes[index]['color'].value},

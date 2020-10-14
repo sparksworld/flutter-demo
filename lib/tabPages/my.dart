@@ -20,9 +20,9 @@ class _MyPageState extends State<MyPage> {
         appBar: AppBar(
           title: Text(
             '个人中心',
-            style: TextStyle(color: Colors.white),
+            // style: TextStyle(color: Theme.of(context).tabBarTheme.labelStyle.color),
           ),
-          iconTheme: IconThemeData(color: Colors.white),
+          // iconTheme: IconThemeData(color: Colors.white),
           elevation: 0.0,
           brightness: Brightness.dark,
           actions: [
@@ -30,7 +30,10 @@ class _MyPageState extends State<MyPage> {
               onPressed: () {
                 Navigator.pushNamed(context, '/setting');
               },
-              icon: Icon(Icons.settings),
+              icon: Icon(
+                Icons.settings,
+                color: Theme.of(context).primaryIconTheme.color,
+              ),
             )
           ],
         ),

@@ -88,7 +88,9 @@ class MyApp extends StatelessWidget {
             title: "悦读",
             navigatorKey: navigatorKey,
             theme: ThemeData(
-              // primaryIconTheme: IconThemeData(color: Colors.red),
+              primaryIconTheme: IconThemeData(color: Colors.white),
+              // buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+              // iconTheme: IconThemeData(color: Colors.red),
               primarySwatch: createMaterialColor(themeModel.theme),
               pageTransitionsTheme: PageTransitionsTheme(builders: {
                 TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
@@ -238,11 +240,14 @@ class _MyHomeState extends State<MyHome> {
           resizeToAvoidBottomPadding: false,
           floatingActionButton: FloatingActionButton(
             // shape: const CircleBorder(),
-            elevation: 0.0,
+            elevation: 1.0,
             highlightElevation: 0.0,
             splashColor: Colors.transparent,
-            backgroundColor: Theme.of(context).primaryColor,
-            child: Icon(Icons.access_time),
+            // backgroundColor: Theme.of(context).primaryColor,
+            child: Icon(
+              Icons.access_time,
+              color: Theme.of(context).primaryIconTheme.color,
+            ),
             onPressed: () {
               setState(() {
                 _bottomAppBarIndex = 2;
