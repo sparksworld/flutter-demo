@@ -209,7 +209,10 @@ class _MyHomeState extends State<MyHome> {
               msg: '再次点击返回退出应用', gravity: ToastGravity.CENTER);
         } else {
           lastPopTime = DateTime.now();
-          await SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+          Fluttertoast.cancel().then((value) async => await SystemChannels
+              .platform
+              .invokeMethod('SystemNavigator.pop'));
+          // await ;
         }
       },
       child: Scaffold(
