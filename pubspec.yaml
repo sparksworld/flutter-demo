@@ -67,9 +67,15 @@ dev_dependencies:
   json_serializable: ^3.2.0
   build_runner: ^1.7.4
   json_to_model: ^1.4.0
+  flutter_native_splash: ^0.1.9
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
+
+flutter_native_splash:
+  image: assets/images/logo.png
+  color: "61bab3"
+
 
 # The following section is specific to Flutter.
 flutter:

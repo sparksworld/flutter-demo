@@ -15,6 +15,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.39.14"
+  archive:
+    dependency: transitive
+    description:
+      name: archive
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.0.13"
   args:
     dependency: transitive
     description:
@@ -155,6 +162,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.14.13"
+  color:
+    dependency: transitive
+    description:
+      name: color
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.1.1"
   common_utils:
     dependency: "direct main"
     description:
@@ -281,6 +295,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.5.0"
+  flutter_native_splash:
+    dependency: "direct dev"
+    description:
+      name: flutter_native_splash
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.1.9"
   flutter_staggered_grid_view:
     dependency: "direct main"
     description:
@@ -347,6 +368,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "3.1.4"
+  image:
+    dependency: transitive
+    description:
+      name: image
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.1.18"
   intl:
     dependency: transitive
     description:
@@ -863,6 +891,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.1.0"
+  xml:
+    dependency: transitive
+    description:
+      name: xml
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "4.5.1"
   yaml:
     dependency: transitive
     description:
