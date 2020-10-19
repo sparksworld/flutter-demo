@@ -1,5 +1,5 @@
 import 'package:flutterdemo/module.dart';
-import 'package:flutterdemo/tabPages/home/home_list_item.dart';
+import 'package:flutterdemo/tabPages/article/article_list_item.dart';
 import 'video_list_item.dart';
 
 class MinorVideoPage extends StatefulWidget {
@@ -144,7 +144,7 @@ class _MinorVideoPageState extends State<MinorVideoPage>
                             }
                           }
                           return listData[index].articleType == 1
-                              ? HomeListViewItem(
+                              ? ArticleListViewItem(
                                   key: Key(index.toString()),
                                   itemData: listData[index],
                                   callback: widget.callback,

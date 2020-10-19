@@ -1,17 +1,17 @@
 // import 'dart:math';
 import 'package:flutterdemo/module.dart';
 import 'package:flutterdemo/tabPages/video/video_list_item.dart';
-import 'home_list_item.dart';
+import 'article_list_item.dart';
 
-class MinorHomePage extends StatefulWidget {
+class MinorArticlePage extends StatefulWidget {
   final Function callback;
 
-  MinorHomePage({Key key, this.callback}) : super(key: key);
+  MinorArticlePage({Key key, this.callback}) : super(key: key);
   @override
-  State<StatefulWidget> createState() => _MinorHomePageState();
+  State<StatefulWidget> createState() => _MinorArticlePageState();
 }
 
-class _MinorHomePageState extends State<MinorHomePage>
+class _MinorArticlePageState extends State<MinorArticlePage>
     with AutomaticKeepAliveClientMixin {
   bool _loading;
   bool _finished;
@@ -141,7 +141,7 @@ class _MinorHomePageState extends State<MinorHomePage>
                         }
                       }
                       return listData[index].articleType == 1
-                          ? HomeListViewItem(
+                          ? ArticleListViewItem(
                               key: Key(index.toString()),
                               itemData: listData[index],
                               callback: widget.callback,

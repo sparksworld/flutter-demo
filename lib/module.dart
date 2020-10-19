@@ -22,4 +22,6 @@ export 'package:flutterdemo/routers/index.dart';
 export 'package:flutter_downloader/flutter_downloader.dart';
 // export 'package:spark_share/spark_share.dart';
 export 'package:usth_spark_share/usth_spark_share.dart';
+export 'package:flutterdemo/tabPages/index.dart'
+    show ArticlePage, VideoPage, MyPage, CenterPage, ActivityPage, MyHome;
 

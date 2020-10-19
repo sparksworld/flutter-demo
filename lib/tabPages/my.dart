@@ -106,21 +106,34 @@ class _MyPageState extends State<MyPage> {
                                 child: new ClipOval(
                                   child: new Container(
                                     color: Colors.white,
-                                    child: CachedNetworkImage(
-                                      imageUrl:
-                                          "http://via.placeholder.com/150x150",
-                                      imageBuilder: (context, imageProvider) =>
-                                          Container(
-                                        decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                          image: imageProvider,
-                                          fit: BoxFit.cover,
-                                        )),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.of(context)
+                                            .pushAndRemoveUntil(
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                MyHome(tabActiveIndex: 1),
+                                          ),
+                                          (Route<dynamic> route) => false,
+                                        );
+                                      },
+                                      child: CachedNetworkImage(
+                                        imageUrl:
+                                            "http://via.placeholder.com/150x150",
+                                        imageBuilder:
+                                            (context, imageProvider) =>
+                                                Container(
+                                          decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                            image: imageProvider,
+                                            fit: BoxFit.cover,
+                                          )),
+                                        ),
+                                        placeholder: (context, url) =>
+                                            CircularProgressIndicator(),
+                                        errorWidget: (context, url, error) =>
+                                            Icon(Icons.error),
                                       ),
-                                      placeholder: (context, url) =>
-                                          CircularProgressIndicator(),
-                                      errorWidget: (context, url, error) =>
-                                          Icon(Icons.error),
                                     ),
                                   ),
                                 ),

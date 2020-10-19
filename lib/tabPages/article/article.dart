@@ -1,17 +1,17 @@
 // import 'package:flutter/material.dart';
 import 'package:flutterdemo/module.dart';
-import 'home_list.dart';
+import 'article_list.dart';
 
-class HomePage extends StatefulWidget {
-  HomePage({Key key}) : super(key: key);
+class ArticlePage extends StatefulWidget {
+  ArticlePage({Key key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _HomePageState();
+    return _ArticlePageState();
   }
 }
 
-class _HomePageState extends State<HomePage> {
+class _ArticlePageState extends State<ArticlePage> {
   List tabbars = [
     {'title': '推荐', 'typeKey': 0},
     {'title': '资讯', 'typeKey': 1},
@@ -125,7 +125,7 @@ class _HomePageState extends State<HomePage> {
               child: TabBarView(
                 children: List.generate(tabbars.length, (value) => value + 1)
                     .map(
-                      (e) => MinorHomePage(
+                      (e) => MinorArticlePage(
                         key: Key(e.toString()),
                       ),
                     )

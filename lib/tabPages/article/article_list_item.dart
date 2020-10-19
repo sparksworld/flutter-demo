@@ -4,14 +4,14 @@ import 'package:flutterdemo/module.dart';
 // import 'package:flutterdemo/pages/detail.dart';
 // import 'dart:math';
 
-class HomeListViewItem extends StatelessWidget {
+class ArticleListViewItem extends StatelessWidget {
   // final index;
   // final length;
   // final loading;
   final itemData;
   final Function callback;
 
-  const HomeListViewItem({
+  const ArticleListViewItem({
     Key key,
     // @required this.index,
     // @required this.length,
