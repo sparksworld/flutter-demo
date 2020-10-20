@@ -166,14 +166,14 @@ class _MinorVideoPageState extends State<MinorVideoPage>
     return Container(
       child: Center(
           child: Padding(
-        padding: EdgeInsets.all(10),
+        padding: EdgeInsets.all(24.0.px),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             _loading
                 ? Container(
-                    width: 14,
-                    height: 14,
+                    width: 15,
+                    height: 15,
                     child: CircularProgressIndicator(
                       strokeWidth: 2,
                     ),

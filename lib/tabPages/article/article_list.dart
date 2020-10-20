@@ -175,7 +175,7 @@ class _MinorArticlePageState extends State<MinorArticlePage>
                   )
                 : Container(),
             Padding(
-              padding: EdgeInsets.only(left: 10),
+              padding: EdgeInsets.all(24.0.px),
               child: Text(
                 text,
                 style: TextStyle(fontSize: 16.0.px),
