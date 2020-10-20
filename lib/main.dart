@@ -1,6 +1,7 @@
 import 'package:flutterdemo/module.dart';
 import 'package:flutterdemo/common/index.dart';
 import 'package:flutterdemo/splash.dart';
+import 'package:pangolin/pangolin.dart' as Pangolin;
 // import 'package:flutterdemo/tabPages/index.dart';
 //import 'package:spark_share/spark_share.dart';
 // import 'package:flutterdemo/routers/index.dart';
@@ -64,7 +65,7 @@ void main() async {
     [DeviceOrientation.portraitUp],
   ).then((_) async {
     await Global.init().then((e) async {
-      await Future.delayed(Duration(days: 1));
+      // await Future.delayed(Duration(days: 1));
       runApp(
         MyApp(),
       );
@@ -72,7 +73,76 @@ void main() async {
   });
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _MyAppState();
+  }
+}
+
+class _MyAppState extends State<MyApp> {
+  String _platformVersion = 'Unknown';
+
+  @override
+  void initState() {
+    Pangolin.pangolinResponseEventHandler.listen((value) {
+      if (value is Pangolin.onRewardResponse) {
+        print("激励视频回调：${value.rewardVerify}");
+        print("激励视频回调：${value.rewardName}");
+        print("激励视频回调：${value.rewardAmount}");
+
+        if (value.rewardName == "rewardVideo Close") {
+          debugPrint("视频关闭了");
+        }
+      } else {
+        print("回调类型不符合");
+      }
+    });
+    super.initState();
+    initPlatformState();
+  }
+
+  Future<void> initPlatformState() async {
+    String platformVersion;
+
+    Map<Permission, PermissionStatus> statuses = await [
+      Permission.phone,
+      Permission.location,
+      Permission.storage,
+    ].request();
+    //校验权限
+    if (statuses[Permission.location] != PermissionStatus.granted) {
+      print("无位置权限");
+    }
+    _initPangolin();
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) return;
+
+    setState(() {
+      _platformVersion = platformVersion;
+    });
+  }
+
+  _initPangolin() async {
+    await Pangolin.registerPangolin(
+            appId: "5002482",
+            useTextureView: true,
+            appName: "悦读",
+            allowShowNotify: true,
+            allowShowPageWhenScreenLock: true,
+            debug: true,
+            supportMultiProcess: true)
+        .then((v) {
+      _loadSplashAd();
+    });
+  }
+
+  _loadSplashAd() async {
+    Pangolin.loadSplashAd(mCodeId: "887342763", debug: false);
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -145,4 +215,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
