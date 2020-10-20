@@ -452,6 +452,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.9.3"
+  pangolin:
+    dependency: "direct main"
+    description:
+      name: pangolin
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.2.4"
   path:
     dependency: transitive
     description:

@@ -64,6 +64,7 @@ void main() async {
     [DeviceOrientation.portraitUp],
   ).then((_) async {
     await Global.init().then((e) async {
+      await Future.delayed(Duration(days: 1));
       runApp(
         MyApp(),
       );
