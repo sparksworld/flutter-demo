@@ -38,7 +38,7 @@ class ApiList {
         if (res.data != null && res.data['result'] == 1) {
           return res.data['data'].map((e) => ListItem.fromJson(e)).toList();
         } else {
-          return List();
+          return List<ListItem>();
         }
       },
     );

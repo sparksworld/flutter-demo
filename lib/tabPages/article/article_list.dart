@@ -1,5 +1,6 @@
 // import 'dart:math';
 import 'package:flutterdemo/module.dart';
+import 'package:flutter_unionad/flutter_unionad.dart' as FlutterUnionad;
 import 'package:flutterdemo/tabPages/video/video_list_item.dart';
 import 'article_list_item.dart';
 
@@ -17,7 +18,7 @@ class _MinorArticlePageState extends State<MinorArticlePage>
   bool _finished;
   bool _error;
   ScrollController _controller;
-  List listData;
+  List listData = List();
   int start;
 
   // Widget createListItem(index, data) {
@@ -37,20 +38,20 @@ class _MinorArticlePageState extends State<MinorArticlePage>
         'start': start
       }).then((data) async {
         List _data = data;
-        _error = false;
-        // await new Future.delayed(Duration(seconds: 1), () {
         setState(() {
+          _error = false;
           _loading = false;
-          if (start == 0) listData = _data;
+
+          if (start == 0) listData = List();
           listData += _data;
           start += _data.length;
           if (_data.length < 10) {
             _finished = true;
           }
         });
-        // });
         return data;
       }).catchError((err) {
+        print(err);
         setState(() {
           _loading = false;
           _finished = false;
@@ -66,7 +67,6 @@ class _MinorArticlePageState extends State<MinorArticlePage>
       _loading = false;
       _finished = false;
       _error = false;
-      listData = List();
       start = 0;
       _controller = ScrollController();
       this.getArticleList();
@@ -74,9 +74,7 @@ class _MinorArticlePageState extends State<MinorArticlePage>
         // print(_controller.offset);
         if (_controller.offset >= _controller.position.maxScrollExtent) {
           // await Future.delayed(new Duration(seconds: 1), () {
-          setState(() {
-            this.getArticleList();
-          });
+          this.getArticleList();
           // });
         }
       });
@@ -140,17 +138,44 @@ class _MinorArticlePageState extends State<MinorArticlePage>
                           return _buildFootView('加载完成');
                         }
                       }
-                      return listData[index].articleType == 1
-                          ? ArticleListViewItem(
-                              key: Key(index.toString()),
-                              itemData: listData[index],
-                              callback: widget.callback,
+                      return index % 2 == 0
+                          ? FlutterUnionad.nativeAdView(
+                              androidCodeId:
+                                  "945559988", //android banner广告id 必填
+                              iosCodeId: "945559988", //ios banner广告id 必填
+                              supportDeepLink: true, //是否支持 DeepLink 选填
+                              expressViewWidth: 375, // 期望view 宽度 dp 必填
+                              expressViewHeight: 168, //期望view高度 dp 必填
+                              callBack:
+                                  (FlutterUnionad.FlutterUnionadState state) {
+                                //广告事件回调 选填
+                                //广告事件回调 选填
+                                //type onShow广告成功显示 onDislike不感兴趣 onFail广告加载失败
+                                //params 详细说明
+                                switch (state.type) {
+                                  case FlutterUnionad.onShow:
+                                    print(state.tojson());
+                                    break;
+                                  case FlutterUnionad.onFail:
+                                    print(state.tojson());
+                                    break;
+                                  case FlutterUnionad.onDislike:
+                                    print(state.tojson());
+                                    break;
+                                }
+                              },
                             )
-                          : VideoListViewItem(
-                              key: Key(index.toString()),
-                              itemData: listData[index],
-                              callback: widget.callback,
-                            );
+                          : listData[index].articleType == 1
+                              ? ArticleListViewItem(
+                                  key: Key(index.toString()),
+                                  itemData: listData[index],
+                                  callback: widget.callback,
+                                )
+                              : VideoListViewItem(
+                                  key: Key(index.toString()),
+                                  itemData: listData[index],
+                                  callback: widget.callback,
+                                );
                     },
                   )),
       ),

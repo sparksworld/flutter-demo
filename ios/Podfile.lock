@@ -1,9 +1,12 @@
 PODS:
   - auto_orientation (0.0.1):
     - Flutter
-  - Bytedance-UnionAD (3.1.0.9)
+  - Bytedance-UnionAD (3.2.6.2)
   - Flutter (1.0.0)
   - flutter_downloader (0.0.1):
+    - Flutter
+  - flutter_unionad (0.0.1):
+    - Bytedance-UnionAD (~> 3.2.6.2)
     - Flutter
   - fluttertoast (0.0.2):
     - Flutter
@@ -11,9 +14,6 @@ PODS:
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
-  - pangolin (0.0.1):
-    - Bytedance-UnionAD
-    - Flutter
   - path_provider (0.0.1):
     - Flutter
   - "permission_handler (5.0.1+1)":
@@ -39,11 +39,10 @@ PODS:
 
 DEPENDENCIES:
   - auto_orientation (from `.symlinks/plugins/auto_orientation/ios`)
-  - Bytedance-UnionAD (~> 3.1.0.5)
   - Flutter (from `Flutter`)
   - flutter_downloader (from `.symlinks/plugins/flutter_downloader/ios`)
+  - flutter_unionad (from `.symlinks/plugins/flutter_unionad/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
-  - pangolin (from `.symlinks/plugins/pangolin/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
   - share (from `.symlinks/plugins/share/ios`)
@@ -68,10 +67,10 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_downloader:
     :path: ".symlinks/plugins/flutter_downloader/ios"
+  flutter_unionad:
+    :path: ".symlinks/plugins/flutter_unionad/ios"
   fluttertoast:
     :path: ".symlinks/plugins/fluttertoast/ios"
-  pangolin:
-    :path: ".symlinks/plugins/pangolin/ios"
   path_provider:
     :path: ".symlinks/plugins/path_provider/ios"
   permission_handler:
@@ -95,12 +94,12 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   auto_orientation: 2941c44ebe5c3d41016001597ab03e81a92a26ce
-  Bytedance-UnionAD: b841f3266c48da4f1153032589ec95dc1f26e131
+  Bytedance-UnionAD: ee419a461654e1c2338b5f6b0b2224617b230640
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   flutter_downloader: 058b9c41564a90500f67f3e432e3524613a7fd83
+  flutter_unionad: 6d0a4791f4644368d0885d28a40afd3fa71dc030
   fluttertoast: 6122fa75143e992b1d3470f61000f591a798cc58
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
-  pangolin: 7bef05eb068f0f73057c994a98c5b81fd772a0dd
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
   permission_handler: eac8e15b4a1a3fba55b761d19f3f4e6b005d15b6
   share: 0b2c3e82132f5888bccca3351c504d0003b3b410
@@ -113,6 +112,6 @@ SPEC CHECKSUMS:
   wakelock: 0d4a70faf8950410735e3f61fb15d517c8a6efc4
   webview_flutter: d2b4d6c66968ad042ad94cbb791f5b72b4678a96
 
-PODFILE CHECKSUM: 9772a09dce4f442e4a473a3ec23d8b1e8672bb51
+PODFILE CHECKSUM: c1b3cc44bdfc774b77955c807ea4745dbfd3b0d8
 
 COCOAPODS: 1.9.3

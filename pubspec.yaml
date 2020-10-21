@@ -46,7 +46,8 @@ dependencies:
   video_player: ^0.10.12+2
   open_iconic_flutter: ^0.3.0
   fluttertoast: ^7.1.1
-  pangolin: ^0.2.4
+  flutter_unionad: ^0.0.7
+#   pangolin: ^0.2.4
 #   flt_video_player: ^0.0.4
 #   chewie: ^0.9.10
 #   fijkplayer:

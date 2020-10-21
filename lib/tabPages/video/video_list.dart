@@ -35,18 +35,19 @@ class _MinorVideoPageState extends State<MinorVideoPage>
         'start': start
       }).then((data) async {
         List _data = data;
-        _error = false;
-        // await new Future.delayed(Duration(seconds: 1), () {
+
         setState(() {
+          _error = false;
           _loading = false;
-          if (start == 0) listData = _data;
+          if (start == 0) listData = List();
           listData += _data;
+
           start += _data.length;
           if (_data.length < 10) {
             _finished = true;
           }
         });
-        // });
+
         return data;
       }).catchError((err) {
         print(err);

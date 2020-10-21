@@ -66,18 +66,20 @@
 	<string>YES</string>
 	<key>UIStatusBarHidden</key>
 	<true/>
-    <key>SKAdNetworkItems</key>
-    <array>
-    <dict>
-      <key>SKAdNetworkIdentifier</key>
-      <string>238da6jt44.skadnetwork</string>
-    </dict>
-    <dict>
-      <key>SKAdNetworkIdentifier</key>
-      <string>22mmun2rn5.skadnetwork</string>
-    </dict>
-    </array>
-    <key>NSUserTrackingUsageDescription</key>
-    <string>spark</string>
+	<key>SKAdNetworkItems</key>
+	<array>
+		<dict>
+			<key>SKAdNetworkIdentifier</key>
+			<string>238da6jt44.skadnetwork</string>
+		</dict>
+		<dict>
+			<key>SKAdNetworkIdentifier</key>
+			<string>22mmun2rn5.skadnetwork</string>
+		</dict>
+	</array>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>获取您的位置</string>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>spark</string>
 </dict>
 </plist>

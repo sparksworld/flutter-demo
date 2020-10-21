@@ -1,4 +1,3 @@
-include ':open_ad_sdk'
 include ':app'
 
 def localPropertiesFile = new File(rootProject.projectDir, "local.properties")
