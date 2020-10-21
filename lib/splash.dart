@@ -64,8 +64,10 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: Color(0xff61bab3),
+      body: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        // color: Color(0xff61bab3),
         child: Column(
           children: [
             Expanded(
@@ -75,8 +77,8 @@ class _SplashScreenState extends State<SplashScreen>
                   androidCodeId: "887393794", //android 开屏广告广告id 必填
                   iosCodeId: "887393794", //ios 开屏广告广告id 必填
                   supportDeepLink: true, //是否支持 DeepLink 选填
-                  expressViewWidth: 375, // 期望view 宽度 dp 必填
-                  expressViewHeight: 375, //期望view高度 dp 必填
+                  expressViewWidth: double.infinity, // 期望view 宽度 dp 必填
+                  expressViewHeight: double.infinity,//期望view高度 dp 必填
                   callBack: (FlutterUnionad.FlutterUnionadState state) {
                     print("到这里 ${state.tojson()}");
                     switch (state.type) {
