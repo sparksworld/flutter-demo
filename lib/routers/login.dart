@@ -1,4 +1,5 @@
 import 'package:flutterdemo/module.dart';
+import 'package:fluwx/fluwx.dart' as fluwx;
 
 class LoginRoute extends StatefulWidget {
   final arguments;
@@ -19,81 +20,111 @@ class _LoginRouteState extends State<LoginRoute> {
     // 自动填充上次登录的用户名，填充后将焦点定位到密码输入框
     _unameController.text = '';
     _pwdController.text = '';
-    // if (_unameController.text != null) {
-    //   _nameAutoFocus = false;
-    // }
+
+    fluwx.weChatResponseEventHandler.listen((res) {
+      if (res is fluwx.WeChatAuthResponse) {
+        print('-------->' + res.code);
+        print('-------->' + res.country);
+      }
+    });
     super.initState();
   }
-
+  @override
+  void dispose() {
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     // var gm = GmLocalizations.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text('')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          autovalidate: true,
-          child: Column(
-            children: <Widget>[
-              TextFormField(
-                  autofocus: _nameAutoFocus,
-                  controller: _unameController,
-                  decoration: InputDecoration(
-                    labelText: '用户名',
-                    hintText: 'username',
-                    prefixIcon: Icon(Icons.person),
+      appBar: AppBar(title: Text('测试登陆')),
+      body: ListView(
+        children: [
+          Padding(
+            padding: EdgeInsets.all(24.0),
+            child: Form(
+              key: _formKey,
+              autovalidate: true,
+              child: Column(
+                children: <Widget>[
+                  TextFormField(
+                      autofocus: _nameAutoFocus,
+                      controller: _unameController,
+                      decoration: InputDecoration(
+                        labelText: '用户名',
+                        hintText: 'username',
+                        prefixIcon: Icon(Icons.person),
+                      ),
+                      // 校验用户名（不能为空）
+                      validator: (v) {
+                        return v.trim().isNotEmpty ? null : "用户名不能为空";
+                      }),
+                  TextFormField(
+                    controller: _pwdController,
+                    autofocus: !_nameAutoFocus,
+                    decoration: InputDecoration(
+                        labelText: '密码',
+                        hintText: 'password',
+                        prefixIcon: Icon(Icons.lock),
+                        suffixIcon: IconButton(
+                          icon: Icon(pwdShow
+                              ? Icons.visibility_off
+                              : Icons.visibility),
+                          onPressed: () {
+                            setState(() {
+                              pwdShow = !pwdShow;
+                            });
+                          },
+                        )),
+                    obscureText: !pwdShow,
+                    //校验密码（不能为空）
+                    validator: (v) {
+                      return v.trim().isNotEmpty ? null : "密码不能为空";
+                    },
                   ),
-                  // 校验用户名（不能为空）
-                  validator: (v) {
-                    return v.trim().isNotEmpty ? null : "用户名不能为空";
-                  }),
-              TextFormField(
-                controller: _pwdController,
-                autofocus: !_nameAutoFocus,
-                decoration: InputDecoration(
-                    labelText: '密码',
-                    hintText: 'password',
-                    prefixIcon: Icon(Icons.lock),
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                          pwdShow ? Icons.visibility_off : Icons.visibility),
-                      onPressed: () {
-                        setState(() {
-                          pwdShow = !pwdShow;
-                        });
-                      },
-                    )),
-                obscureText: !pwdShow,
-                //校验密码（不能为空）
-                validator: (v) {
-                  return v.trim().isNotEmpty ? null : "密码不能为空";
-                },
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 25),
-                child: ConstrainedBox(
-                  constraints: BoxConstraints.expand(height: 55.0),
-                  child: ChangeNotifierProvider(
-                    create: (context) => UserModel(),
-                    child: Consumer<UserModel>(
-                      builder: (BuildContext context, UserModel userModel,
-                          Widget child) {
-                        return RaisedButton(
-                          color: Theme.of(context).primaryColor,
-                          onPressed: () async => _onLogin(context, userModel),
-                          textColor: Colors.white,
-                          child: Text("立即登陆"),
-                        );
-                      },
+                  Padding(
+                    padding: const EdgeInsets.only(top: 25),
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints.expand(height: 55.0),
+                      child: ChangeNotifierProvider(
+                        create: (context) => UserModel(),
+                        child: Consumer<UserModel>(
+                          builder: (BuildContext context, UserModel userModel,
+                              Widget child) {
+                            return RaisedButton(
+                              color: Theme.of(context).primaryColor,
+                              onPressed: () async =>
+                                  _onLogin(context, userModel),
+                              textColor: Colors.white,
+                              child: Text("立即登陆"),
+                            );
+                          },
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 25),
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints.expand(height: 55.0),
+                      child: RaisedButton(
+                        color: Theme.of(context).primaryColor,
+                        onPressed: () => {
+                          fluwx.sendWeChatAuth(
+                            scope: "snsapi_userinfo",
+                            state: "wechat_sdk_demo_test",
+                          )
+                        },
+                        textColor: Colors.white,
+                        child: Text("微信一键登陆"),
+                      ),
+                    ),
+                  )
+                ],
               ),
-            ],
-          ),
-        ),
+            ),
+          )
+        ],
       ),
     );
   }

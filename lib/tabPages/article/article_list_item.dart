@@ -3,11 +3,7 @@ import 'package:flutterdemo/module.dart';
 
 // import 'package:flutterdemo/pages/detail.dart';
 // import 'dart:math';
-
-class ArticleListViewItem extends StatelessWidget {
-  // final index;
-  // final length;
-  // final loading;
+class ArticleListViewItem extends StatefulWidget {
   final itemData;
   final Function callback;
 
@@ -20,32 +16,35 @@ class ArticleListViewItem extends StatelessWidget {
     this.callback,
   }) : super(key: key);
 
-  void _push(BuildContext context, Widget widget) {
-    Navigator.push(context,
-        new MaterialPageRoute(builder: (BuildContext context) {
-      return widget;
-    }));
+  @override
+  State<StatefulWidget> createState() {
+    return _ArticleListViewItemState();
   }
+}
 
+class _ArticleListViewItemState extends State<ArticleListViewItem> {
+  // final index;
+  // final length;
+  // final loading;
+
+  // void _push(BuildContext context, Widget widget) {
+  //   Navigator.push(context,
+  //       new MaterialPageRoute(builder: (BuildContext context) {
+  //     return widget;
+  //   }));
+  // }
+  @override
+  void initState() {
+    // TODO: implement initState
+    
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
-    // print(itemData());
-    List _images = itemData.strImages.toList();
-    // print('r=' + Random().nextInt(1000).toString());
+    List _images = widget.itemData.strImages.toList();
     return Column(
       children: [
         Container(
-          decoration: new BoxDecoration(
-            border: new Border(
-              bottom: BorderSide(color: Color(0xffE6E6FA), width: 0.5),
-              //  color:
-            ),
-            // 边色与边宽度
-            color: Colors.white, // 底色
-            //        borderRadius: new BorderRadius.circular((20.0)), // 圆角度
-            // borderRadius: new BorderRadius.vertical(
-            //     top: Radius.elliptical(20, 50)), // 也可控件一边圆角大小
-          ),
           child: Card(
             color: Colors.white,
             elevation: 0.0,
@@ -53,7 +52,7 @@ class ArticleListViewItem extends StatelessWidget {
               onTap: () {
                 // callback(1);
                 Navigator.pushNamed(context, '/articleDetail',
-                    arguments: itemData);
+                    arguments: widget.itemData);
                 // _push(context, DetailPage());
               },
               child: Padding(
@@ -64,7 +63,7 @@ class ArticleListViewItem extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(bottom: 10.0),
                       child: Text(
-                        itemData.tTitle,
+                        widget.itemData.tTitle,
                         softWrap: true,
                         textAlign: TextAlign.justify,
                         overflow: TextOverflow.ellipsis,

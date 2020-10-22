@@ -10,8 +10,9 @@ import Flutter
   ) -> Bool {
 //    var flutter_native_splash = 1
     UIApplication.shared.isStatusBarHidden = false
-
-    GeneratedPluginRegistrant.register(with: self)
+    
+    GeneratedPluginRegistrant.register(with: self);
+    
     // FlutterDownloaderPlugin.setPluginRegistrantCallback(registerPlugins)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }

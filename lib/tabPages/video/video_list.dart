@@ -1,6 +1,7 @@
 import 'package:flutterdemo/module.dart';
 import 'package:flutterdemo/tabPages/article/article_list_item.dart';
 import 'video_list_item.dart';
+import 'video_ad_item.dart';
 
 class MinorVideoPage extends StatefulWidget {
   final Function callback;
@@ -128,10 +129,48 @@ class _MinorVideoPageState extends State<MinorVideoPage>
                     ? Center(
                         child: CircularProgressIndicator(),
                       )
-                    : new ListView.builder(
+                    : new ListView.separated(
                         physics: const AlwaysScrollableScrollPhysics(),
                         itemCount: listData.length + 1,
                         controller: _controller,
+                        separatorBuilder: (context, index) {
+                          // VideoAdItem
+                          if ((index + 1) % 3 == 0) {
+                            return Column(
+                              children: [
+                                VideoAdItem(),
+                                Container(
+                                  decoration: new BoxDecoration(
+                                    border: new Border(
+                                      bottom: BorderSide(
+                                          color: Color(0xffE6E6FA), width: 0.5),
+                                      //  color:
+                                    ),
+                                    // 边色与边宽度
+                                    color: Colors.white, // 底色
+                                    //        borderRadius: new BorderRadius.circular((20.0)), // 圆角度
+                                    // borderRadius: new BorderRadius.vertical(
+                                    //     top: Radius.elliptical(20, 50)), // 也可控件一边圆角大小
+                                  ),
+                                )
+                              ],
+                            );
+                          }
+                          return Container(
+                            decoration: new BoxDecoration(
+                              border: new Border(
+                                bottom: BorderSide(
+                                    color: Color(0xffE6E6FA), width: 0.5),
+                                //  color:
+                              ),
+                              // 边色与边宽度
+                              color: Colors.white, // 底色
+                              //        borderRadius: new BorderRadius.circular((20.0)), // 圆角度
+                              // borderRadius: new BorderRadius.vertical(
+                              //     top: Radius.elliptical(20, 50)), // 也可控件一边圆角大小
+                            ),
+                          );
+                        },
                         itemBuilder: (context, index) {
                           if (listData.length == index) {
                             if (!_finished) {

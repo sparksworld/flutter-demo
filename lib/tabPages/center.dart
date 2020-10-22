@@ -137,7 +137,9 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
                             ),
                             Center(
                               child: RaisedButton(
-                                onPressed: () {
+                                onPressed: () async {
+                                  var a = (await UsthSparkShare.checkAppInstalled()).toString();
+                                  print('UsthSparkShare --------> ' + a);
                                   UsthSparkShare.usthWXSceneTimeline({
                                     'shareTitle': 'spark`极客笔录',
                                     'shareDesc': '极客笔录',

@@ -1,7 +1,7 @@
 // import 'dart:math';
 import 'package:flutterdemo/module.dart';
-import 'package:flutter_unionad/flutter_unionad.dart' as FlutterUnionad;
 import 'package:flutterdemo/tabPages/video/video_list_item.dart';
+import 'article_ad_item.dart';
 import 'article_list_item.dart';
 
 class MinorArticlePage extends StatefulWidget {
@@ -122,10 +122,48 @@ class _MinorArticlePageState extends State<MinorArticlePage>
                 ? Center(
                     child: CircularProgressIndicator(),
                   )
-                : new ListView.builder(
+                : new ListView.separated(
+                    addAutomaticKeepAlives: true,
                     physics: const AlwaysScrollableScrollPhysics(),
                     itemCount: listData.length + 1,
                     controller: _controller,
+                    separatorBuilder: (context, index) {
+                      if ((index + 1) % 3 == 0) {
+                        return Column(
+                          children: [
+                            ArticleAdItem(),
+                            Container(
+                              decoration: new BoxDecoration(
+                                border: new Border(
+                                  bottom: BorderSide(
+                                      color: Color(0xffE6E6FA), width: 0.5),
+                                  //  color:
+                                ),
+                                // 边色与边宽度
+                                color: Colors.white, // 底色
+                                //        borderRadius: new BorderRadius.circular((20.0)), // 圆角度
+                                // borderRadius: new BorderRadius.vertical(
+                                //     top: Radius.elliptical(20, 50)), // 也可控件一边圆角大小
+                              ),
+                            )
+                          ],
+                        );
+                      }
+                      return Container(
+                        decoration: new BoxDecoration(
+                          border: new Border(
+                            bottom: BorderSide(
+                                color: Color(0xffE6E6FA), width: 0.5),
+                            //  color:
+                          ),
+                          // 边色与边宽度
+                          color: Colors.white, // 底色
+                          //        borderRadius: new BorderRadius.circular((20.0)), // 圆角度
+                          // borderRadius: new BorderRadius.vertical(
+                          //     top: Radius.elliptical(20, 50)), // 也可控件一边圆角大小
+                        ),
+                      );
+                    },
                     itemBuilder: (context, index) {
                       if (listData.length == index) {
                         if (!_finished) {
@@ -138,44 +176,17 @@ class _MinorArticlePageState extends State<MinorArticlePage>
                           return _buildFootView('加载完成');
                         }
                       }
-                      return index % 2 == 0
-                          ? FlutterUnionad.nativeAdView(
-                              androidCodeId:
-                                  "945559988", //android banner广告id 必填
-                              iosCodeId: "945559988", //ios banner广告id 必填
-                              supportDeepLink: true, //是否支持 DeepLink 选填
-                              expressViewWidth: 375, // 期望view 宽度 dp 必填
-                              expressViewHeight: 168, //期望view高度 dp 必填
-                              callBack:
-                                  (FlutterUnionad.FlutterUnionadState state) {
-                                //广告事件回调 选填
-                                //广告事件回调 选填
-                                //type onShow广告成功显示 onDislike不感兴趣 onFail广告加载失败
-                                //params 详细说明
-                                switch (state.type) {
-                                  case FlutterUnionad.onShow:
-                                    print(state.tojson());
-                                    break;
-                                  case FlutterUnionad.onFail:
-                                    print(state.tojson());
-                                    break;
-                                  case FlutterUnionad.onDislike:
-                                    print(state.tojson());
-                                    break;
-                                }
-                              },
+                      return listData[index].articleType == 1
+                          ? ArticleListViewItem(
+                              key: Key(index.toString()),
+                              itemData: listData[index],
+                              callback: widget.callback,
                             )
-                          : listData[index].articleType == 1
-                              ? ArticleListViewItem(
-                                  key: Key(index.toString()),
-                                  itemData: listData[index],
-                                  callback: widget.callback,
-                                )
-                              : VideoListViewItem(
-                                  key: Key(index.toString()),
-                                  itemData: listData[index],
-                                  callback: widget.callback,
-                                );
+                          : VideoListViewItem(
+                              key: Key(index.toString()),
+                              itemData: listData[index],
+                              callback: widget.callback,
+                            );
                     },
                   )),
       ),

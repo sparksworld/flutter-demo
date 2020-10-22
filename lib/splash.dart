@@ -37,7 +37,7 @@ class _SplashScreenState extends State<SplashScreen>
         appName: "悦读", //appname 必填
         allowShowNotify: true, //是否允许sdk展示通知栏提示 选填
         allowShowPageWhenScreenLock: true, //是否在锁屏场景支持展示广告落地页 选填
-        debug: true, //测试阶段打开，可以通过日志排查问题，上线时去除该调用 选太难
+        debug: !Global.isRelease, //测试阶段打开，可以通过日志排查问题，上线时去除该调用 选太难
         supportMultiProcess: true, //是否支持多进程，true支持 选填
         directDownloadNetworkType: [
           FlutterUnionad.NETWORK_STATE_2G,
@@ -63,66 +63,57 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
+    MediaQueryData device = MediaQuery.of(context);
+    double pdt = Platform.isAndroid ? device.padding.top : 0;
     return Scaffold(
-      body: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        // color: Color(0xff61bab3),
-        child: Column(
-          children: [
-            Expanded(
-              flex: 1,
-              child: SafeArea(
-                child: FlutterUnionad.splashAdView(
-                  androidCodeId: "887393794", //android 开屏广告广告id 必填
-                  iosCodeId: "887393794", //ios 开屏广告广告id 必填
-                  supportDeepLink: true, //是否支持 DeepLink 选填
-                  expressViewWidth: double.infinity, // 期望view 宽度 dp 必填
-                  expressViewHeight: double.infinity,//期望view高度 dp 必填
-                  callBack: (FlutterUnionad.FlutterUnionadState state) {
-                    print("到这里 ${state.tojson()}");
-                    switch (state.type) {
-                      case FlutterUnionad.onShow:
-                        print(state.tojson());
-                        break;
-                      case FlutterUnionad.onFail:
-                        print(state.tojson());
-                        navigationPage();
-                        break;
-                      case FlutterUnionad.onAplashClick:
-                        print(state.tojson());
-                        break;
-                      case FlutterUnionad.onAplashSkip:
-                        print(state.tojson());
-                        // Navigator.pop(context);
-                        navigationPage();
-                        break;
-                      case FlutterUnionad.onAplashFinish:
-                        print(state.tojson());
-                        // Navigator.pop(context);
-                        navigationPage();
-                        break;
-                      case FlutterUnionad.onAplashTimeout:
-                        print(state.tojson());
-                        // Navigator.pop(context);
-                        navigationPage();
-                        break;
-                    }
-                  },
-                ),
+      body: Consumer<ThemeModel>(
+        builder: (context, themeModel, child) {
+          return Container(
+            width: device.size.width,
+            height: device.size.height,
+            color: createMaterialColor(themeModel.theme),
+            child: Padding(
+              padding: EdgeInsets.only(top: pdt),
+              child: FlutterUnionad.splashAdView(
+                androidCodeId: "887393794", //android 开屏广告广告id 必填
+                iosCodeId: "887393794", //ios 开屏广告广告id 必填
+                supportDeepLink: true, //是否支持 DeepLink 选填
+                expressViewWidth: device.size.width, // 期望view 宽度 dp 必填
+                expressViewHeight: device.size.height - pdt, //期望view高度 dp 必填
+                callBack: (FlutterUnionad.FlutterUnionadState state) {
+                  print("到这里 ${state.tojson()}");
+                  switch (state.type) {
+                    case FlutterUnionad.onShow:
+                      print(state.tojson());
+                      break;
+                    case FlutterUnionad.onFail:
+                      print(state.tojson());
+                      navigationPage();
+                      break;
+                    case FlutterUnionad.onAplashClick:
+                      print(state.tojson());
+                      break;
+                    case FlutterUnionad.onAplashSkip:
+                      print(state.tojson());
+                      // Navigator.pop(context);
+                      navigationPage();
+                      break;
+                    case FlutterUnionad.onAplashFinish:
+                      print(state.tojson());
+                      // Navigator.pop(context);
+                      navigationPage();
+                      break;
+                    case FlutterUnionad.onAplashTimeout:
+                      print(state.tojson());
+                      // Navigator.pop(context);
+                      navigationPage();
+                      break;
+                  }
+                },
               ),
             ),
-            Container(
-              width: double.infinity,
-              height: 64.0,
-              child: Center(
-                child: FlutterLogo(
-                  size: 42.0,
-                ),
-              ),
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

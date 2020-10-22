@@ -109,7 +109,7 @@ class _LoginButton extends State<LoginButton> {
           },
           child: ListTile(
             leading: Icon(Icons.exit_to_app),
-            title: ((_userInfo?.token) != null) ? Text('退出登陆') : Text('登陆'),
+            title: ((_userInfo?.token) != null) ? Text('退出登陆') : Text('测试登陆'),
             trailing: Icon(Icons.navigate_next),
           ),
         );

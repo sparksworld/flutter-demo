@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutterdemo/module.dart';
 
 class MyHome extends StatefulWidget {
@@ -111,6 +112,7 @@ class _MyHomeState extends State<MyHome> {
             setState(() {
               _bottomAppBarIndex = 2;
             });
+            return false;
           },
         ),
         floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
@@ -123,7 +125,9 @@ class _MyHomeState extends State<MyHome> {
     return Expanded(
       flex: 1,
       child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
         onTap: () {
+          if (_bottomAppBarIndex == index) return false;
           setState(() {
             _bottomAppBarIndex = index;
           });

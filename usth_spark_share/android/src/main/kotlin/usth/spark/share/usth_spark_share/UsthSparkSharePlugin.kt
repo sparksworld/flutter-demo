@@ -59,7 +59,7 @@ public class UsthSparkSharePlugin: FlutterPlugin, MethodCallHandler, ActivityAwa
                 result?.success(initShare((call.arguments<String>())!!))
             }
             "checkAppInstalled" -> {
-                result?.success(checkAppInstalled(activity))
+                result?.success(checkAppInstalled(activity) != 0);
             }
             "usthWXSceneSession" -> {  // 分享微信
                 result?.success(shareWeChat(
