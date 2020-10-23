@@ -1,4 +1,5 @@
 import 'package:flutterdemo/module.dart';
+import 'package:flutter_unionad/flutter_unionad.dart' as FlutterUnionad;
 
 class CenterPage extends StatefulWidget {
   final Function callback;
@@ -138,7 +139,9 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
                             Center(
                               child: RaisedButton(
                                 onPressed: () async {
-                                  var a = (await UsthSparkShare.checkAppInstalled()).toString();
+                                  var a =
+                                      (await UsthSparkShare.checkAppInstalled())
+                                          .toString();
                                   print('UsthSparkShare --------> ' + a);
                                   UsthSparkShare.usthWXSceneTimeline({
                                     'shareTitle': 'spark`极客笔录',
@@ -316,7 +319,18 @@ class FilmContent extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 GestureDetector(
-                  onTap: () {
+                  onTap: () async {
+                    await FlutterUnionad.loadRewardVideoAd(
+                      mIsExpress: true, //是否个性化 选填
+                      androidCodeId: "945565469", //Android 激励视频广告id  必填
+                      iosCodeId: "945565469", //ios 激励视频广告id  必填
+                      supportDeepLink: true, //是否支持 DeepLink 选填
+                      rewardName: "100金币", //奖励名称 选填
+                      rewardAmount: 1000, //奖励数量 选填
+                      userID: "123", //  用户id 选填
+                      orientation: FlutterUnionad.VideoVERTICAL, //视屏方向 选填
+                      mediaExtra: null, //扩展参数 选填
+                    );
                     // if (Platform.isAndroid) {
                     //   // UsthSparkShare.usthWXSceneTimeline({
                     //   //   'shareTitle': Random().nextInt(10000000).toString(),

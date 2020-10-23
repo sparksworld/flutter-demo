@@ -165,8 +165,9 @@ class _MyPageState extends State<MyPage> {
                                   describe: '228436652',
                                   describeColor: Colors.white,
                                   onPressed: () {
-                                    // launch(
-                                    //     'mqqopensdkapi://bizAgent/qm/qr?url=http%3A%2F%2Fqm.qq.com%2Fcgi-bin%2Fqm%2Fqr%3Ffrom%3Dapp%26p%3Dandroid%26k%3DMNLtkvnn4n28UIB0gEgm2-WBmqmGWk0Q');
+                                    // 'mqqopensdkapi://bizAgent/qm/qr?url=http%3A%2F%2Fqm.qq.com%2Fcgi-bin%2Fqm%2Fqr%3Ffrom%3Dapp%26p%3Dandroid%26k%3DMNLtkvnn4n28UIB0gEgm2-WBmqmGWk0Q';
+                                    launch(
+                                        'mqq://im/chat?chat_type=wpa&uin=228436652&version=1&src_type=web');
                                   },
                                 ),
                                 MyListItem(
@@ -176,10 +177,12 @@ class _MyPageState extends State<MyPage> {
                                   ),
                                   title: "github",
                                   titleColor: Colors.white,
-                                  describe: 'https://github.com/xuelongqy',
+                                  describe:
+                                      'https://github.com/sparksworld/flutter-demo',
                                   describeColor: Colors.white,
                                   onPressed: () {
-                                    // launch('https://github.com/xuelongqy');
+                                    launch(
+                                        'https://github.com/sparksworld/flutter-demo');
                                   },
                                 )
                               ],

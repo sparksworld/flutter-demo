@@ -23,16 +23,20 @@ class _LoginRouteState extends State<LoginRoute> {
 
     fluwx.weChatResponseEventHandler.listen((res) {
       if (res is fluwx.WeChatAuthResponse) {
-        print('-------->' + res.code);
-        print('-------->' + res.country);
+        setState(() {
+          _unameController.text = 'Code:' + res.code.toString();
+          _pwdController.text = 'lang:' + res.lang.toString();
+        });
       }
     });
     super.initState();
   }
+
   @override
   void dispose() {
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     // var gm = GmLocalizations.of(context);
@@ -110,10 +114,11 @@ class _LoginRouteState extends State<LoginRoute> {
                       child: RaisedButton(
                         color: Theme.of(context).primaryColor,
                         onPressed: () => {
+                          print(11111111),
                           fluwx.sendWeChatAuth(
                             scope: "snsapi_userinfo",
                             state: "wechat_sdk_demo_test",
-                          )
+                          ),
                         },
                         textColor: Colors.white,
                         child: Text("微信一键登陆"),
