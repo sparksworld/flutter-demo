@@ -58,6 +58,10 @@
 - [ ] 多语言 
 
 
+### 关于安卓黑科技
+无需在在微信开放平台注册账号，可直接进行微信分享，示例中借助QQ进行分享,所以测试手机中需要安装QQ（[任务页](#预览)）
+
+
 ### 注意
 
 > 安卓如需运行请自行在android根目录创建`key.jks`,`key.properties`,[参考app签名](https://flutterchina.club/android-release/)
