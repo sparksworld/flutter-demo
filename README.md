@@ -2,11 +2,45 @@
 
 ### 预览
 
+| 文章列表 | 视频列表 |  博客页  | 任务页 | 我的 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| ![20201024190527-README_2020-10-24](https://i.loli.net/2020/10/24/enkU7Puh5gatREZ.jpg) | ![20201024190758-README_2020-10-24](https://i.loli.net/2020/10/24/GmK1BwoNEnIOUtx.jpg) | ![20201024191010-README_2020-10-24](https://i.loli.net/2020/10/24/LD5oQmGTHrUAqBY.jpg) | ![20201024191033-README_2020-10-24](https://i.loli.net/2020/10/24/i56vG39xb2IrwOe.jpg) | ![20201024191135-README_2020-10-24](https://i.loli.net/2020/10/24/fwjh8o2rxpQJPe6.jpg) |
+
+
+| 设置页 | 文章详情 | 视频详情 |
+| --- | --- | --- |
+|![20201024191045-README_2020-10-24](https://i.loli.net/2020/10/24/mD3xh4UP2rCBdZL.png) | ![20201024191106-README_2020-10-24](https://i.loli.net/2020/10/24/8qe7JWLQfbAkSaK.jpg) | ![20201024191116-README_2020-10-24](https://i.loli.net/2020/10/24/JTpdGrWktq2zf9s.jpg) |
+
+
+
+| 登陆 | 主题设置 | 字体设置 |
+|---| ---| --- |
+| ![20201024191155-README_2020-10-24](https://i.loli.net/2020/10/24/hmYjIXie1AsNJb9.jpg) | ![20201024191217-README_2020-10-24](https://i.loli.net/2020/10/24/H2YUNSkT6qbfC9p.png) | ![20201024191250-README_2020-10-24](https://i.loli.net/2020/10/24/XV5xmy9WZoNKMnr.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ### 功能实现
 - [x] 首页多Tab切换
 - [x] 网络请求封装
+- [x] 路由拦截
 - [x] 下拉刷新上拉加载
 - [x] 视频播放器播放
 - [x] 数据持久化
