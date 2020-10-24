@@ -10,13 +10,17 @@ class ArticleAdItem extends StatefulWidget {
 
 class _ArticleAdItemState extends State<ArticleAdItem>
     with AutomaticKeepAliveClientMixin {
-  bool _offstage = true;
+  bool _visible = true;
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Offstage(
-      offstage: _offstage,
+    return AnimatedOpacity(
+      // If the widget is visible, animate to 0.0 (invisible).
+      // If the widget is hidden, animate to 1.0 (fully visible).
+      opacity: !_visible ? 1.0 : 0.0,
+      duration: Duration(milliseconds: 500),
+      // The green box must be a child of the AnimatedOpacity widget.
       child: FlutterUnionad.nativeAdView(
         androidCodeId: "945559988", //android banner广告id 必填
         iosCodeId: "945559988", //ios banner广告id 必填
@@ -31,13 +35,13 @@ class _ArticleAdItemState extends State<ArticleAdItem>
           switch (state.type) {
             case FlutterUnionad.onShow:
               setState(() {
-                _offstage = false;
+                _visible = false;
               });
               print(state.tojson());
               break;
             case FlutterUnionad.onFail:
               setState(() {
-                _offstage = true;
+                _visible = true;
               });
               print(state.tojson());
               break;
