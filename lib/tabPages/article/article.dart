@@ -24,6 +24,13 @@ class _ArticlePageState extends State<ArticlePage> {
     {'title': '三农', 'typeKey': 8},
   ];
 
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

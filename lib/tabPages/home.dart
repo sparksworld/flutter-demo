@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutterdemo/module.dart';
 
 class MyHome extends StatefulWidget {
@@ -14,6 +16,55 @@ class _MyHomeState extends State<MyHome> {
   int _bottomAppBarIndex = 0;
   List<dynamic> _mainPageList = [];
   DateTime lastPopTime;
+  void _showCardPopup(BuildContext context) {
+    showGeneralDialog(
+      context: context,
+      pageBuilder: (context, anim1, anim2) {},
+      barrierColor: Colors.grey.withOpacity(.4),
+      barrierDismissible: true,
+      barrierLabel: "",
+      transitionDuration: Duration(milliseconds: 200),
+      transitionBuilder: (context, anim1, anim2, child) {
+        return Transform.scale(
+          scale: anim1.value,
+          child: Opacity(
+            opacity: anim1.value,
+            child: Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  AlertDialog(
+                    content: Container(
+                      width: 300.0.px,
+                      height: 300.0.px,
+                      child: Image.network(
+                          'https://img.ui.cn/data/file/9/4/0/3407049.gif'),
+                    ),
+                    elevation: 0,
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
+                  ),
+                  Container(
+                    width: 30,
+                    height: 30,
+                    child: Center(
+                        child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pop(this);
+                      },
+                      child: Image.network(
+                        'https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/512x512/close.png',
+                      ),
+                    )),
+                  )
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   @override
   void initState() {
@@ -22,12 +73,30 @@ class _MyHomeState extends State<MyHome> {
       _bottomAppBarIndex = widget.tabActiveIndex != null
           ? widget.tabActiveIndex
           : _bottomAppBarIndex;
+
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        await new Future.delayed(new Duration(seconds: 2), () {
+          _showCardPopup(context);
+          TestOverLay.show(
+            context: context,
+            view: Container(
+              child: CachedNetworkImage(
+                width: 82.0.px,
+                imageUrl: 'https://i.loli.net/2020/10/26/M3s4YfIVCeKPq2k.gif',
+              ),
+            ),
+          );
+        });
+      });
+
       eventBus.on<SwitchTab>().listen((event) async {
         // print(event.runtimeType);
         setState(() {
           _bottomAppBarIndex = event.index;
         });
-        // await new Future.delayed(new Duration(seconds: 2));
+        // await new Future.delayed(new Duration(seconds: 2), () {
+        //   _showCardPopup(context);
+        // });
         // setState(() {
         //   _bottomAppBarIndex = 0;
         // });
@@ -72,12 +141,16 @@ class _MyHomeState extends State<MyHome> {
         }
       },
       child: Scaffold(
-        body: OrientationBuilder(builder: (context, orientation) {
-          return IndexedStack(
-            index: _bottomAppBarIndex,
-            children: [..._mainPageList],
-          );
-        }),
+        body: Builder(
+          builder: (context) {
+            return OrientationBuilder(builder: (context, orientation) {
+              return IndexedStack(
+                index: _bottomAppBarIndex,
+                children: [..._mainPageList],
+              );
+            });
+          },
+        ),
         bottomNavigationBar: BottomAppBar(
             shape: CircularNotchedRectangle(),
             child: Container(

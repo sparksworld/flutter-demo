@@ -71,9 +71,9 @@ class _LoginRouteState extends State<LoginRoute> {
                         hintText: 'password',
                         prefixIcon: Icon(Icons.lock),
                         suffixIcon: IconButton(
-                          icon: Icon(pwdShow
-                              ? Icons.visibility_off
-                              : Icons.visibility),
+                          icon: Icon(
+                            pwdShow ? Icons.visibility_off : Icons.visibility,
+                          ),
                           onPressed: () {
                             setState(() {
                               pwdShow = !pwdShow;
@@ -113,12 +113,18 @@ class _LoginRouteState extends State<LoginRoute> {
                       constraints: BoxConstraints.expand(height: 55.0),
                       child: RaisedButton(
                         color: Theme.of(context).primaryColor,
-                        onPressed: () => {
-                          print(11111111),
-                          fluwx.sendWeChatAuth(
-                            scope: "snsapi_userinfo",
-                            state: "wechat_sdk_demo_test",
-                          ),
+                        onPressed: () {
+                          // print(11111111),
+                          fluwx.shareToWeChat(
+                            fluwx.WeChatShareImageModel(
+                              fluwx.WeChatImage.network(
+                                  'https://img.ui.cn/data/file/9/4/0/3407049.gif'),
+                            ),
+                          );
+                          // fluwx.sendWeChatAuth(
+                          //   scope: "snsapi_userinfo",
+                          //   state: "wechat_sdk_demo_test",
+                          // ),
                         },
                         textColor: Colors.white,
                         child: Text("微信一键登陆"),
