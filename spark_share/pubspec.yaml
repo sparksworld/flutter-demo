@@ -28,7 +28,7 @@ flutter:
   plugin:
     platforms:
       android:
-        package: spark.share.spark_share
+        package: com.spark.spark_share.spark_share
         pluginClass: SparkSharePlugin
       ios:
         pluginClass: SparkSharePlugin

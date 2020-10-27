@@ -1,8 +1,9 @@
-package spark.share.spark_share
+package com.spark.spark_share.spark_share
 
 import android.app.Activity
 import android.content.Context
 import androidx.annotation.NonNull
+import com.spark.usth_spark.ShareWeChatUtils
 import com.spark.usth_spark.ShareWeChatUtils.Companion.checkAppInstalled
 import com.spark.usth_spark.ShareWeChatUtils.Companion.initShare
 import com.spark.usth_spark.ShareWeChatUtils.Companion.sendText
@@ -33,7 +34,6 @@ public class SparkSharePlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
     channel = MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), "spark_share")
     channel.setMethodCallHandler(this);
     context = flutterPluginBinding.applicationContext
-
   }
 
   // This static function is optional and equivalent to onAttachedToEngine. It supports the old
