@@ -125,7 +125,7 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
                             Center(
                               child: RaisedButton(
                                 onPressed: () {
-                                  UsthSparkShare.usthWXSceneSession({
+                                  SparkShare.usthWXSceneSession({
                                     'shareTitle': 'spark`极客笔录',
                                     'shareDesc': '极客笔录',
                                     'shareUrl': 'http://blog.fe-spark.cn',
@@ -140,10 +140,10 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
                               child: RaisedButton(
                                 onPressed: () async {
                                   var a =
-                                      (await UsthSparkShare.checkAppInstalled())
+                                      (await SparkShare.checkAppInstalled())
                                           .toString();
-                                  print('UsthSparkShare --------> ' + a);
-                                  UsthSparkShare.usthWXSceneTimeline({
+                                  print('SparkShare --------> ' + a);
+                                  SparkShare.usthWXSceneTimeline({
                                     'shareTitle': 'spark`极客笔录',
                                     'shareDesc': '极客笔录',
                                     'shareUrl': 'http://blog.fe-spark.cn',
@@ -157,7 +157,7 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
                             Center(
                               child: RaisedButton(
                                 onPressed: () {
-                                  UsthSparkShare.usthWXSceneSession({
+                                  SparkShare.usthWXSceneSession({
                                     'shareTitle': "",
                                     'shareDesc': '',
                                     'shareUrl': '',
@@ -171,7 +171,7 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
                             Center(
                               child: RaisedButton(
                                 onPressed: () {
-                                  UsthSparkShare.usthWXSceneTimeline({
+                                  SparkShare.usthWXSceneTimeline({
                                     'shareTitle': '',
                                     'shareDesc': '',
                                     'shareUrl': '',
@@ -184,13 +184,21 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
                             ),
                             Center(
                               child: RaisedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  SparkShare.usthWXSceneSessionWithText(
+                                    'http://blog.fe-spark.cn/',
+                                  );
+                                },
                                 child: Text('文字(好友)'),
                               ),
                             ),
                             Center(
                               child: RaisedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  SparkShare.usthWXSceneTimelineWithText(
+                                    'http://blog.fe-spark.cn/',
+                                  );
+                                },
                                 child: Text('文字(朋友圈)'),
                               ),
                             ),
@@ -332,7 +340,7 @@ class FilmContent extends StatelessWidget {
                       mediaExtra: null, //扩展参数 选填
                     );
                     // if (Platform.isAndroid) {
-                    //   // UsthSparkShare.usthWXSceneTimeline({
+                    //   // SparkShare.usthWXSceneTimeline({
                     //   //   'shareTitle': Random().nextInt(10000000).toString(),
                     //   //   'shareDesc': '我是分享内容',
                     //   //   'shareUrl': 'http://blog.fe-spark.cn',

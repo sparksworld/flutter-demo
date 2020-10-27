@@ -681,6 +681,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.8.0-nullsafety.2"
+  spark_share:
+    dependency: "direct main"
+    description:
+      path: spark_share
+      relative: true
+    source: path
+    version: "0.0.1"
   sqflite:
     dependency: transitive
     description:
@@ -800,13 +807,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.0.1+1"
-  usth_spark_share:
-    dependency: "direct main"
-    description:
-      path: usth_spark_share
-      relative: true
-    source: path
-    version: "0.0.1"
   uuid:
     dependency: transitive
     description:
