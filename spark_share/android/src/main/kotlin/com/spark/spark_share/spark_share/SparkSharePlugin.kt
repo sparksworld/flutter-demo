@@ -3,11 +3,10 @@ package com.spark.spark_share.spark_share
 import android.app.Activity
 import android.content.Context
 import androidx.annotation.NonNull
-import com.spark.usth_spark.ShareWeChatUtils
-import com.spark.usth_spark.ShareWeChatUtils.Companion.checkAppInstalled
-import com.spark.usth_spark.ShareWeChatUtils.Companion.initShare
-import com.spark.usth_spark.ShareWeChatUtils.Companion.sendText
-import com.spark.usth_spark.ShareWeChatUtils.Companion.shareWeChat
+import com.spark.usth_share.ShareWeChatUtils.Companion.checkAppInstalled
+import com.spark.usth_share.ShareWeChatUtils.Companion.initShare
+import com.spark.usth_share.ShareWeChatUtils.Companion.sendText
+import com.spark.usth_share.ShareWeChatUtils.Companion.shareWeChat
 
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin

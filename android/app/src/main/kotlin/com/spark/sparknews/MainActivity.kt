@@ -2,7 +2,6 @@ package com.spark.sparknews
 
 import android.os.Bundle
 import android.os.PersistableBundle
-import com.spark.usth_spark.ShareWeChatUtils
 import io.flutter.embedding.android.FlutterActivity
 
 

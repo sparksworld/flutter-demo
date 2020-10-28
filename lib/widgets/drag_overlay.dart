@@ -54,7 +54,7 @@ class TestOverLay {
     }
 
     _holder = new OverlayEntry(builder: (context) {
-      bool isLeft = false;
+      bool isLeft = true;
       if (offset.dx + 100 > MediaQuery.of(context).size.width / 2) {
         isLeft = false;
       }
