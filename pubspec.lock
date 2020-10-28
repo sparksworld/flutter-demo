@@ -296,9 +296,9 @@ packages:
   flutter_unionad:
     dependency: "direct main"
     description:
-      name: flutter_unionad
-      url: "https://pub.flutter-io.cn"
-    source: hosted
+      path: flutter_unionad
+      relative: true
+    source: path
     version: "0.0.7"
   flutter_web_plugins:
     dependency: transitive
