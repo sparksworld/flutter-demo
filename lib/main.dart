@@ -51,8 +51,8 @@ final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Permission.camera.request();
-  await Permission.microphone.request();
+  // await Permission.camera.request();
+  // await Permission.microphone.request();
   await SparkShare.initShare(
     """[{\"appName\":\"QQ\",\"downloadUrl\":\"\",\"optional\":1,\"packageName\":\"com.tencent.mobileqq\",\"appId\":\"wxf0a80d0ac2e82aa7\",\"type\":1},
     {\"appName\":\"qktx\",\"downloadUrl\":\"\",\"optional\":1,\"packageName\":\"com.yanhui.qktx\",\"appId\":\"wx1d2c2878b180942c\",\"type\":1}]""",

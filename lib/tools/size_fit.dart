@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class HYSizeFit {
+class SparkSizeFit {
   static MediaQueryData _mediaQueryData;
   static double screenWidth;
   static double screenHeight;
@@ -17,31 +17,31 @@ class HYSizeFit {
 
   // 按照像素来设置
   static double setPx(double size) {
-    return HYSizeFit.rpx * size * 2;
+    return SparkSizeFit.rpx * size * 2;
   }
 
   // 按照rxp来设置
   static double setRpx(double size) {
-    return HYSizeFit.rpx * size;
+    return SparkSizeFit.rpx * size;
   }
 }
 
 extension IntFit on int {
   double get px {
-    return HYSizeFit.setPx(this.toDouble());
+    return SparkSizeFit.setPx(this.toDouble());
   }
 
   double get rpx {
-    return HYSizeFit.setRpx(this.toDouble());
+    return SparkSizeFit.setRpx(this.toDouble());
   }
 }
 
 extension DoubleFit on double {
   double get px {
-    return HYSizeFit.setPx(this);
+    return SparkSizeFit.setPx(this);
   }
 
   double get rpx {
-    return HYSizeFit.setRpx(this);
+    return SparkSizeFit.setRpx(this);
   }
 }

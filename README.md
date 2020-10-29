@@ -32,6 +32,7 @@
 - [x] [分享黑科技(安卓使用已安装APP分享到微信)](./docs/usth_share.md)
 - [x] [微信SDK](./docs/wechat.md)
 <!-- - [x] 微信授权 -->
+- [x] 像素自动化适配
 - [x] webview 嵌入
 - [x] 穿山甲广告SDK
 - [x] 闪屏页

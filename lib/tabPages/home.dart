@@ -122,7 +122,7 @@ class _MyHomeState extends State<MyHome> {
 
   @override
   Widget build(BuildContext context) {
-    HYSizeFit.initialize(context);
+    SparkSizeFit.initialize(context);
     // _mainPageList[_bottomAppBarIndex]
     return WillPopScope(
       onWillPop: () async {

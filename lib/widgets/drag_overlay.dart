@@ -14,7 +14,7 @@ class TestOverLay {
 
   static void show({@required BuildContext context, @required Widget view}) {
     TestOverLay.view = view;
-
+    
     remove();
     //创建一个OverlayEntry对象
     OverlayEntry overlayEntry = new OverlayEntry(builder: (context) {

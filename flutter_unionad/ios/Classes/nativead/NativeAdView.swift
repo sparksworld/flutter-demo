@@ -98,12 +98,12 @@ extension NativeAdView : BUNativeExpressAdViewDelegate{
             view.render()
             self.container.addSubview(view)
             self.channel?.invokeMethod("onShow", arguments: "")
-//            let testView = UIView.init();
-//            let viewWidth = CGFloat(self.expressViewWidth!)
-//            let viewHeigh = CGFloat(self.expressViewHeight!)
-//            testView.frame = CGRect(x: 0, y: 0, width: viewWidth, height: viewHeigh);
-////            testView.backgroundColor = UIColor.red;
-//            self.container.addSubview(testView);
+            // let testView = BlankView .init();
+            // let viewWidth = CGFloat(self.expressViewWidth!)
+            // let viewHeigh = CGFloat(self.expressViewHeight!)
+            // testView.frame = CGRect(x: 0, y: 0, width: viewWidth, height: viewHeigh);
+            
+            // self.container.addSubview(testView);
         }
     }
     
