@@ -30,13 +30,16 @@ class ApiList {
     }
   }
 
-  static Future getInitData(Map<String, dynamic> data) {
+  static Future<List<ListItem>> getInitData(Map<String, dynamic> data) {
     return http
         .get('/qktx-content/task/getArticleRelationList', queryParameters: data)
         .then(
       (Response res) {
         if (res.data != null && res.data['result'] == 1) {
-          return res.data['data'].map((e) => ListItem.fromJson(e)).toList();
+          var a = res.data['data']
+              .map<ListItem>((e) => ListItem.fromJson(e))
+              .toList();
+          return a;
         } else {
           return List<ListItem>();
         }
@@ -49,4 +52,3 @@ class ApiList {
     return http.post("/info", data: formData);
   }
 }
-

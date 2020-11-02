@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import "package:flutterdemo/module.dart";
 
 class TestOverLay {
   static OverlayEntry _holder;
 
   static Widget view;
 
+  static GlobalKey _key = GlobalKey();
   static void remove() {
     if (_holder != null) {
       _holder.remove();
@@ -16,10 +18,13 @@ class TestOverLay {
     TestOverLay.view = view;
     
     remove();
+
     //创建一个OverlayEntry对象
     OverlayEntry overlayEntry = new OverlayEntry(builder: (context) {
       return new Positioned(
+          key: _key,
           top: MediaQuery.of(context).size.height * 0.7,
+          right: 0,
           child: _buildDraggable(context));
     });
 
@@ -55,11 +60,11 @@ class TestOverLay {
 
     _holder = new OverlayEntry(builder: (context) {
       bool isLeft = true;
-      if (offset.dx + 100 > MediaQuery.of(context).size.width / 2) {
+      if (offset.dx + 41 > MediaQuery.of(context).size.width / 2) {
         isLeft = false;
       }
 
-      double maxY = MediaQuery.of(context).size.height - 100;
+      double maxY = MediaQuery.of(context).size.height - 41;
 
       return new Positioned(
         top: offset.dy < 50

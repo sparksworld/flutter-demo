@@ -17,7 +17,7 @@ class _MinorVideoPageState extends State<MinorVideoPage>
   bool _finished;
   bool _error;
   ScrollController _controller;
-  List listData;
+  List<ListItem> listData;
   int start;
 
   // Widget createListItem(index, data) {
@@ -35,13 +35,13 @@ class _MinorVideoPageState extends State<MinorVideoPage>
         'token': '',
         'start': start
       }).then((data) async {
-        List _data = data;
+        List<ListItem> _data = data;
 
         setState(() {
           _error = false;
           _loading = false;
-          if (start == 0) listData = List();
-          listData += _data;
+          if (start == 0) listData = List<ListItem>();
+          listData.addAll(_data);
 
           start += _data.length;
           if (_data.length < 10) {
@@ -67,7 +67,7 @@ class _MinorVideoPageState extends State<MinorVideoPage>
       _loading = false;
       _finished = false;
       _error = false;
-      listData = List();
+      listData = List<ListItem>();
       start = 0;
       _controller = ScrollController();
       this.getArticleList();

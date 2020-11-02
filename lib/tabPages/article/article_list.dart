@@ -18,7 +18,7 @@ class _MinorArticlePageState extends State<MinorArticlePage>
   bool _finished;
   bool _error;
   ScrollController _controller;
-  List listData = List();
+  List<ListItem> listData;
   int start;
 
   // Widget createListItem(index, data) {
@@ -37,13 +37,13 @@ class _MinorArticlePageState extends State<MinorArticlePage>
         'token': '',
         'start': start
       }).then((data) async {
-        List _data = data;
+        List<ListItem> _data = data;
         setState(() {
           _error = false;
           _loading = false;
 
-          if (start == 0) listData = List();
-          listData += _data;
+          if (start == 0) listData = List<ListItem>();
+          listData.addAll(_data);
           start += _data.length;
           if (_data.length < 10) {
             _finished = true;

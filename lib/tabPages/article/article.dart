@@ -24,10 +24,8 @@ class _ArticlePageState extends State<ArticlePage> {
     {'title': '三农', 'typeKey': 8},
   ];
 
-
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -90,58 +88,89 @@ class _ArticlePageState extends State<ArticlePage> {
         //   // PopupMenuButton(icon: ,)
         // ],
       ),
-      body: DefaultTabController(
-        length: 9,
-        child: Column(
-          children: <Widget>[
-            Container(
-              decoration: new BoxDecoration(
-                border: new Border(
-                  bottom: BorderSide(color: Color(0xffE6E6FA), width: 0.5),
-                  //  color:
+      body: Builder(builder: (context) {
+        // TestOverLay.show(
+        //   context: context,
+        //   view: Container(
+        //     key: GlobalKey(),
+        //     child: CachedNetworkImage(
+        //       width: 82.0.px,
+        //       imageUrl: 'https://i.loli.net/2020/10/26/M3s4YfIVCeKPq2k.gif',
+        //     ),
+        //   ),
+        // );
+        return Stack(children: [
+          DefaultTabController(
+            length: 9,
+            child: Column(
+              children: <Widget>[
+                Container(
+                  decoration: new BoxDecoration(
+                    border: new Border(
+                      bottom: BorderSide(color: Color(0xffE6E6FA), width: 0.5),
+                      //  color:
+                    ),
+                    // 边色与边宽度
+                    color: Colors.white, // 底色
+                    //        borderRadius: new BorderRadius.circular((20.0)), // 圆角度
+                    // borderRadius: new BorderRadius.vertical(
+                    //     top: Radius.elliptical(20, 50)), // 也可控件一边圆角大小
+                  ),
+                  // color: Colors.white,
+                  child: TabBar(
+                    labelColor: Theme.of(context).primaryColor,
+                    unselectedLabelColor: Colors.black,
+                    indicatorWeight: 4,
+                    indicatorSize: TabBarIndicatorSize.label,
+                    indicatorPadding: EdgeInsets.only(bottom: 2.0),
+                    indicatorColor: Theme.of(context).primaryColor,
+                    isScrollable: true,
+                    // labelPadding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                    unselectedLabelStyle:
+                        TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                    labelStyle:
+                        TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                    tabs: tabbars
+                        .map((e) => Tab(
+                              text: e['title'],
+                            ))
+                        .toList(),
+                  ),
                 ),
-                // 边色与边宽度
-                color: Colors.white, // 底色
-                //        borderRadius: new BorderRadius.circular((20.0)), // 圆角度
-                // borderRadius: new BorderRadius.vertical(
-                //     top: Radius.elliptical(20, 50)), // 也可控件一边圆角大小
-              ),
-              // color: Colors.white,
-              child: TabBar(
-                labelColor: Theme.of(context).primaryColor,
-                unselectedLabelColor: Colors.black,
-                indicatorWeight: 4,
-                indicatorSize: TabBarIndicatorSize.label,
-                indicatorPadding: EdgeInsets.only(bottom: 2.0),
-                indicatorColor: Theme.of(context).primaryColor,
-                isScrollable: true,
-                // labelPadding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                unselectedLabelStyle:
-                    TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-                labelStyle:
-                    TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-                tabs: tabbars
-                    .map((e) => Tab(
-                          text: e['title'],
-                        ))
-                    .toList(),
+                Expanded(
+                  flex: 1,
+                  child: TabBarView(
+                    children:
+                        List.generate(tabbars.length, (value) => value + 1)
+                            .map(
+                              (e) => MinorArticlePage(
+                                key: Key(e.toString()),
+                              ),
+                            )
+                            .toList(),
+                  ),
+                )
+              ],
+            ),
+          ),
+          Positioned(
+            bottom: 12.0.px,
+            right: 12.0.px,
+            child: GestureDetector(
+              onTap: () {
+                launch(
+                  'https://github.com/sparksworld/flutter-demo',
+                );
+              },
+              child: Image.network(
+                'https://i.loli.net/2020/10/26/M3s4YfIVCeKPq2k.gif',
+                width: 82.0,
+                height: 82.0,
               ),
             ),
-            Expanded(
-              flex: 1,
-              child: TabBarView(
-                children: List.generate(tabbars.length, (value) => value + 1)
-                    .map(
-                      (e) => MinorArticlePage(
-                        key: Key(e.toString()),
-                      ),
-                    )
-                    .toList(),
-              ),
-            )
-          ],
-        ),
-      ),
+          )
+        ]);
+      }),
     );
   }
 }

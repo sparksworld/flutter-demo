@@ -77,15 +77,6 @@ class _MyHomeState extends State<MyHome> {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         await new Future.delayed(new Duration(seconds: 2), () {
           _showCardPopup(context);
-          TestOverLay.show(
-            context: context,
-            view: Container(
-              child: CachedNetworkImage(
-                width: 82.0.px,
-                imageUrl: 'https://i.loli.net/2020/10/26/M3s4YfIVCeKPq2k.gif',
-              ),
-            ),
-          );
         });
       });
 
@@ -196,11 +187,10 @@ class _MyHomeState extends State<MyHome> {
       flex: 1,
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
-        onTap: () {
+        onTapDown: (TapDownDetails details) {
           setState(() {
             _bottomAppBarIndex = index;
           });
-          return false;
         },
         child: SizedBox(
           height: 54.0,
