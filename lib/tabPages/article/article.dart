@@ -24,69 +24,129 @@ class _ArticlePageState extends State<ArticlePage> {
     {'title': '三农', 'typeKey': 8},
   ];
 
+  List _shuffling = [
+    "一少女惨遭八名壮汉轮流让座",
+    "一少女惨遭八名壮汉轮流让座",
+    "一少女惨遭八名壮汉轮流让座",
+    "一少女惨遭八名壮汉轮流让座",
+    "一少女惨遭八名壮汉轮流让座"
+  ];
+  PageController _pageController;
+
   @override
   void initState() {
+    _pageController = PageController(viewportFraction: 0.9);
     super.initState();
+
+    timer();
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  void timer() {
+    new Timer.periodic(Duration(milliseconds: 3000), (timer) {
+      _pageController.nextPage(
+        duration: Duration(milliseconds: 1000),
+        curve: Curves.easeIn,
+      );
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        titleSpacing: 8.0.px,
         centerTitle: false,
         title: GestureDetector(
-            onTap: () {
-              // Navigator.pushNamed(context, '/search');
-              showSearch(context: context, delegate: SearchBar());
-              // .push(CupertinoPageRoute(builder: (context) => SearchPage()));
-            },
-            child: Flex(
-              direction: Axis.horizontal,
-              children: [
-                Expanded(
-                  child: Card(
-                    elevation: 0.0,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(20.0))),
-                    color: Colors.grey[200],
+          onTap: () {
+            // Navigator.pushNamed(context, '/search');
+            showSearch(context: context, delegate: SearchBar());
+            // .push(CupertinoPageRoute(builder: (context) => SearchPage()));
+          },
+          child: Flex(
+            direction: Axis.horizontal,
+            children: [
+              Expanded(
+                child: Center(
+                  child: Container(
+                    decoration: new BoxDecoration(
+                      border: new Border.all(
+                        color: Color(0xFFEFEFEF),
+                        width: 0.5,
+                      ), // 边色与边宽度
+                      color: Colors.white, // 底色
+                      borderRadius: new BorderRadius.all(
+                        Radius.circular(8.0),
+                      ),
+                    ),
+                    height: 40.0.px,
+                    width: double.infinity,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          Icons.search,
-                          color: Colors.black87,
-                          size: 20.0,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(right: 8.0.px),
+                          child: Icon(
+                            Icons.search,
+                            color:
+                                Theme.of(context).primaryColor.withOpacity(.75),
+                          ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(24.0, 6.0, 0, 6.0),
-                          child: Text(
-                            "自助烤肉",
-                            style: TextStyle(
-                                fontSize: 15.0, color: Colors.black87),
+                        SizedBox(
+                          width: 200.0.px,
+                          height: 40.0.px,
+                          child: PageView(
+                            controller: _pageController,
+                            scrollDirection: Axis.vertical,
+                            onPageChanged: (int index) {
+                              if (index == _shuffling.length - 1) {
+                                Future.delayed(
+                                  Duration(milliseconds: 1000),
+                                  () {
+                                    _pageController.jumpToPage(0);
+                                  },
+                                );
+                              }
+                            },
+                            children: _shuffling
+                                .map(
+                                  (e) => Center(
+                                    child: Text(
+                                      e,
+                                      style: TextStyle(
+                                          color: Theme.of(context)
+                                              .primaryColor
+                                              .withOpacity(.75),
+                                          fontSize: 14.0.px),
+                                    ),
+                                  ),
+                                )
+                                .toList(),
                           ),
                         )
                       ],
                     ),
                   ),
                 ),
-                IconButton(
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 8.0.px),
+                child: IconButton(
                   icon: Icon(Icons.timer),
                   onPressed: () {
                     Navigator.pushNamed(context, '/login');
                     // showSearch(context: context, delegate: searchBarDelegate());
                   },
                 ),
-              ],
-            )),
-        // actions: <Widget>[
-        //   IconButton(
-        //     icon: Icon(Icons.timer),
-        //     onPressed: () {
-        //       // showSearch(context: context, delegate: searchBarDelegate());
-        //     },
-        //   ),
-        //   // PopupMenuButton(icon: ,)
-        // ],
+              )
+            ],
+          ),
+        ),
       ),
       body: Builder(builder: (context) {
         // TestOverLay.show(
@@ -99,77 +159,80 @@ class _ArticlePageState extends State<ArticlePage> {
         //     ),
         //   ),
         // );
-        return Stack(children: [
-          DefaultTabController(
-            length: 9,
-            child: Column(
-              children: <Widget>[
-                Container(
-                  decoration: new BoxDecoration(
-                    border: new Border(
-                      bottom: BorderSide(color: Color(0xffE6E6FA), width: 0.5),
-                      //  color:
+        return Stack(
+          children: [
+            DefaultTabController(
+              length: 9,
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    decoration: new BoxDecoration(
+                      border: new Border(
+                        bottom:
+                            BorderSide(color: Color(0xffE6E6FA), width: 0.5),
+                        //  color:
+                      ),
+                      // 边色与边宽度
+                      color: Colors.white, // 底色
+                      //        borderRadius: new BorderRadius.circular((20.0)), // 圆角度
+                      // borderRadius: new BorderRadius.vertical(
+                      //     top: Radius.elliptical(20, 50)), // 也可控件一边圆角大小
                     ),
-                    // 边色与边宽度
-                    color: Colors.white, // 底色
-                    //        borderRadius: new BorderRadius.circular((20.0)), // 圆角度
-                    // borderRadius: new BorderRadius.vertical(
-                    //     top: Radius.elliptical(20, 50)), // 也可控件一边圆角大小
+                    // color: Colors.white,
+                    child: TabBar(
+                      labelColor: Theme.of(context).primaryColor,
+                      unselectedLabelColor: Colors.black,
+                      indicatorWeight: 4,
+                      indicatorSize: TabBarIndicatorSize.label,
+                      indicatorPadding: EdgeInsets.only(bottom: 2.0),
+                      indicatorColor: Theme.of(context).primaryColor,
+                      isScrollable: true,
+                      // labelPadding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                      unselectedLabelStyle:
+                          TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                      labelStyle:
+                          TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                      tabs: tabbars
+                          .map((e) => Tab(
+                                text: e['title'],
+                              ))
+                          .toList(),
+                    ),
                   ),
-                  // color: Colors.white,
-                  child: TabBar(
-                    labelColor: Theme.of(context).primaryColor,
-                    unselectedLabelColor: Colors.black,
-                    indicatorWeight: 4,
-                    indicatorSize: TabBarIndicatorSize.label,
-                    indicatorPadding: EdgeInsets.only(bottom: 2.0),
-                    indicatorColor: Theme.of(context).primaryColor,
-                    isScrollable: true,
-                    // labelPadding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                    unselectedLabelStyle:
-                        TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-                    labelStyle:
-                        TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-                    tabs: tabbars
-                        .map((e) => Tab(
-                              text: e['title'],
-                            ))
-                        .toList(),
-                  ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: TabBarView(
-                    children:
-                        List.generate(tabbars.length, (value) => value + 1)
-                            .map(
-                              (e) => MinorArticlePage(
-                                key: Key(e.toString()),
-                              ),
-                            )
-                            .toList(),
-                  ),
-                )
-              ],
-            ),
-          ),
-          Positioned(
-            bottom: 12.0.px,
-            right: 12.0.px,
-            child: GestureDetector(
-              onTap: () {
-                launch(
-                  'https://github.com/sparksworld/flutter-demo',
-                );
-              },
-              child: Image.network(
-                'https://i.loli.net/2020/10/26/M3s4YfIVCeKPq2k.gif',
-                width: 82.0,
-                height: 82.0,
+                  Expanded(
+                    flex: 1,
+                    child: TabBarView(
+                      children:
+                          List.generate(tabbars.length, (value) => value + 1)
+                              .map(
+                                (e) => MinorArticlePage(
+                                  key: Key(e.toString()),
+                                ),
+                              )
+                              .toList(),
+                    ),
+                  )
+                ],
               ),
             ),
-          )
-        ]);
+            Positioned(
+              bottom: 12.0.px,
+              right: 12.0.px,
+              child: GestureDetector(
+                onTap: () {
+                  launch(
+                    'https://github.com/sparksworld/flutter-demo',
+                  );
+                },
+                child: Image.network(
+                  'https://i.loli.net/2020/10/26/M3s4YfIVCeKPq2k.gif',
+                  width: 82.0,
+                  height: 82.0,
+                ),
+              ),
+            ),
+          ],
+        );
       }),
     );
   }

@@ -27,6 +27,8 @@ class ApiList {
           // "permissions": {}
         });
       });
+    }else {
+      return null;
     }
   }
 

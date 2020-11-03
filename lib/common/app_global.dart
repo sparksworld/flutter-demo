@@ -14,13 +14,13 @@ class Global {
   static Future init() async {
     WidgetsFlutterBinding.ensureInitialized();
     _prefs = await SharedPreferences.getInstance();
-    var a = await fluwx.registerWxApi(
+    await fluwx.registerWxApi(
       appId: "wx3010dec59a92e1a7",
       doOnIOS: true,
       doOnAndroid: true,
       universalLink: "https://www.baidu.com/",
     );
-    print(a);
+
 
     // _prefs.clear();//清空键值对
     var _profile = _prefs.getString("profile");
