@@ -4,7 +4,7 @@ import 'package:flutterdemo/module.dart';
 // import 'package:flutterdemo/pages/detail.dart';
 // import 'dart:math';
 class ArticleListViewItem extends StatefulWidget {
-  final itemData;
+  final ListItem itemData;
   final Function callback;
 
   const ArticleListViewItem({
@@ -42,6 +42,7 @@ class _ArticleListViewItemState extends State<ArticleListViewItem> {
   @override
   Widget build(BuildContext context) {
     List _images = widget.itemData.strImages.toList();
+    
     return Column(
       children: [
         Container(
