@@ -1,7 +1,7 @@
 import 'package:flutterdemo/module.dart';
 
 class VideoListViewItem extends StatelessWidget {
-  final itemData;
+  final ListItem itemData;
   final Function callback;
 
   const VideoListViewItem({
