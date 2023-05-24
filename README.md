@@ -55,16 +55,6 @@
 ![20201023175501-README_2020-10-23](https://i.loli.net/2020/10/23/4jHzMT7SvcRXNUZ.png)
 
 
-### 捐赠
-> 如果对你有帮助，请作者喝一杯咖啡吧
-
-
-
-<div style="display:flex; align-items: center;">
-<img src="https://i.loli.net/2020/10/24/I4kalOtTd5Uu9fF.jpg" width="375" style="margin-right: 24px">
-<img src="https://i.loli.net/2020/10/25/pj5yI2b3QlrCdO4.jpg" width="375">
-</div>
-
 
 ### 免责声明
 > 此项目仅作为学习交流使用 
